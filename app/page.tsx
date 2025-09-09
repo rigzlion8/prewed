@@ -152,7 +152,7 @@ export default function HomePage() {
             </div>
             <div className="hidden md:flex space-x-8">
               <a href="#home" className="text-gray-700 hover:text-pink-600 transition">Home</a>
-              <a href="#gallery" className="text-gray-700 hover:text-pink-600 transition">Gallery</a>
+              <a href="/gallery" className="text-gray-700 hover:text-pink-600 transition">Gallery</a>
               <a href="#about" className="text-gray-700 hover:text-pink-600 transition">Our Story</a>
               <a href="#feedback" className="text-gray-700 hover:text-pink-600 transition">Well Wishes</a>
               <a href="#upload" className="text-gray-700 hover:text-pink-600 transition">Share Memories</a>
@@ -182,7 +182,7 @@ export default function HomePage() {
         {/* Mobile Menu */}
         <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden bg-white pb-4 px-4`}>
           <a href="#home" className="block py-2 text-gray-700 hover:text-pink-600">Home</a>
-          <a href="#gallery" className="block py-2 text-gray-700 hover:text-pink-600">Gallery</a>
+          <a href="/gallery" className="block py-2 text-gray-700 hover:text-pink-600">Gallery</a>
           <a href="#about" className="block py-2 text-gray-700 hover:text-pink-600">Our Story</a>
           <a href="#feedback" className="block py-2 text-gray-700 hover:text-pink-600">Well Wishes</a>
           <a href="#upload" className="block py-2 text-gray-700 hover:text-pink-600">Share Memories</a>
@@ -499,7 +499,7 @@ export default function HomePage() {
             <h3 className="text-xl font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li><a href="#home" className="text-gray-400 hover:text-white transition">Home</a></li>
-              <li><a href="#gallery" className="text-gray-400 hover:text-white transition">Gallery</a></li>
+              <li><a href="/gallery" className="text-gray-400 hover:text-white transition">Gallery</a></li>
               <li><a href="#about" className="text-gray-400 hover:text-white transition">Our Story</a></li>
               <li><a href="#feedback" className="text-gray-400 hover:text-white transition">Well Wishes</a></li>
               <li><a href="#upload" className="text-gray-400 hover:text-white transition">Share Memories</a></li>
