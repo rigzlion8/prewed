@@ -15,8 +15,9 @@ export default function WishesPage() {
 
   // Fetch wishes on component mount
   useEffect(() => {
+    console.log('Wishes page mounted, fetching wishes...');
     fetchWishes();
-  }, [fetchWishes]);
+  }, []); // Remove fetchWishes from dependencies to prevent infinite loop
 
   // Filter and sort wishes
   const filteredWishes = wishes
@@ -158,10 +159,16 @@ export default function WishesPage() {
               </div>
 
               {/* Add Wish Button */}
-              <div className="flex items-end">
+              <div className="flex items-end space-x-2">
+                <button
+                  onClick={() => fetchWishes()}
+                  className="flex-1 bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors font-medium text-sm"
+                >
+                  🔄 Refresh
+                </button>
                 <Link
                   href="/#feedback"
-                  className="w-full bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors font-medium text-sm text-center"
+                  className="flex-1 bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors font-medium text-sm text-center"
                 >
                   ✨ Add Your Wish
                 </Link>

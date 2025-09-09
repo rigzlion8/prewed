@@ -24,18 +24,25 @@ export const useWishes = () => {
 
   // Fetch all wishes
   const fetchWishes = async () => {
+    console.log('fetchWishes called');
     setLoading(true);
     setError(null);
     try {
+      console.log('Fetching wishes from /api/wishes');
       const response = await fetch('/api/wishes');
+      console.log('Response status:', response.status);
       const result = await response.json();
+      console.log('Wishes result:', result);
       
       if (result.success) {
         setWishes(result.data);
+        console.log('Wishes set:', result.data);
       } else {
         setError(result.error || 'Failed to fetch wishes');
+        console.log('Error setting wishes:', result.error);
       }
     } catch (err) {
+      console.error('Error fetching wishes:', err);
       setError('Network error while fetching wishes');
     } finally {
       setLoading(false);
