@@ -8,8 +8,10 @@ export default function WishesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'name'>('newest');
+  const [expandedWishes, setExpandedWishes] = useState<Set<string>>(new Set());
   
   const itemsPerPage = 12;
+  const maxMessageLength = 150; // Characters to show before truncation
   
   const { wishes, loading, error, fetchWishes } = useWishes();
 
@@ -56,6 +58,29 @@ export default function WishesPage() {
       month: 'long',
       day: 'numeric'
     });
+  };
+
+  const toggleWishExpansion = (wishId: string) => {
+    setExpandedWishes(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(wishId)) {
+        newSet.delete(wishId);
+      } else {
+        newSet.add(wishId);
+      }
+      return newSet;
+    });
+  };
+
+  const isWishExpanded = (wishId: string) => expandedWishes.has(wishId);
+
+  const shouldTruncate = (message: string) => message.length > maxMessageLength;
+
+  const getTruncatedMessage = (message: string, wishId: string) => {
+    if (!shouldTruncate(message) || isWishExpanded(wishId)) {
+      return message;
+    }
+    return message.substring(0, maxMessageLength) + '...';
   };
 
   if (loading) {
@@ -212,8 +237,16 @@ export default function WishesPage() {
                     {/* Wish Message */}
                     <div className="mb-4">
                       <p className="text-gray-700 leading-relaxed">
-                        "{wish.message}"
+                        "{getTruncatedMessage(wish.message, wish._id)}"
                       </p>
+                      {shouldTruncate(wish.message) && (
+                        <button
+                          onClick={() => toggleWishExpansion(wish._id)}
+                          className="text-pink-600 hover:text-pink-700 text-sm font-medium mt-2 transition-colors"
+                        >
+                          {isWishExpanded(wish._id) ? 'See Less' : 'See More'}
+                        </button>
+                      )}
                     </div>
 
                     {/* Wish Footer */}
