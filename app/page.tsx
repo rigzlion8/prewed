@@ -374,7 +374,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             <div className="text-center md:text-left">
               <h3 className="text-2xl font-semibold text-pink-600 mb-4">How We Met</h3>
-              <p className="text-gray-700 mb-6 leading-relaxed">We first met at a friend's birthday party in 2018. Kevin spilled his drink on Nikita's dress, and instead of getting angry, she laughed it off. We spent the whole night talking and realized we had so much in common.</p>
+              <p className="text-gray-700 mb-6 leading-relaxed">We first met at a friend's birthday party in 2018. Kevin spilled his drink on Nikita's dress, and instead of getting angry, she laughed it off. We spent the whole night talking and....</p>
               <div className="relative w-full h-64 md:h-80 image-container" style={{ position: 'relative', height: '256px', minHeight: '256px' }}>
                 <Image 
                   src="/images/nikita-kevin.jpg" 
