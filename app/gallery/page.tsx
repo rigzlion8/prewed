@@ -23,6 +23,7 @@ export default function GalleryPage() {
   const [compressionResults, setCompressionResults] = useState<CompressionResult[]>([]);
   const [isCompressing, setIsCompressing] = useState(false);
   const [compressionQuality, setCompressionQuality] = useState<'high' | 'medium' | 'low'>('medium');
+  const [selectedFileList, setSelectedFileList] = useState<File[]>([]);
   
   const itemsPerPage = 12;
   
@@ -59,10 +60,31 @@ export default function GalleryPage() {
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
+      const newFiles = Array.from(files);
       setSelectedFiles(files);
+      setSelectedFileList(prev => [...prev, ...newFiles]);
       setUploadFailed(false);
       setUploadStatus('');
     }
+  };
+
+  const removeFile = (index: number) => {
+    const newFileList = selectedFileList.filter((_, i) => i !== index);
+    setSelectedFileList(newFileList);
+    
+    // Create new FileList from remaining files
+    const dataTransfer = new DataTransfer();
+    newFileList.forEach(file => dataTransfer.items.add(file));
+    setSelectedFiles(dataTransfer.files);
+  };
+
+  const clearAllFiles = () => {
+    setSelectedFileList([]);
+    setSelectedFiles(null);
+    setUploadStatus('');
+    // Reset file input
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   };
 
   const handleUpload = async () => {
@@ -113,6 +135,7 @@ export default function GalleryPage() {
         
         setUploadStatus(`Successfully uploaded ${result.data?.length || 0} file(s). Saved ${formatFileSize(totalSaved)} (${compressionRatio}% compression)`);
         setSelectedFiles(null);
+        setSelectedFileList([]);
         setUploadedBy('');
         setCaption('');
         setCompressionResults([]);
@@ -301,6 +324,56 @@ export default function GalleryPage() {
                   {compressionQuality === 'low' && 'Smaller files, good quality (up to 1MB, 1280px)'}
                 </p>
               </div>
+              
+              {/* Selected Files List */}
+              {selectedFileList.length > 0 && (
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-sm font-medium text-gray-700">
+                      Selected Files ({selectedFileList.length})
+                    </h4>
+                    <button
+                      onClick={clearAllFiles}
+                      className="text-red-600 hover:text-red-700 text-xs font-medium"
+                    >
+                      Clear All
+                    </button>
+                  </div>
+                  <div className="max-h-32 overflow-y-auto space-y-2">
+                    {selectedFileList.map((file, index) => (
+                      <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-lg">
+                        <div className="flex items-center space-x-2 flex-1 min-w-0">
+                          <div className="text-pink-600">
+                            {file.type.startsWith('image/') ? (
+                              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                              </svg>
+                            ) : (
+                              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+                              </svg>
+                            )}
+                          </div>
+                          <span className="text-sm text-gray-700 truncate">
+                            {file.name}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            ({(file.size / 1024 / 1024).toFixed(1)} MB)
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => removeFile(index)}
+                          className="text-red-600 hover:text-red-700 ml-2"
+                        >
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                          </svg>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
               
               <div className="mb-4">
                 <input
