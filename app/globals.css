@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom styles for image containers */
+@media (min-width: 768px) {
+  .image-container {
+    height: 320px !important;
+  }
+}
