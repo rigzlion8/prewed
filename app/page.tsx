@@ -377,8 +377,8 @@ export default function HomePage() {
               <p className="text-gray-700 mb-6 leading-relaxed">We first met at a friend's birthday party in 2018. Kevin spilled his drink on Nikita's dress, and instead of getting angry, she laughed it off. We spent the whole night talking and realized we had so much in common.</p>
               <div className="relative w-full h-64 md:h-80 image-container" style={{ position: 'relative', height: '256px', minHeight: '256px' }}>
                 <Image 
-                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80" 
-                  alt="Nikita" 
+                  src="/images/nikita-kevin.jpg" 
+                  alt="Nikita & Kevin" 
                   fill
                   className="rounded-lg shadow-md object-cover"
                 />
