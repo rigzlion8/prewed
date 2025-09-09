@@ -77,7 +77,7 @@ export default function GalleryPage() {
         selectedFiles,
         uploadedBy || 'Guest',
         caption,
-        (progress) => setUploadProgress(progress)
+        (progress) => setUploadProgress(progress.percentage)
       );
 
       if (result.success) {
