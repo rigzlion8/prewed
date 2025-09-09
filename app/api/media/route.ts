@@ -60,7 +60,20 @@ export async function POST(request: NextRequest) {
         cloudinaryFormData.append('file', file);
         cloudinaryFormData.append('upload_preset', 'ml_default');
         cloudinaryFormData.append('folder', 'nikita-kevin-wedding');
+        
+        // Add API key and timestamp for signature
+        const timestamp = Math.round(new Date().getTime() / 1000);
+        cloudinaryFormData.append('timestamp', timestamp.toString());
         cloudinaryFormData.append('api_key', process.env.CLOUDINARY_API_KEY!);
+        
+        // Generate signature for signed upload
+        const crypto = require('crypto');
+        const params = `folder=nikita-kevin-wedding&timestamp=${timestamp}&upload_preset=ml_default`;
+        const signature = crypto
+          .createHash('sha1')
+          .update(params + process.env.CLOUDINARY_SECRET)
+          .digest('hex');
+        cloudinaryFormData.append('signature', signature);
 
         const cloudinaryResponse = await fetch(
           `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/upload`,
@@ -75,8 +88,11 @@ export async function POST(request: NextRequest) {
           fileUrl = cloudinaryData.secure_url;
           publicId = cloudinaryData.public_id;
           filename = cloudinaryData.public_id;
+          console.log('Cloudinary upload successful:', cloudinaryData.public_id);
         } else {
-          throw new Error('Cloudinary upload failed');
+          const errorText = await cloudinaryResponse.text();
+          console.error('Cloudinary upload failed:', cloudinaryResponse.status, errorText);
+          throw new Error(`Cloudinary upload failed: ${cloudinaryResponse.status} - ${errorText}`);
         }
       } catch (cloudinaryError) {
         console.warn('Cloudinary upload failed, falling back to local storage:', cloudinaryError);
