@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useMedia, MediaItem } from '@/hooks/useMedia';
+import { compressImages, formatFileSize, CompressionResult } from '@/lib/compression';
 
 export default function GalleryPage() {
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
@@ -19,6 +20,9 @@ export default function GalleryPage() {
   const [uploadStatus, setUploadStatus] = useState('');
   const [uploadFailed, setUploadFailed] = useState(false);
   const [lastUploadError, setLastUploadError] = useState('');
+  const [compressionResults, setCompressionResults] = useState<CompressionResult[]>([]);
+  const [isCompressing, setIsCompressing] = useState(false);
+  const [compressionQuality, setCompressionQuality] = useState<'high' | 'medium' | 'low'>('medium');
   
   const itemsPerPage = 12;
   
@@ -68,23 +72,50 @@ export default function GalleryPage() {
     }
 
     setIsUploading(true);
+    setIsCompressing(true);
     setUploadProgress(0);
     setUploadFailed(false);
-    setUploadStatus('');
+    setUploadStatus('Compressing images...');
 
     try {
+      // Get compression options based on quality setting
+      const compressionOptions = compressionQuality === 'high' ? 
+        { maxSizeMB: 5, maxWidthOrHeight: 2560, useWebWorker: true, quality: 0.9 } :
+        compressionQuality === 'medium' ?
+        { maxSizeMB: 2, maxWidthOrHeight: 1920, useWebWorker: true, quality: 0.8 } :
+        { maxSizeMB: 1, maxWidthOrHeight: 1280, useWebWorker: true, quality: 0.6 };
+
+      // Compress images
+      const compressionResults = await compressImages(selectedFiles, compressionOptions);
+      setCompressionResults(compressionResults);
+      
+      // Create new FileList with compressed files
+      const compressedFiles = compressionResults.map(result => result.compressedFile);
+      const compressedFileList = new DataTransfer();
+      compressedFiles.forEach(file => compressedFileList.items.add(file));
+      
+      setIsCompressing(false);
+      setUploadStatus('Uploading compressed files...');
+      setUploadProgress(10);
+
       const result = await uploadMedia(
-        selectedFiles,
+        compressedFileList.files,
         uploadedBy || 'Guest',
         caption,
-        (progress) => setUploadProgress(progress.percentage)
+        (progress) => setUploadProgress(10 + (progress.percentage * 0.9))
       );
 
       if (result.success) {
-        setUploadStatus(`Successfully uploaded ${result.data?.length || 0} file(s)`);
+        const totalOriginalSize = compressionResults.reduce((sum, r) => sum + r.originalSize, 0);
+        const totalCompressedSize = compressionResults.reduce((sum, r) => sum + r.compressedSize, 0);
+        const totalSaved = totalOriginalSize - totalCompressedSize;
+        const compressionRatio = ((totalSaved / totalOriginalSize) * 100).toFixed(1);
+        
+        setUploadStatus(`Successfully uploaded ${result.data?.length || 0} file(s). Saved ${formatFileSize(totalSaved)} (${compressionRatio}% compression)`);
         setSelectedFiles(null);
         setUploadedBy('');
         setCaption('');
+        setCompressionResults([]);
         setShowUploadForm(false);
         // Refresh media list
         await fetchMedia();
@@ -99,6 +130,7 @@ export default function GalleryPage() {
       setLastUploadError(error instanceof Error ? error.message : 'Unknown error');
     } finally {
       setIsUploading(false);
+      setIsCompressing(false);
     }
   };
 
@@ -223,6 +255,53 @@ export default function GalleryPage() {
             <div className="bg-white p-6 rounded-lg shadow-md mb-8">
               <h3 className="text-xl font-semibold text-gray-800 mb-4">Upload Photos & Videos</h3>
               
+              {/* Compression Quality Selector */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Compression Quality
+                </label>
+                <div className="flex space-x-4">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="compressionQuality"
+                      value="high"
+                      checked={compressionQuality === 'high'}
+                      onChange={(e) => setCompressionQuality(e.target.value as 'high' | 'medium' | 'low')}
+                      className="mr-2"
+                    />
+                    <span className="text-sm">High Quality</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="compressionQuality"
+                      value="medium"
+                      checked={compressionQuality === 'medium'}
+                      onChange={(e) => setCompressionQuality(e.target.value as 'high' | 'medium' | 'low')}
+                      className="mr-2"
+                    />
+                    <span className="text-sm">Medium Quality</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="compressionQuality"
+                      value="low"
+                      checked={compressionQuality === 'low'}
+                      onChange={(e) => setCompressionQuality(e.target.value as 'high' | 'medium' | 'low')}
+                      className="mr-2"
+                    />
+                    <span className="text-sm">Low Quality</span>
+                  </label>
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  {compressionQuality === 'high' && 'Best quality, larger files (up to 5MB, 2560px)'}
+                  {compressionQuality === 'medium' && 'Balanced quality and size (up to 2MB, 1920px)'}
+                  {compressionQuality === 'low' && 'Smaller files, good quality (up to 1MB, 1280px)'}
+                </p>
+              </div>
+              
               <div className="mb-4">
                 <input
                   type="file"
@@ -279,14 +358,14 @@ export default function GalleryPage() {
                 disabled={!selectedFiles || isUploading}
                 className="w-full bg-pink-600 text-white py-2 px-4 rounded-lg hover:bg-pink-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-sm font-semibold mb-4"
               >
-                {isUploading ? 'Uploading...' : 'Upload Files'}
+                {isCompressing ? 'Compressing...' : isUploading ? 'Uploading...' : 'Upload Files'}
               </button>
               
               {/* Progress Bar */}
-              {isUploading && (
+              {(isUploading || isCompressing) && (
                 <div className="mb-4">
                   <div className="flex justify-between text-sm text-gray-600 mb-2">
-                    <span>Uploading...</span>
+                    <span>{isCompressing ? 'Compressing images...' : 'Uploading...'}</span>
                     <span>{uploadProgress}%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
