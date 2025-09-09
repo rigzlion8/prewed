@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useMedia, MediaItem } from '@/hooks/useMedia';
@@ -8,9 +8,105 @@ import { useMedia, MediaItem } from '@/hooks/useMedia';
 export default function GalleryPage() {
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isSlideshowActive, setIsSlideshowActive] = useState(false);
+  const [slideshowIndex, setSlideshowIndex] = useState(0);
+  const [showUploadForm, setShowUploadForm] = useState(false);
+  const [uploadedBy, setUploadedBy] = useState('');
+  const [caption, setCaption] = useState('');
+  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadStatus, setUploadStatus] = useState('');
+  const [uploadFailed, setUploadFailed] = useState(false);
+  const [lastUploadError, setLastUploadError] = useState('');
+  
   const itemsPerPage = 12;
   
-  const { media, loading, error, deleteMedia } = useMedia();
+  const { media, loading, error, deleteMedia, uploadMedia, fetchMedia } = useMedia();
+
+  // Slideshow functionality
+  useEffect(() => {
+    if (isSlideshowActive && media.length > 0) {
+      const interval = setInterval(() => {
+        setSlideshowIndex((prev) => (prev + 1) % media.length);
+      }, 3000); // Change slide every 3 seconds
+      return () => clearInterval(interval);
+    }
+  }, [isSlideshowActive, media.length]);
+
+  const startSlideshow = () => {
+    setSlideshowIndex(0);
+    setIsSlideshowActive(true);
+  };
+
+  const stopSlideshow = () => {
+    setIsSlideshowActive(false);
+  };
+
+  const nextSlide = () => {
+    setSlideshowIndex((prev) => (prev + 1) % media.length);
+  };
+
+  const prevSlide = () => {
+    setSlideshowIndex((prev) => (prev - 1 + media.length) % media.length);
+  };
+
+  // Upload functionality
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setSelectedFiles(files);
+      setUploadFailed(false);
+      setUploadStatus('');
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFiles || selectedFiles.length === 0) {
+      setUploadStatus('Please select files to upload');
+      return;
+    }
+
+    setIsUploading(true);
+    setUploadProgress(0);
+    setUploadFailed(false);
+    setUploadStatus('');
+
+    try {
+      const result = await uploadMedia(
+        Array.from(selectedFiles),
+        uploadedBy || 'Guest',
+        caption,
+        (progress) => setUploadProgress(progress)
+      );
+
+      if (result.success) {
+        setUploadStatus(`Successfully uploaded ${result.data?.length || 0} file(s)`);
+        setSelectedFiles(null);
+        setUploadedBy('');
+        setCaption('');
+        setShowUploadForm(false);
+        // Refresh media list
+        await fetchMedia();
+      } else {
+        setUploadFailed(true);
+        setUploadStatus('Upload failed');
+        setLastUploadError(result.error || 'Unknown error');
+      }
+    } catch (error) {
+      setUploadFailed(true);
+      setUploadStatus('Upload failed');
+      setLastUploadError(error instanceof Error ? error.message : 'Unknown error');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleRetryUpload = () => {
+    if (selectedFiles) {
+      handleUpload();
+    }
+  };
 
   const handleDeleteMedia = async (id: string) => {
     if (confirm('Are you sure you want to delete this media?')) {
@@ -19,6 +115,10 @@ export default function GalleryPage() {
         // Close modal if the deleted item was selected
         if (selectedMedia && selectedMedia._id === id) {
           setSelectedMedia(null);
+        }
+        // Stop slideshow if the deleted item was the current slide
+        if (isSlideshowActive && media[slideshowIndex]?._id === id) {
+          stopSlideshow();
         }
       }
     }
@@ -77,6 +177,20 @@ export default function GalleryPage() {
               <span className="text-2xl font-serif font-bold text-pink-600">N&K</span>
             </Link>
             <div className="flex items-center space-x-4">
+              {media.length > 0 && (
+                <button
+                  onClick={isSlideshowActive ? stopSlideshow : startSlideshow}
+                  className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors font-medium text-sm"
+                >
+                  {isSlideshowActive ? '⏸️ Stop Slideshow' : '▶️ Start Slideshow'}
+                </button>
+              )}
+              <button
+                onClick={() => setShowUploadForm(!showUploadForm)}
+                className="bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors font-medium text-sm"
+              >
+                📤 Upload
+              </button>
               <Link 
                 href="/" 
                 className="text-gray-700 hover:text-pink-600 transition-colors font-medium"
@@ -103,6 +217,180 @@ export default function GalleryPage() {
               {media.length} {media.length === 1 ? 'item' : 'items'} total
             </div>
           </div>
+
+          {/* Upload Form */}
+          {showUploadForm && (
+            <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">Upload Photos & Videos</h3>
+              
+              <div className="mb-4">
+                <input
+                  type="file"
+                  id="fileInput"
+                  multiple
+                  accept="image/*,video/*"
+                  onChange={handleFileSelect}
+                  className="hidden"
+                />
+                <label
+                  htmlFor="fileInput"
+                  className="block w-full bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:bg-gray-200 transition-colors"
+                >
+                  <svg className="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                  </svg>
+                  <span className="text-gray-600">
+                    {selectedFiles ? `${selectedFiles.length} file(s) selected` : 'Click to select photos and videos'}
+                  </span>
+                </label>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label htmlFor="uploadedBy" className="block text-sm font-medium text-gray-700 mb-2">
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    id="uploadedBy"
+                    value={uploadedBy}
+                    onChange={(e) => setUploadedBy(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
+                    placeholder="Enter your name"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="caption" className="block text-sm font-medium text-gray-700 mb-2">
+                    Caption (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    id="caption"
+                    value={caption}
+                    onChange={(e) => setCaption(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
+                    placeholder="Add a caption..."
+                  />
+                </div>
+              </div>
+              
+              <button
+                onClick={handleUpload}
+                disabled={!selectedFiles || isUploading}
+                className="w-full bg-pink-600 text-white py-2 px-4 rounded-lg hover:bg-pink-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-sm font-semibold mb-4"
+              >
+                {isUploading ? 'Uploading...' : 'Upload Files'}
+              </button>
+              
+              {/* Progress Bar */}
+              {isUploading && (
+                <div className="mb-4">
+                  <div className="flex justify-between text-sm text-gray-600 mb-2">
+                    <span>Uploading...</span>
+                    <span>{uploadProgress}%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-pink-600 h-2 rounded-full transition-all duration-300 ease-out"
+                      style={{ width: `${uploadProgress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
+              
+              {uploadStatus && (
+                <div className={`text-center p-3 rounded-lg text-sm ${
+                  uploadStatus.includes('Successfully') 
+                    ? 'bg-green-100 text-green-700' 
+                    : uploadStatus.includes('failed') || uploadStatus.includes('error')
+                    ? 'bg-red-100 text-red-700'
+                    : 'bg-blue-100 text-blue-700'
+                }`}>
+                  <div className="flex items-center justify-center space-x-2">
+                    <span>{uploadStatus}</span>
+                    {uploadFailed && !isUploading && (
+                      <button
+                        onClick={handleRetryUpload}
+                        className="ml-2 bg-red-600 text-white px-3 py-1 rounded text-xs hover:bg-red-700 transition-colors"
+                      >
+                        Try Again
+                      </button>
+                    )}
+                  </div>
+                  {uploadFailed && lastUploadError && (
+                    <div className="mt-2 text-xs text-red-600">
+                      Error: {lastUploadError}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Slideshow */}
+          {isSlideshowActive && media.length > 0 && (
+            <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-semibold text-gray-800">
+                  Slideshow ({slideshowIndex + 1} of {media.length})
+                </h3>
+                <button
+                  onClick={stopSlideshow}
+                  className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm"
+                >
+                  Stop Slideshow
+                </button>
+              </div>
+              
+              <div className="relative bg-black rounded-lg overflow-hidden">
+                {media[slideshowIndex] && (
+                  <>
+                    {media[slideshowIndex].type === 'photo' ? (
+                      <Image
+                        src={media[slideshowIndex].url}
+                        alt={media[slideshowIndex].caption || media[slideshowIndex].originalName}
+                        width={800}
+                        height={600}
+                        className="w-full h-96 object-contain"
+                      />
+                    ) : (
+                      <video
+                        src={media[slideshowIndex].url}
+                        controls
+                        className="w-full h-96 object-contain"
+                      />
+                    )}
+                    
+                    {/* Slideshow Controls */}
+                    <button
+                      onClick={prevSlide}
+                      className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-all"
+                    >
+                      ←
+                    </button>
+                    <button
+                      onClick={nextSlide}
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-all"
+                    >
+                      →
+                    </button>
+                  </>
+                )}
+              </div>
+              
+              {media[slideshowIndex] && (
+                <div className="mt-4 text-center">
+                  <p className="text-sm text-gray-600">
+                    <strong>By:</strong> {media[slideshowIndex].uploadedBy || 'Guest'} | 
+                    <strong> Date:</strong> {new Date(media[slideshowIndex].createdAt).toLocaleDateString()}
+                  </p>
+                  {media[slideshowIndex].caption && (
+                    <p className="text-sm text-gray-800 mt-1">{media[slideshowIndex].caption}</p>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Gallery Grid */}
           {media.length > 0 ? (
@@ -201,12 +489,12 @@ export default function GalleryPage() {
                 </svg>
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">No Photos Yet</h3>
                 <p className="text-gray-600 mb-6">Be the first to share your memories!</p>
-                <Link 
-                  href="/#upload" 
+                <button
+                  onClick={() => setShowUploadForm(true)}
                   className="inline-block bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition-colors font-semibold"
                 >
                   Upload Photos & Videos
-                </Link>
+                </button>
               </div>
             </div>
           )}
