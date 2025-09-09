@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useMedia, MediaItem } from '@/hooks/useMedia';
+import { useWishes } from '@/hooks/useWishes';
 import { UPLOAD_LIMITS, getFileSize } from '@/lib/upload';
 import { ShareModal } from '@/components/ShareModal';
 import { compressImages, formatFileSize, getCompressionQualityLabel, MEDIUM_QUALITY_OPTIONS, CompressionResult } from '@/lib/compression';
@@ -27,8 +28,13 @@ export default function HomePage() {
   const [compressionResults, setCompressionResults] = useState<CompressionResult[]>([]);
   const [isCompressing, setIsCompressing] = useState(false);
   const [compressionQuality, setCompressionQuality] = useState<'high' | 'medium' | 'low'>('medium');
+  const [wishName, setWishName] = useState('');
+  const [wishMessage, setWishMessage] = useState('');
+  const [wishStatus, setWishStatus] = useState('');
+  const [isSubmittingWish, setIsSubmittingWish] = useState(false);
   
   const { media, loading, error, uploadMedia, deleteMedia } = useMedia();
+  const { submitWish } = useWishes();
   
   // Get the current website URL
   const websiteUrl = typeof window !== 'undefined' ? window.location.href : 'http://localhost:3004';
@@ -54,10 +60,34 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleWishSubmit = (e: React.FormEvent) => {
+  const handleWishSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Thank you for your wishes! In a real app, this would be saved to the database.');
-    (e.target as HTMLFormElement).reset();
+    
+    if (!wishName.trim() || !wishMessage.trim()) {
+      setWishStatus('Please fill in both name and message fields.');
+      return;
+    }
+
+    setIsSubmittingWish(true);
+    setWishStatus('');
+
+    try {
+      const result = await submitWish(wishName.trim(), wishMessage.trim());
+      
+      if (result.success) {
+        setWishStatus(result.message || 'Thank you for your beautiful wish! We truly appreciate your kind words.');
+        setWishName('');
+        setWishMessage('');
+        // Clear status after 5 seconds
+        setTimeout(() => setWishStatus(''), 5000);
+      } else {
+        setWishStatus(result.error || 'Failed to submit wish. Please try again.');
+      }
+    } catch (error) {
+      setWishStatus('Failed to submit wish. Please try again.');
+    } finally {
+      setIsSubmittingWish(false);
+    }
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -174,7 +204,7 @@ export default function HomePage() {
               <a href="#home" className="text-gray-700 hover:text-pink-600 transition">Home</a>
               <a href="/gallery" className="text-gray-700 hover:text-pink-600 transition">Gallery</a>
               <a href="#about" className="text-gray-700 hover:text-pink-600 transition">Our Story</a>
-              <a href="#feedback" className="text-gray-700 hover:text-pink-600 transition">Well Wishes</a>
+              <a href="/wishes" className="text-gray-700 hover:text-pink-600 transition">Read Wishes</a>
               <a href="#upload" className="text-gray-700 hover:text-pink-600 transition">Share Memories</a>
               <button 
                 onClick={() => setShowShareModal(true)}
@@ -204,7 +234,7 @@ export default function HomePage() {
           <a href="#home" className="block py-2 text-gray-700 hover:text-pink-600">Home</a>
           <a href="/gallery" className="block py-2 text-gray-700 hover:text-pink-600">Gallery</a>
           <a href="#about" className="block py-2 text-gray-700 hover:text-pink-600">Our Story</a>
-          <a href="#feedback" className="block py-2 text-gray-700 hover:text-pink-600">Well Wishes</a>
+          <a href="/wishes" className="block py-2 text-gray-700 hover:text-pink-600">Read Wishes</a>
           <a href="#upload" className="block py-2 text-gray-700 hover:text-pink-600">Share Memories</a>
           <button 
             onClick={() => {
@@ -356,23 +386,42 @@ export default function HomePage() {
                 <input 
                   type="text" 
                   placeholder="Your Name" 
+                  value={wishName}
+                  onChange={(e) => setWishName(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-base"
                   required
+                  disabled={isSubmittingWish}
                 />
               </div>
               <div className="mb-6">
                 <textarea 
                   placeholder="Your Message" 
                   rows={4} 
+                  value={wishMessage}
+                  onChange={(e) => setWishMessage(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-base resize-none"
                   required
+                  disabled={isSubmittingWish}
                 />
               </div>
+              
+              {/* Status Message */}
+              {wishStatus && (
+                <div className={`mb-4 p-3 rounded-lg text-sm ${
+                  wishStatus.includes('Thank you') || wishStatus.includes('appreciate')
+                    ? 'bg-green-100 text-green-700 border border-green-200'
+                    : 'bg-red-100 text-red-700 border border-red-200'
+                }`}>
+                  {wishStatus}
+                </div>
+              )}
+              
               <button 
                 type="submit" 
-                className="w-full md:w-auto bg-pink-600 text-white px-8 py-3 rounded-lg hover:bg-pink-700 transition font-semibold"
+                disabled={isSubmittingWish}
+                className="w-full md:w-auto bg-pink-600 text-white px-8 py-3 rounded-lg hover:bg-pink-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition font-semibold"
               >
-                Submit Wish
+                {isSubmittingWish ? 'Sending...' : 'Submit Wish'}
               </button>
             </form>
           </div>
@@ -569,7 +618,7 @@ export default function HomePage() {
               <li><a href="#home" className="text-gray-400 hover:text-white transition">Home</a></li>
               <li><a href="/gallery" className="text-gray-400 hover:text-white transition">Gallery</a></li>
               <li><a href="#about" className="text-gray-400 hover:text-white transition">Our Story</a></li>
-              <li><a href="#feedback" className="text-gray-400 hover:text-white transition">Well Wishes</a></li>
+              <li><a href="/wishes" className="text-gray-400 hover:text-white transition">Read Wishes</a></li>
               <li><a href="#upload" className="text-gray-400 hover:text-white transition">Share Memories</a></li>
             </ul>
           </div>
