@@ -74,7 +74,7 @@ export default function GalleryPage() {
 
     try {
       const result = await uploadMedia(
-        Array.from(selectedFiles),
+        selectedFiles,
         uploadedBy || 'Guest',
         caption,
         (progress) => setUploadProgress(progress)
