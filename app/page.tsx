@@ -319,11 +319,48 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* About Section */}
+      <section id="about" className="py-16 px-4 bg-gradient-to-br from-pink-50 to-purple-100">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-gray-800 mb-12">Our Story</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            <div className="text-center md:text-left">
+              <h3 className="text-2xl font-semibold text-pink-600 mb-4">How We Met</h3>
+              <p className="text-gray-700 mb-6 leading-relaxed">We first met at a friend's birthday party in 2018. Kevin spilled his drink on Nikita's dress, and instead of getting angry, she laughed it off. We spent the whole night talking and....</p>
+              <div className="relative w-full h-80 md:h-96 image-container" style={{ position: 'relative', height: '320px', minHeight: '320px' }}>
+                <Image 
+                  src="/images/nikita-kevin.jpg" 
+                  alt="Nikita & Kevin" 
+                  fill
+                  className="rounded-lg shadow-md object-cover"
+                />
+              </div>
+            </div>
+            <div className="text-center md:text-left">
+              <h3 className="text-2xl font-semibold text-pink-600 mb-4">The Proposal</h3>
+              <p className="text-gray-700 mb-6 leading-relaxed">On a trip to Paris in 2022, Kevin proposed at the Eiffel Tower at sunset. It was completely unexpected and magical. Of course, Nikita said yes without hesitation!</p>
+              <div className="relative w-full h-80 md:h-96 image-container" style={{ position: 'relative', height: '320px', minHeight: '320px' }}>
+                <Image 
+                  src="https://images.unsplash.com/photo-1519677100203-a0e668c92439?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80" 
+                  alt="Proposal" 
+                  fill
+                  className="rounded-lg shadow-md object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Gallery Section */}
       <section id="gallery" className="py-16 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-gray-800 mb-12">Our Gallery</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-gray-800 mb-4">Gallery</h2>
+          <p className="text-center text-gray-600 mb-8 text-sm md:text-base">Click anywhere to view all photos</p>
+          <div 
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 cursor-pointer hover:opacity-90 transition-opacity duration-300 relative group"
+            onClick={() => window.location.href = '/gallery'}
+          >
             {/* Gallery Items */}
             <div className="rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105">
               <Image 
@@ -363,37 +400,10 @@ export default function HomePage() {
                 className="w-full h-48 md:h-56 object-cover"
               />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-16 px-4 bg-gradient-to-br from-pink-50 to-purple-100">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-gray-800 mb-12">Our Story</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-            <div className="text-center md:text-left">
-              <h3 className="text-2xl font-semibold text-pink-600 mb-4">How We Met</h3>
-              <p className="text-gray-700 mb-6 leading-relaxed">We first met at a friend's birthday party in 2018. Kevin spilled his drink on Nikita's dress, and instead of getting angry, she laughed it off. We spent the whole night talking and....</p>
-              <div className="relative w-full h-80 md:h-96 image-container" style={{ position: 'relative', height: '320px', minHeight: '320px' }}>
-                <Image 
-                  src="/images/nikita-kevin.jpg" 
-                  alt="Nikita & Kevin" 
-                  fill
-                  className="rounded-lg shadow-md object-cover"
-                />
-              </div>
-            </div>
-            <div className="text-center md:text-left">
-              <h3 className="text-2xl font-semibold text-pink-600 mb-4">The Proposal</h3>
-              <p className="text-gray-700 mb-6 leading-relaxed">On a trip to Paris in 2022, Kevin proposed at the Eiffel Tower at sunset. It was completely unexpected and magical. Of course, Nikita said yes without hesitation!</p>
-              <div className="relative w-full h-80 md:h-96 image-container" style={{ position: 'relative', height: '320px', minHeight: '320px' }}>
-                <Image 
-                  src="https://images.unsplash.com/photo-1519677100203-a0e668c92439?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80" 
-                  alt="Proposal" 
-                  fill
-                  className="rounded-lg shadow-md object-cover"
-                />
+            {/* Hover overlay */}
+            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 rounded-lg flex items-center justify-center">
+              <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white bg-opacity-90 px-4 py-2 rounded-lg shadow-lg">
+                <span className="text-gray-800 font-medium text-sm">View Full Gallery</span>
               </div>
             </div>
           </div>
