@@ -108,24 +108,24 @@ export default function WishesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
       {/* Navigation */}
-      <nav className="bg-white shadow-lg fixed w-full z-50">
+      <nav className="bg-gradient-to-r from-gray-900 to-black shadow-lg fixed w-full z-50 border-b border-yellow-400">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center space-x-2">
-              <span className="text-2xl font-serif font-bold text-pink-600">N&K</span>
+              <span className="text-2xl font-serif font-bold text-yellow-400">#Nike Moments</span>
             </Link>
             <div className="flex items-center space-x-4">
               <Link 
                 href="/gallery" 
-                className="text-gray-700 hover:text-pink-600 transition-colors font-medium"
+                className="text-yellow-200 hover:text-yellow-400 transition-colors font-medium"
               >
                 📸 Gallery
               </Link>
               <Link 
                 href="/" 
-                className="text-gray-700 hover:text-pink-600 transition-colors font-medium"
+                className="text-yellow-200 hover:text-yellow-400 transition-colors font-medium"
               >
                 ← Back to Homepage
               </Link>
@@ -139,23 +139,23 @@ export default function WishesPage() {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-4">
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-yellow-400 mb-4">
               Well Wishes
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Beautiful messages from family and friends for Nikita & Kevin
+            <p className="text-lg text-yellow-200 max-w-2xl mx-auto">
+              Beautiful messages from family and friends for #Nike Moments
             </p>
-            <div className="mt-4 text-sm text-gray-500">
+            <div className="mt-4 text-sm text-yellow-300">
               {wishes.length} {wishes.length === 1 ? 'wish' : 'wishes'} total
             </div>
           </div>
 
           {/* Controls */}
-          <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-lg shadow-lg border border-yellow-400 mb-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Search */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-yellow-200 mb-2">
                   Search Wishes
                 </label>
                 <input

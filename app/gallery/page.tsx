@@ -223,32 +223,32 @@ export default function GalleryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
       {/* Navigation */}
-      <nav className="bg-white shadow-lg fixed w-full z-50">
+      <nav className="bg-gradient-to-r from-gray-900 to-black shadow-lg fixed w-full z-50 border-b border-yellow-400">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center space-x-2">
-              <span className="text-2xl font-serif font-bold text-pink-600">N&K</span>
+              <span className="text-2xl font-serif font-bold text-yellow-400">#Nike Moments</span>
             </Link>
             <div className="flex items-center space-x-4">
               {media.length > 0 && (
                 <button
                   onClick={isSlideshowActive ? stopSlideshow : startSlideshow}
-                  className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors font-medium text-sm"
+                  className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-4 py-2 rounded-lg hover:from-yellow-500 hover:to-yellow-700 transition-all font-medium text-sm shadow-lg"
                 >
                   {isSlideshowActive ? '⏸️ Stop Slideshow' : '▶️ Start Slideshow'}
                 </button>
               )}
               <button
                 onClick={() => setShowUploadForm(!showUploadForm)}
-                className="bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors font-medium text-sm"
+                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-4 py-2 rounded-lg hover:from-yellow-500 hover:to-yellow-700 transition-all font-medium text-sm shadow-lg"
               >
                 📤 Upload
               </button>
               <Link 
                 href="/" 
-                className="text-gray-700 hover:text-pink-600 transition-colors font-medium"
+                className="text-yellow-200 hover:text-yellow-400 transition-colors font-medium"
               >
                 ← Back to Homepage
               </Link>
@@ -262,25 +262,25 @@ export default function GalleryPage() {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-4">
-              Photo & Video Gallery
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-yellow-400 mb-4">
+              #Nike Moments Gallery
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              All the beautiful memories shared by our family and friends
+            <p className="text-lg text-yellow-200 max-w-2xl mx-auto">
+              All the beautiful Ayie memories shared by our family and friends
             </p>
-            <div className="mt-4 text-sm text-gray-500">
+            <div className="mt-4 text-sm text-yellow-300">
               {media.length} {media.length === 1 ? 'item' : 'items'} total
             </div>
           </div>
 
           {/* Upload Form */}
           {showUploadForm && (
-            <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Upload Photos & Videos</h3>
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-lg shadow-lg border border-yellow-400 mb-8">
+              <h3 className="text-xl font-semibold text-yellow-400 mb-4">Upload Photos & Videos</h3>
               
               {/* Compression Quality Selector */}
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-yellow-200 mb-2">
                   Compression Quality
                 </label>
                 <div className="flex space-x-4">
