@@ -80,6 +80,19 @@ export const useMedia = () => {
         body: formData,
       });
 
+      // Handle specific HTTP status codes
+      if (response.status === 413) {
+        const errorMessage = 'Upload too large! Try uploading fewer images at once or use a lower quality setting.';
+        setError(errorMessage);
+        return { success: false, error: errorMessage };
+      }
+
+      if (!response.ok) {
+        const errorMessage = `Upload failed with status ${response.status}. Please try again.`;
+        setError(errorMessage);
+        return { success: false, error: errorMessage };
+      }
+
       const result = await response.json();
       
       if (result.success) {

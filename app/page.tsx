@@ -610,6 +610,9 @@ export default function HomePage() {
                   {compressionQuality === 'medium' && 'Good quality, balanced size (up to 8MB, 2K resolution)'}
                   {compressionQuality === 'low' && 'Smaller files, acceptable quality (up to 3MB, Full HD)'}
                 </p>
+                <p className="text-xs text-yellow-200 mt-2 bg-yellow-900 bg-opacity-30 p-2 rounded">
+                  💡 <strong>Tip:</strong> For large uploads, try uploading 2-3 images at a time to avoid size limits.
+                </p>
               </div>
               
               {/* Selected Files List */}
@@ -753,7 +756,18 @@ export default function HomePage() {
                 </div>
                 {uploadFailed && lastUploadError && (
                   <div className="mt-2 text-xs text-red-600">
-                    Error: {lastUploadError}
+                    <div className="mb-2">Error: {lastUploadError}</div>
+                    {lastUploadError.includes('too large') && (
+                      <div className="bg-yellow-50 border border-yellow-200 rounded p-2 text-yellow-800">
+                        <div className="font-medium mb-1">💡 Suggestions:</div>
+                        <ul className="text-left space-y-1">
+                          <li>• Try uploading fewer images at once (2-3 instead of many)</li>
+                          <li>• Use "Medium Quality" or "Low Quality" compression</li>
+                          <li>• Check your internet connection</li>
+                          <li>• Try uploading one image at a time</li>
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
