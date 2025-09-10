@@ -61,7 +61,13 @@ export async function compressImage(
       };
     }
 
-    const compressedFile = await imageCompression(file, options);
+    const compressedBlob = await imageCompression(file, options);
+    
+    // Ensure we have a proper File object
+    const compressedFile = new File([compressedBlob], file.name, {
+      type: compressedBlob.type || file.type,
+      lastModified: Date.now(),
+    });
     
     const originalSize = file.size;
     const compressedSize = compressedFile.size;

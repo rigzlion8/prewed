@@ -113,15 +113,26 @@ export default function GalleryPage() {
       
       // Create new FileList with compressed files
       const compressedFiles = compressionResults.map(result => result.compressedFile);
-      const compressedFileList = new DataTransfer();
-      compressedFiles.forEach(file => compressedFileList.items.add(file));
+      
+      // Debug: Log file types
+      console.log('Compressed files:', compressedFiles.map(f => ({ name: f.name, type: f.constructor.name, size: f.size })));
+      
+      // Create a proper FileList using DataTransfer
+      const dataTransfer = new DataTransfer();
+      compressedFiles.forEach(file => {
+        if (file instanceof File) {
+          dataTransfer.items.add(file);
+        } else {
+          console.error('Invalid file object:', file);
+        }
+      });
       
       setIsCompressing(false);
       setUploadStatus('Uploading compressed files...');
       setUploadProgress(10);
 
       const result = await uploadMedia(
-        compressedFileList.files,
+        dataTransfer.files,
         uploadedBy || 'Guest',
         caption,
         (progress) => setUploadProgress(10 + (progress.percentage * 0.9))
