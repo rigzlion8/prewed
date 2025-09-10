@@ -42,9 +42,9 @@ export default function HomePage() {
 
   useEffect(() => {
     const updateCountdown = () => {
-      const weddingDate = new Date('October 12, 2025 14:00:00').getTime();
+      const ayieDate = new Date('September 13, 2025 14:00:00').getTime();
       const now = new Date().getTime();
-      const distance = weddingDate - now;
+      const distance = ayieDate - now;
 
       if (distance > 0) {
         setTimeLeft({
@@ -223,12 +223,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <span className="text-2xl font-serif text-pink-600">Nikita & Kevin</span>
+              <span className="text-2xl font-serif text-pink-600">#Nike Moments</span>
             </div>
             <div className="hidden md:flex space-x-8">
               <a href="#home" className="text-gray-700 hover:text-pink-600 transition">Home</a>
               <a href="/gallery" className="text-gray-700 hover:text-pink-600 transition">Gallery</a>
-              <a href="#about" className="text-gray-700 hover:text-pink-600 transition">Our Story</a>
+              <a href="#about" className="text-gray-700 hover:text-pink-600 transition">#Nike Moments</a>
               <a href="/wishes" className="text-gray-700 hover:text-pink-600 transition">Read Wishes</a>
               <a href="#upload" className="text-gray-700 hover:text-pink-600 transition">Share Memories</a>
               <button 
@@ -258,7 +258,7 @@ export default function HomePage() {
         <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden bg-white pb-4 px-4`}>
           <a href="#home" className="block py-2 text-gray-700 hover:text-pink-600">Home</a>
           <a href="/gallery" className="block py-2 text-gray-700 hover:text-pink-600">Gallery</a>
-          <a href="#about" className="block py-2 text-gray-700 hover:text-pink-600">Our Story</a>
+          <a href="#about" className="block py-2 text-gray-700 hover:text-pink-600">#Nike Moments</a>
           <a href="/wishes" className="block py-2 text-gray-700 hover:text-pink-600">Read Wishes</a>
           <a href="#upload" className="block py-2 text-gray-700 hover:text-pink-600">Share Memories</a>
           <button 
@@ -277,30 +277,28 @@ export default function HomePage() {
       {/* Hero Section */}
       <section 
         id="home" 
-        className="pt-20 pb-32 px-4 bg-cover bg-center bg-no-repeat relative"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80')`
-        }}
+        className="pt-20 pb-32 px-4 bg-gradient-to-br from-black via-gray-900 to-black relative"
       >
         <div className="max-w-4xl mx-auto text-center text-white pt-24">
-          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6">Nikita & Kevin</h1>
-          <p className="text-xl md:text-2xl mb-8">We're getting married on October 12, 2025</p>
+          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">#Nike Moments</h1>
+          <p className="text-xl md:text-2xl mb-4 text-yellow-300">He Asked, They said Ayie!</p>
+          <p className="text-lg md:text-xl mb-8 text-yellow-200">13.09.2025</p>
           <div className="flex justify-center space-x-2 md:space-x-4 flex-wrap">
-            <div className="bg-white bg-opacity-20 rounded-lg p-3 md:p-4 text-center backdrop-blur-sm mb-2">
+            <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-3 md:p-4 text-center text-black shadow-lg mb-2">
               <span className="block text-2xl md:text-3xl font-bold">{timeLeft.days.toString().padStart(2, '0')}</span>
-              <span className="text-sm md:text-base">Days</span>
+              <span className="text-sm md:text-base font-semibold">Days</span>
             </div>
-            <div className="bg-white bg-opacity-20 rounded-lg p-3 md:p-4 text-center backdrop-blur-sm mb-2">
+            <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-3 md:p-4 text-center text-black shadow-lg mb-2">
               <span className="block text-2xl md:text-3xl font-bold">{timeLeft.hours.toString().padStart(2, '0')}</span>
-              <span className="text-sm md:text-base">Hours</span>
+              <span className="text-sm md:text-base font-semibold">Hours</span>
             </div>
-            <div className="bg-white bg-opacity-20 rounded-lg p-3 md:p-4 text-center backdrop-blur-sm mb-2">
+            <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-3 md:p-4 text-center text-black shadow-lg mb-2">
               <span className="block text-2xl md:text-3xl font-bold">{timeLeft.minutes.toString().padStart(2, '0')}</span>
-              <span className="text-sm md:text-base">Minutes</span>
+              <span className="text-sm md:text-base font-semibold">Minutes</span>
             </div>
-            <div className="bg-white bg-opacity-20 rounded-lg p-3 md:p-4 text-center backdrop-blur-sm mb-2">
+            <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-3 md:p-4 text-center text-black shadow-lg mb-2">
               <span className="block text-2xl md:text-3xl font-bold">{timeLeft.seconds.toString().padStart(2, '0')}</span>
-              <span className="text-sm md:text-base">Seconds</span>
+              <span className="text-sm md:text-base font-semibold">Seconds</span>
             </div>
           </div>
           
@@ -308,7 +306,7 @@ export default function HomePage() {
           <div className="mt-8">
               <button 
                 onClick={() => setShowShareModal(true)}
-                className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold flex items-center space-x-2 mx-auto"
+                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-6 py-3 rounded-lg hover:from-yellow-500 hover:to-yellow-700 transition-all font-semibold flex items-center space-x-2 mx-auto shadow-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M3 11h8V3H3v8zm2-6h4v4H5V5zm6 12h8v-8h-8v8zm2-6h4v4h-4v-4zM3 21h8v-8H3v8zm2-6h4v4H5v-4zm8-6V3h8v8h-8zm6-6h-4v4h4V3z"/>
@@ -319,32 +317,29 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-16 px-4 bg-gradient-to-br from-pink-50 to-purple-100">
+      {/* Ayie Moments Section */}
+      <section id="about" className="py-16 px-4 bg-gradient-to-br from-gray-900 via-black to-gray-800">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-gray-800 mb-12">Our Story</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-            <div className="text-center md:text-left">
-              <h3 className="text-2xl font-semibold text-pink-600 mb-4">How We Met</h3>
-              <p className="text-gray-700 mb-6 leading-relaxed">We first met at a friend's birthday party in 2018. Kevin spilled his drink on Nikita's dress, and instead of getting angry, she laughed it off. We spent the whole night talking and....</p>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-yellow-400 mb-12">#Nike Moments</h2>
+          <div className="text-center text-white mb-12">
+            <p className="text-lg md:text-xl leading-relaxed mb-8">
+              Drumroll, please… 🥁 The stars of the Ayie have entered the chat! 💕✨ Before we get to the dance floor fails, the epic selfies, and the unforgettable squad moments, here's a little peek at the bride and groom stealing the spotlight (as they should 😉). Once you've admired these, it's your turn — upload your photos and let's relive the magic together! 📸🎊
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
               <div className="relative w-full h-[28rem] md:h-[32rem] image-container" style={{ position: 'relative', height: '448px', minHeight: '448px' }}>
                 <Image 
                   src="/images/nikita-kevin.jpg" 
                   alt="Nikita & Kevin" 
                   fill
-                  className="rounded-lg shadow-md object-cover"
+                  className="rounded-lg shadow-lg object-cover border-2 border-yellow-400"
                 />
               </div>
-            </div>
-            <div className="text-center md:text-left">
-              <h3 className="text-2xl font-semibold text-pink-600 mb-4">The Proposal</h3>
-              <p className="text-gray-700 mb-6 leading-relaxed">On a trip to Paris in 2022, Kevin proposed at the Eiffel Tower at sunset. It was completely unexpected and magical. Of course, Nikita said yes without hesitation!</p>
               <div className="relative w-full h-[28rem] md:h-[32rem] image-container" style={{ position: 'relative', height: '448px', minHeight: '448px' }}>
                 <Image 
-                  src="https://images.unsplash.com/photo-1519677100203-a0e668c92439?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80" 
-                  alt="Proposal" 
+                  src="/images/nikita-kevin002.jpg" 
+                  alt="Ayie Moments" 
                   fill
-                  className="rounded-lg shadow-md object-cover"
+                  className="rounded-lg shadow-lg object-cover border-2 border-yellow-400"
                 />
               </div>
             </div>
@@ -353,10 +348,10 @@ export default function HomePage() {
       </section>
 
       {/* Gallery Section */}
-      <section id="gallery" className="py-16 px-4 bg-white">
+      <section id="gallery" className="py-16 px-4 bg-gradient-to-br from-black via-gray-900 to-black">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-gray-800 mb-4">Gallery</h2>
-          <p className="text-center text-gray-600 mb-8 text-sm md:text-base">Click anywhere to view all photos</p>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-yellow-400 mb-4">Gallery</h2>
+          <p className="text-center text-yellow-200 mb-8 text-sm md:text-base">Click anywhere to view all photos</p>
           <div 
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 cursor-pointer hover:opacity-90 transition-opacity duration-300 relative group"
             onClick={() => window.location.href = '/gallery'}
@@ -364,8 +359,8 @@ export default function HomePage() {
             {/* Gallery Items */}
             <div className="rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105">
               <Image 
-                src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80" 
-                alt="Couple" 
+                src="/images/nikita-kevin003.jpg" 
+                alt="Nike Moments" 
                 width={400}
                 height={224}
                 className="w-full h-48 md:h-56 object-cover"
@@ -374,8 +369,8 @@ export default function HomePage() {
             </div>
             <div className="rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105">
               <Image 
-                src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1769&q=80" 
-                alt="Engagement" 
+                src="/images/nikita-kevin004.jpg" 
+                alt="Nike Moments" 
                 width={400}
                 height={224}
                 className="w-full h-48 md:h-56 object-cover"
@@ -384,8 +379,8 @@ export default function HomePage() {
             </div>
             <div className="rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105">
               <Image 
-                src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1674&q=80" 
-                alt="Proposal" 
+                src="/images/nikita-kevin005.jpg" 
+                alt="Nike Moments" 
                 width={400}
                 height={224}
                 className="w-full h-48 md:h-56 object-cover"
@@ -393,8 +388,8 @@ export default function HomePage() {
             </div>
             <div className="rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105">
               <Image 
-                src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80" 
-                alt="Together" 
+                src="/images/nikita-kevin006.jpg" 
+                alt="Nike Moments" 
                 width={400}
                 height={224}
                 className="w-full h-48 md:h-56 object-cover"
@@ -476,16 +471,19 @@ export default function HomePage() {
       </section>
 
       {/* Upload Section */}
-      <section id="upload" className="py-16 px-4 bg-gradient-to-br from-purple-50 to-pink-50">
+      <section id="upload" className="py-16 px-4 bg-gradient-to-br from-gray-900 via-black to-gray-800">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-gray-800 mb-12">Share Your Memories</h2>
-          <div className="bg-white p-4 md:p-8 rounded-lg shadow-md">
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 md:p-8 text-center mb-8">
-              <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-yellow-400 mb-8">Share Your Ayie Moments</h2>
+          <p className="text-center text-yellow-200 mb-8 text-lg leading-relaxed">
+            You came, you smiled, you partied… now show us the proof! 😍🎉 Drop your photos here and let's stitch together the story of our Ayie day—through your lens. The more the merrier, so don't be shy… upload away!
+          </p>
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 md:p-8 rounded-lg shadow-lg border border-yellow-400">
+            <div className="border-2 border-dashed border-yellow-400 rounded-lg p-6 md:p-8 text-center mb-8">
+              <svg className="w-12 h-12 text-yellow-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
-              <p className="text-gray-600 mb-2 text-sm md:text-base">Upload photos and videos from our pre-wedding events</p>
-              <div className="text-xs text-gray-500 mb-4">
+              <p className="text-yellow-200 mb-2 text-sm md:text-base">Upload photos and videos from our Ayie celebration</p>
+              <div className="text-xs text-yellow-300 mb-4">
                 <p>• Maximum {UPLOAD_LIMITS.maxFilesPerUpload} files per upload</p>
                 <p>• Maximum {getFileSize(UPLOAD_LIMITS.maxFileSize)} per file</p>
                 <p>• Supported: JPEG, PNG, GIF, WebP, MP4, WebM</p>
@@ -494,7 +492,7 @@ export default function HomePage() {
               
               {/* Compression Quality Selector */}
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-yellow-200 mb-2">
                   Compression Quality
                 </label>
                 <div className="flex space-x-4 justify-center">
@@ -691,31 +689,42 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-12 px-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center md:text-left">
-            <h3 className="text-xl font-serif font-bold mb-4">Nikita & Kevin</h3>
-            <p className="text-gray-400 mb-2">October 12, 2025</p>
-            <p className="text-gray-400">St. Mary's Church, followed by reception at The Grand Hotel</p>
+      <footer className="bg-gradient-to-br from-black via-gray-900 to-black text-white py-12 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="mb-8">
+            <h3 className="text-2xl font-serif font-bold mb-6 text-yellow-400">#Nike Moments</h3>
+            <p className="text-lg text-yellow-200 mb-4">Ayie Ceremony</p>
+            <p className="text-yellow-300 mb-6">13.09.2025</p>
           </div>
-          <div className="text-center md:text-left">
-            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li><a href="#home" className="text-gray-400 hover:text-white transition">Home</a></li>
-              <li><a href="/gallery" className="text-gray-400 hover:text-white transition">Gallery</a></li>
-              <li><a href="#about" className="text-gray-400 hover:text-white transition">Our Story</a></li>
-              <li><a href="/wishes" className="text-gray-400 hover:text-white transition">Read Wishes</a></li>
-              <li><a href="#upload" className="text-gray-400 hover:text-white transition">Share Memories</a></li>
-            </ul>
+          
+          {/* Bible Verse */}
+          <div className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black p-6 rounded-lg shadow-lg mb-8">
+            <blockquote className="text-lg md:text-xl font-serif italic leading-relaxed">
+              "Two are better than one… If either of them falls down, one can help the other up."
+            </blockquote>
+            <cite className="block mt-4 text-sm font-semibold">— Ecclesiastes 4:9–10</cite>
           </div>
-          <div className="text-center md:text-left">
-            <h3 className="text-xl font-bold mb-4">Contact Us</h3>
-            <p className="text-gray-400 mb-2">Have questions about the wedding?</p>
-            <p className="text-gray-400">Email: nikita.kevin@example.com</p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div className="text-center md:text-left">
+              <h3 className="text-xl font-bold mb-4 text-yellow-400">Quick Links</h3>
+              <ul className="space-y-2">
+                <li><a href="#home" className="text-yellow-200 hover:text-yellow-400 transition">Home</a></li>
+                <li><a href="/gallery" className="text-yellow-200 hover:text-yellow-400 transition">Gallery</a></li>
+                <li><a href="#about" className="text-yellow-200 hover:text-yellow-400 transition">#Nike Moments</a></li>
+                <li><a href="/wishes" className="text-yellow-200 hover:text-yellow-400 transition">Read Wishes</a></li>
+                <li><a href="#upload" className="text-yellow-200 hover:text-yellow-400 transition">Share Memories</a></li>
+              </ul>
+            </div>
+            <div className="text-center md:text-left">
+              <h3 className="text-xl font-bold mb-4 text-yellow-400">Contact Us</h3>
+              <p className="text-yellow-200 mb-2">Have questions about the Ayie?</p>
+              <p className="text-yellow-200">Email: nikita.kevin@example.com</p>
+            </div>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-          <p>© 2025 Nikita & Kevin's Wedding. All rights reserved.</p>
+        <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-yellow-400 text-center text-yellow-200">
+          <p>© 2025 #Nike Moments - Ayie Ceremony. All rights reserved.</p>
         </div>
       </footer>
 
