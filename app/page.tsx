@@ -36,35 +36,31 @@ export default function HomePage() {
   const [recentWishes, setRecentWishes] = useState<Array<{name: string, message: string, createdAt: string}>>([]);
   
   const { media, loading, error, uploadMedia, deleteMedia } = useMedia();
-  const { submitWish, fetchWishes } = useWishes();
+  const { wishes, submitWish, fetchWishes } = useWishes();
   
   // Get the current website URL
   const websiteUrl = typeof window !== 'undefined' ? window.location.href : 'http://localhost:3004';
 
   // Fetch recent wishes for display
   useEffect(() => {
-    const loadRecentWishes = async () => {
-      try {
-        const wishes = await fetchWishes();
-        if (wishes && wishes.length > 0) {
-          // Get the 2 most recent wishes
-          const recent = wishes
-            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-            .slice(0, 2)
-            .map(wish => ({
-              name: wish.name,
-              message: wish.message,
-              createdAt: wish.createdAt
-            }));
-          setRecentWishes(recent);
-        }
-      } catch (error) {
-        console.error('Error fetching recent wishes:', error);
-      }
-    };
-    
-    loadRecentWishes();
+    fetchWishes();
   }, []);
+
+  // Update recent wishes when wishes state changes
+  useEffect(() => {
+    if (wishes && wishes.length > 0) {
+      // Get the 2 most recent wishes
+      const recent = wishes
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .slice(0, 2)
+        .map(wish => ({
+          name: wish.name,
+          message: wish.message,
+          createdAt: wish.createdAt
+        }));
+      setRecentWishes(recent);
+    }
+  }, [wishes]);
 
   useEffect(() => {
     const updateCountdown = () => {
@@ -109,22 +105,7 @@ export default function HomePage() {
         setTimeout(() => setWishStatus(''), 5000);
         
         // Refresh recent wishes to show the new one
-        try {
-          const wishes = await fetchWishes();
-          if (wishes && wishes.length > 0) {
-            const recent = wishes
-              .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-              .slice(0, 2)
-              .map(wish => ({
-                name: wish.name,
-                message: wish.message,
-                createdAt: wish.createdAt
-              }));
-            setRecentWishes(recent);
-          }
-        } catch (error) {
-          console.error('Error refreshing wishes:', error);
-        }
+        fetchWishes();
       } else {
         setWishStatus(result.error || 'Failed to submit wish. Please try again.');
       }
