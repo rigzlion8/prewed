@@ -356,20 +356,22 @@ export default function HomePage() {
           
           {/* Two Photos */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-12">
-            <div className="relative w-full h-[28rem] md:h-[32rem] image-container" style={{ position: 'relative', height: '448px', minHeight: '448px' }}>
+            <div className="relative w-full h-[28rem] md:h-[32rem] lg:h-[36rem] image-container" style={{ position: 'relative', height: '448px', minHeight: '448px' }}>
               <Image 
                 src="/images/nikita-kevin.jpg" 
                 alt="Nikita & Kevin" 
                 fill
-                className="rounded-lg shadow-lg object-cover border-2 border-yellow-400"
+                className="rounded-lg shadow-lg object-cover md:object-center lg:object-cover border-2 border-yellow-400"
+                style={{ objectPosition: 'center center' }}
               />
             </div>
-            <div className="relative w-full h-[28rem] md:h-[32rem] image-container" style={{ position: 'relative', height: '448px', minHeight: '448px' }}>
+            <div className="relative w-full h-[28rem] md:h-[32rem] lg:h-[36rem] image-container" style={{ position: 'relative', height: '448px', minHeight: '448px' }}>
               <Image 
                 src="/images/nikita-kevin002.jpg" 
                 alt="Ayie Moments" 
                 fill
-                className="rounded-lg shadow-lg object-cover border-2 border-yellow-400"
+                className="rounded-lg shadow-lg object-cover md:object-center lg:object-cover border-2 border-yellow-400"
+                style={{ objectPosition: 'center center' }}
               />
             </div>
           </div>

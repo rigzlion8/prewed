@@ -8,3 +8,24 @@
     height: 320px !important;
   }
 }
+
+/* Tablet-specific image positioning fixes */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .image-container img {
+    object-position: center 30% !important;
+  }
+}
+
+/* Mobile phone view - keep original positioning */
+@media (max-width: 767px) {
+  .image-container img {
+    object-position: center center !important;
+  }
+}
+
+/* Desktop view - keep original positioning */
+@media (min-width: 1024px) {
+  .image-container img {
+    object-position: center center !important;
+  }
+}
