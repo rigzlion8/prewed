@@ -27,7 +27,7 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             border: 3px solid #fbbf24;
             text-align: center;
-            max-width: 500px;
+            max-width: 600px;
             width: 100%;
         }
         
@@ -56,10 +56,11 @@
         
         .qr-container {
             background: white;
-            padding: 20px;
+            padding: 30px;
             border-radius: 15px;
             margin: 30px 0;
             display: inline-block;
+            border: 2px solid #fbbf24;
         }
         
         .qr-code {
@@ -104,37 +105,83 @@
         
         @media print {
             body {
-                background: white;
-                color: black;
+                background: white !important;
+                color: black !important;
+                margin: 0;
+                padding: 20px;
+                font-size: 14pt;
             }
             
             .container {
-                background: white;
-                border: 2px solid #000;
-                box-shadow: none;
+                background: white !important;
+                border: 2px solid #000 !important;
+                box-shadow: none !important;
+                max-width: 100% !important;
+                margin: 0 auto;
+                padding: 30px;
+                page-break-inside: avoid;
             }
             
             .title {
-                color: #000;
-                -webkit-text-fill-color: #000;
+                color: #000 !important;
+                -webkit-text-fill-color: #000 !important;
+                font-size: 24pt;
+                margin-bottom: 15px;
             }
             
-            .subtitle, .date {
-                color: #333;
+            .subtitle {
+                color: #333 !important;
+                font-size: 16pt;
+                margin-bottom: 20px;
+            }
+            
+            .date {
+                color: #333 !important;
+                font-size: 18pt;
+                margin-bottom: 25px;
+            }
+            
+            .qr-container {
+                background: white !important;
+                border: 2px solid #000 !important;
+                padding: 25px;
+                margin: 25px auto;
+                page-break-inside: avoid;
+            }
+            
+            .qr-code {
+                width: 400px !important;
+                height: 400px !important;
+                max-width: 100%;
+                display: block;
+                margin: 0 auto;
             }
             
             .instructions {
-                color: #333;
+                color: #333 !important;
+                font-size: 12pt;
+                line-height: 1.4;
+                margin-top: 20px;
             }
             
             .website-url {
-                color: #000;
-                background: #f5f5f5;
-                border: 1px solid #000;
+                color: #000 !important;
+                background: #f5f5f5 !important;
+                border: 1px solid #000 !important;
+                font-size: 12pt;
+                padding: 15px;
+                margin: 20px 0;
+                word-break: break-all;
             }
             
             .print-button {
-                display: none;
+                display: none !important;
+            }
+            
+            /* Ensure proper A4 sizing */
+            @page {
+                size: A4;
+                margin: 1in;
             }
         }
     </style>
@@ -146,7 +193,7 @@
         <p class="date">13.09.2025</p>
         
         <div class="qr-container">
-            <img id="qr-code" class="qr-code" alt="QR Code" style="width: 300px; height: 300px;">
+            <img id="qr-code" class="qr-code" alt="QR Code" style="width: 300px; height: 300px; max-width: 100%;">
         </div>
         
         <div class="website-url" id="website-url">
@@ -176,8 +223,8 @@
             const qrCodeImg = document.getElementById('qr-code');
             const encodedUrl = encodeURIComponent(websiteUrl);
             
-            // Use QR Server API with high quality settings
-            qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodedUrl}&format=png&ecc=M&margin=10&color=000000&bgcolor=FFFFFF`;
+            // Use QR Server API with high quality settings for A4 printing
+            qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodedUrl}&format=png&ecc=H&margin=20&color=000000&bgcolor=FFFFFF`;
             
             // Handle image load success
             qrCodeImg.onload = function() {
