@@ -6,6 +6,7 @@
     <title>Nikita & Kevin's Ayie Ceremony - QR Code</title>
     <link rel="icon" type="image/svg+xml" href="/icon.svg">
     <!-- Using QR Server API instead of external JS library -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -211,9 +212,14 @@
             <p>Share your photos, leave well wishes, and join us in celebrating our special day.</p>
         </div>
         
-        <button class="print-button" onclick="window.print()">
-            📄 Print / Save as PDF
-        </button>
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+            <button class="print-button" onclick="window.print()">
+                📄 Print / Save as PDF
+            </button>
+            <button class="print-button" onclick="saveAsJPG()">
+                🖼️ Save as JPG
+            </button>
+        </div>
     </div>
 
     <script>
@@ -252,6 +258,46 @@
         // Also try immediately in case load event already fired
         if (document.readyState === 'complete') {
             generateQRCode();
+        }
+        
+        // Function to save as JPG
+        function saveAsJPG() {
+            // Get the container element
+            const container = document.querySelector('.container');
+            
+            // Use html2canvas to convert the container to canvas
+            if (typeof html2canvas !== 'undefined') {
+                html2canvas(container, {
+                    backgroundColor: '#ffffff',
+                    scale: 2, // Higher quality
+                    useCORS: true,
+                    allowTaint: true
+                }).then(function(canvas) {
+                    // Convert canvas to JPG
+                    const link = document.createElement('a');
+                    link.download = 'nikita-kevin-ayie-ceremony-qr-code.jpg';
+                    link.href = canvas.toDataURL('image/jpeg', 0.9);
+                    link.click();
+                });
+            } else {
+                // Fallback: Load html2canvas from CDN
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+                script.onload = function() {
+                    html2canvas(container, {
+                        backgroundColor: '#ffffff',
+                        scale: 2,
+                        useCORS: true,
+                        allowTaint: true
+                    }).then(function(canvas) {
+                        const link = document.createElement('a');
+                        link.download = 'nikita-kevin-ayie-ceremony-qr-code.jpg';
+                        link.href = canvas.toDataURL('image/jpeg', 0.9);
+                        link.click();
+                    });
+                };
+                document.head.appendChild(script);
+            }
         }
     </script>
 </script>
