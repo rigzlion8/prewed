@@ -534,7 +534,7 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-yellow-400 mb-8">Share Your Ayie Moments</h2>
           <p className="text-center text-yellow-200 mb-8 text-lg leading-relaxed">
-            You came, you smiled, you partied… now show us the proof! 😍🎉 Drop your photos here and let's stitch together the story of our Ayie day—through your lens. The more the merrier, so don't be shy… upload away!
+            And that's a wrap on our Ayie story (for now 😉). Thank you for the laughter, the love, and the memories that made 13.09.2025 unforgettable! 💍✨ Whether you danced till your feet gave up 💃🏾, ate like it was your last buffet 🍽, or snapped selfies worthy of a magazine cover 📸—you made this day magical. Keep the love flowing, keep the photos coming, and remember: forever has only just begun for us ❤🔥.
           </p>
           <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 md:p-8 rounded-lg shadow-lg border border-yellow-400">
             <div className="border-2 border-dashed border-yellow-400 rounded-lg p-6 md:p-8 text-center mb-8">
