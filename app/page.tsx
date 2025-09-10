@@ -33,12 +33,38 @@ export default function HomePage() {
   const [wishStatus, setWishStatus] = useState('');
   const [isSubmittingWish, setIsSubmittingWish] = useState(false);
   const [selectedFileList, setSelectedFileList] = useState<File[]>([]);
+  const [recentWishes, setRecentWishes] = useState<Array<{name: string, message: string, createdAt: string}>>([]);
   
   const { media, loading, error, uploadMedia, deleteMedia } = useMedia();
-  const { submitWish } = useWishes();
+  const { submitWish, fetchWishes } = useWishes();
   
   // Get the current website URL
   const websiteUrl = typeof window !== 'undefined' ? window.location.href : 'http://localhost:3004';
+
+  // Fetch recent wishes for display
+  useEffect(() => {
+    const loadRecentWishes = async () => {
+      try {
+        const wishes = await fetchWishes();
+        if (wishes && wishes.length > 0) {
+          // Get the 2 most recent wishes
+          const recent = wishes
+            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+            .slice(0, 2)
+            .map(wish => ({
+              name: wish.name,
+              message: wish.message,
+              createdAt: wish.createdAt
+            }));
+          setRecentWishes(recent);
+        }
+      } catch (error) {
+        console.error('Error fetching recent wishes:', error);
+      }
+    };
+    
+    loadRecentWishes();
+  }, []);
 
   useEffect(() => {
     const updateCountdown = () => {
@@ -81,6 +107,24 @@ export default function HomePage() {
         setWishMessage('');
         // Clear status after 5 seconds
         setTimeout(() => setWishStatus(''), 5000);
+        
+        // Refresh recent wishes to show the new one
+        try {
+          const wishes = await fetchWishes();
+          if (wishes && wishes.length > 0) {
+            const recent = wishes
+              .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+              .slice(0, 2)
+              .map(wish => ({
+                name: wish.name,
+                message: wish.message,
+                createdAt: wish.createdAt
+              }));
+            setRecentWishes(recent);
+          }
+        } catch (error) {
+          console.error('Error refreshing wishes:', error);
+        }
       } else {
         setWishStatus(result.error || 'Failed to submit wish. Please try again.');
       }
@@ -479,15 +523,27 @@ export default function HomePage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Sample Wishes */}
-            <div className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm">
-              <p className="text-white mb-4 leading-relaxed">"So happy for both of you! Can't wait to celebrate your special day with you."</p>
-              <p className="text-yellow-300 font-semibold">- Jessica & David</p>
-            </div>
-            <div className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm">
-              <p className="text-white mb-4 leading-relaxed">"Wishing you a lifetime of love and happiness together."</p>
-              <p className="text-yellow-300 font-semibold">- The Miller Family</p>
-            </div>
+            {/* Recent Wishes */}
+            {recentWishes.length > 0 ? (
+              recentWishes.map((wish, index) => (
+                <div key={index} className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm">
+                  <p className="text-white mb-4 leading-relaxed">"{wish.message}"</p>
+                  <p className="text-yellow-300 font-semibold">- {wish.name}</p>
+                </div>
+              ))
+            ) : (
+              <>
+                {/* Fallback sample wishes when no real wishes exist */}
+                <div className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm">
+                  <p className="text-white mb-4 leading-relaxed">"So happy for both of you! Can't wait to celebrate your special day with you."</p>
+                  <p className="text-yellow-300 font-semibold">- Jessica & David</p>
+                </div>
+                <div className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm">
+                  <p className="text-white mb-4 leading-relaxed">"Wishing you a lifetime of love and happiness together."</p>
+                  <p className="text-yellow-300 font-semibold">- The Miller Family</p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>
