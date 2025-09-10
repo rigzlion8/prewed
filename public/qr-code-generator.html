@@ -149,14 +149,14 @@
                 padding: 0px;
                 margin: 5px auto;
                 page-break-inside: avoid;
-                width: 170px !important;
+                width: 250px !important;
                 text-align: center;
                 display: block;
             }
             
             .qr-code {
-                width: 170px !important;
-                height: 170px !important;
+                width: 250px !important;
+                height: 250px !important;
                 max-width: 100%;
                 display: block;
                 margin: 0 auto;
@@ -188,7 +188,7 @@
             /* Ensure proper A4 sizing */
             @page {
                 size: A4;
-                margin: 0.75in;
+                margin: 0.5in;
             }
         }
     </style>
@@ -231,7 +231,7 @@
             const encodedUrl = encodeURIComponent(websiteUrl);
             
             // Use QR Server API with high quality settings for A4 printing
-            qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodedUrl}&format=png&ecc=H&margin=15&color=000000&bgcolor=FFFFFF`;
+            qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodedUrl}&format=png&ecc=H&margin=10&color=000000&bgcolor=FFFFFF`;
             
             // Handle image load success
             qrCodeImg.onload = function() {
