@@ -415,11 +415,11 @@ export default function HomePage() {
       </section>
 
       {/* Feedback Section */}
-      <section id="feedback" className="py-16 px-4 bg-white">
+      <section id="feedback" className="py-16 px-4 bg-gradient-to-br from-yellow-400 to-yellow-600">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-gray-800 mb-12">Well Wishes</h2>
-          <div className="bg-gray-50 p-4 md:p-6 rounded-lg shadow-md mb-12">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Leave a message for the couple</h3>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-black mb-12">Well Wishes</h2>
+          <div className="bg-black bg-opacity-20 p-4 md:p-6 rounded-lg shadow-lg mb-12 backdrop-blur-sm">
+            <h3 className="text-xl font-semibold text-white mb-4">Leave a message for the couple</h3>
             <form onSubmit={handleWishSubmit}>
               <div className="mb-4">
                 <input 
@@ -427,7 +427,7 @@ export default function HomePage() {
                   placeholder="Your Name" 
                   value={wishName}
                   onChange={(e) => setWishName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-base"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 text-base bg-white"
                   required
                   disabled={isSubmittingWish}
                 />
@@ -438,7 +438,7 @@ export default function HomePage() {
                   rows={4} 
                   value={wishMessage}
                   onChange={(e) => setWishMessage(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 text-base resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 text-base resize-none bg-white"
                   required
                   disabled={isSubmittingWish}
                 />
@@ -458,7 +458,7 @@ export default function HomePage() {
               <button 
                 type="submit" 
                 disabled={isSubmittingWish}
-                className="w-full md:w-auto bg-pink-600 text-white px-8 py-3 rounded-lg hover:bg-pink-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition font-semibold"
+                className="w-full md:w-auto bg-black text-yellow-400 px-8 py-3 rounded-lg hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition font-semibold border border-yellow-400"
               >
                 {isSubmittingWish ? 'Sending...' : 'Submit Wish'}
               </button>
@@ -467,13 +467,13 @@ export default function HomePage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Sample Wishes */}
-            <div className="bg-pink-50 p-4 md:p-6 rounded-lg shadow-sm">
-              <p className="text-gray-700 mb-4 leading-relaxed">"So happy for both of you! Can't wait to celebrate your special day with you."</p>
-              <p className="text-pink-600 font-semibold">- Jessica & David</p>
+            <div className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm">
+              <p className="text-white mb-4 leading-relaxed">"So happy for both of you! Can't wait to celebrate your special day with you."</p>
+              <p className="text-yellow-300 font-semibold">- Jessica & David</p>
             </div>
-            <div className="bg-pink-50 p-4 md:p-6 rounded-lg shadow-sm">
-              <p className="text-gray-700 mb-4 leading-relaxed">"Wishing you a lifetime of love and happiness together."</p>
-              <p className="text-pink-600 font-semibold">- The Miller Family</p>
+            <div className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm">
+              <p className="text-white mb-4 leading-relaxed">"Wishing you a lifetime of love and happiness together."</p>
+              <p className="text-yellow-300 font-semibold">- The Miller Family</p>
             </div>
           </div>
         </div>
