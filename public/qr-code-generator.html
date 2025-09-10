@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nikita & Kevin's Ayie Ceremony - QR Code</title>
     <link rel="icon" type="image/svg+xml" href="/icon.svg">
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js" crossorigin="anonymous"></script>
+    <!-- Using QR Server API instead of external JS library -->
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -146,7 +146,7 @@
         <p class="date">13.09.2025</p>
         
         <div class="qr-container">
-            <canvas id="qr-code" class="qr-code"></canvas>
+            <img id="qr-code" class="qr-code" alt="QR Code" style="width: 300px; height: 300px;">
         </div>
         
         <div class="website-url" id="website-url">
@@ -164,86 +164,42 @@
     </div>
 
     <script>
-        // Wait for the QRCode library to load
-        window.addEventListener('load', function() {
-            // Check if QRCode is available
-            if (typeof QRCode === 'undefined') {
-                console.error('QRCode library not loaded');
-                document.getElementById('website-url').innerHTML = 
-                    '<p style="color: red;">QR Code library failed to load. Please refresh the page.</p>';
-                return;
-            }
-            
+        // Generate QR code using QR Server API (no external dependencies)
+        function generateQRCode() {
             // Get the current website URL
             const websiteUrl = window.location.origin;
             
             // Update the URL display
             document.getElementById('website-url').textContent = websiteUrl;
             
-            // Generate QR code
-            const canvas = document.getElementById('qr-code');
+            // Generate QR code using QR Server API
+            const qrCodeImg = document.getElementById('qr-code');
+            const encodedUrl = encodeURIComponent(websiteUrl);
             
-            QRCode.toCanvas(canvas, websiteUrl, {
-                width: 300,
-                height: 300,
-                color: {
-                    dark: '#000000',
-                    light: '#FFFFFF'
-                },
-                margin: 2,
-                errorCorrectionLevel: 'M'
-            }, function (error) {
-                if (error) {
-                    console.error('QR Code generation failed:', error);
-                    document.getElementById('website-url').innerHTML = 
-                        '<p style="color: red;">QR Code generation failed. Please refresh the page.</p>';
-                } else {
-                    console.log('QR Code generated successfully!');
-                }
-            });
-        });
-        
-        // Fallback: Try again after a short delay if QRCode is still not available
-        setTimeout(function() {
-            if (typeof QRCode !== 'undefined') {
-                return; // Already loaded
-            }
+            // Use QR Server API with high quality settings
+            qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodedUrl}&format=png&ecc=M&margin=10&color=000000&bgcolor=FFFFFF`;
             
-            // Try alternative CDN
-            const script = document.createElement('script');
-            script.src = 'https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js';
-            script.crossOrigin = 'anonymous';
-            script.onload = function() {
-                // Retry QR code generation
-                const websiteUrl = window.location.origin;
-                document.getElementById('website-url').textContent = websiteUrl;
-                
-                const canvas = document.getElementById('qr-code');
-                QRCode.toCanvas(canvas, websiteUrl, {
-                    width: 300,
-                    height: 300,
-                    color: {
-                        dark: '#000000',
-                        light: '#FFFFFF'
-                    },
-                    margin: 2,
-                    errorCorrectionLevel: 'M'
-                }, function (error) {
-                    if (error) {
-                        console.error('QR Code generation failed:', error);
-                        document.getElementById('website-url').innerHTML = 
-                            '<p style="color: red;">QR Code generation failed. Please refresh the page.</p>';
-                    } else {
-                        console.log('QR Code generated successfully!');
-                    }
-                });
+            // Handle image load success
+            qrCodeImg.onload = function() {
+                console.log('QR Code generated successfully!');
+                document.getElementById('website-url').style.color = '#fbbf24';
             };
-            script.onerror = function() {
+            
+            // Handle image load error
+            qrCodeImg.onerror = function() {
+                console.error('QR Code generation failed');
                 document.getElementById('website-url').innerHTML = 
-                    '<p style="color: red;">Unable to load QR Code library. Please check your internet connection.</p>';
+                    '<p style="color: red;">QR Code generation failed. Please refresh the page.</p>';
             };
-            document.head.appendChild(script);
-        }, 2000);
+        }
+        
+        // Generate QR code when page loads
+        window.addEventListener('load', generateQRCode);
+        
+        // Also try immediately in case load event already fired
+        if (document.readyState === 'complete') {
+            generateQRCode();
+        }
     </script>
 </script>
 </body>
