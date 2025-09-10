@@ -507,7 +507,7 @@ export default function HomePage() {
             {/* Recent Wishes */}
             {recentWishes.length > 0 ? (
               recentWishes.map((wish, index) => (
-                <div key={index} className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm">
+                <div key={index} className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-opacity-50 hover:shadow-2xl hover:scale-105 hover:border hover:border-yellow-400 cursor-pointer">
                   <p className="text-white mb-4 leading-relaxed">"{wish.message}"</p>
                   <p className="text-yellow-300 font-semibold">- {wish.name}</p>
                 </div>
@@ -515,11 +515,11 @@ export default function HomePage() {
             ) : (
               <>
                 {/* Fallback sample wishes when no real wishes exist */}
-                <div className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm">
+                <div className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-opacity-50 hover:shadow-2xl hover:scale-105 hover:border hover:border-yellow-400 cursor-pointer">
                   <p className="text-white mb-4 leading-relaxed">"So happy for both of you! Can't wait to celebrate your special day with you."</p>
                   <p className="text-yellow-300 font-semibold">- Jessica & David</p>
                 </div>
-                <div className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm">
+                <div className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-opacity-50 hover:shadow-2xl hover:scale-105 hover:border hover:border-yellow-400 cursor-pointer">
                   <p className="text-white mb-4 leading-relaxed">"Wishing you a lifetime of love and happiness together."</p>
                   <p className="text-yellow-300 font-semibold">- The Miller Family</p>
                 </div>
