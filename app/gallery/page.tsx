@@ -239,10 +239,12 @@ export default function GalleryPage() {
       <nav className="bg-gradient-to-r from-gray-900 to-black shadow-lg fixed w-full z-50 border-b border-yellow-400">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-2xl font-serif font-bold text-yellow-400">#Nike Moments</span>
+            <Link href="/" className="flex items-center space-x-2 flex-shrink-0">
+              <span className="text-xl md:text-2xl font-serif font-bold text-yellow-400">#Nike Moments</span>
             </Link>
-            <div className="flex items-center space-x-4">
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-4">
               {media.length > 0 && (
                 <button
                   onClick={isSlideshowActive ? stopSlideshow : startSlideshow}
@@ -262,6 +264,30 @@ export default function GalleryPage() {
                 className="text-yellow-200 hover:text-yellow-400 transition-colors font-medium"
               >
                 ← Back to Homepage
+              </Link>
+            </div>
+            
+            {/* Mobile Navigation */}
+            <div className="md:hidden flex items-center space-x-2">
+              {media.length > 0 && (
+                <button
+                  onClick={isSlideshowActive ? stopSlideshow : startSlideshow}
+                  className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-3 py-2 rounded-lg hover:from-yellow-500 hover:to-yellow-700 transition-all font-semibold text-sm shadow-lg border border-yellow-300"
+                >
+                  {isSlideshowActive ? '⏸️' : '▶️'}
+                </button>
+              )}
+              <button
+                onClick={() => setShowUploadForm(!showUploadForm)}
+                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-3 py-2 rounded-lg hover:from-yellow-500 hover:to-yellow-700 transition-all font-semibold text-sm shadow-lg border border-yellow-300"
+              >
+                📤
+              </button>
+              <Link 
+                href="/" 
+                className="text-yellow-200 hover:text-yellow-400 transition-colors font-medium text-sm"
+              >
+                ←
               </Link>
             </div>
           </div>
