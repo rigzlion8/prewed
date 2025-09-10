@@ -42,7 +42,7 @@ export const QRCode: React.FC<QRCodeProps> = ({ url, size = 200 }) => {
         style={{ width: size, height: size }}
       />
       <p className="text-xs text-gray-500 mt-2 text-center max-w-xs">
-        Scan to visit our pre-wedding website
+        Scan to visit our Ayie Ceremony website
       </p>
     </div>
   );

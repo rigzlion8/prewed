@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
         const cloudinaryFormData = new FormData();
         cloudinaryFormData.append('file', file);
         cloudinaryFormData.append('upload_preset', 'ml_default');
-        cloudinaryFormData.append('folder', 'nikita-kevin-wedding');
+        cloudinaryFormData.append('folder', 'nikita-kevin-ayie-ceremony');
         
         // Add API key and timestamp for signature
         const timestamp = Math.round(new Date().getTime() / 1000);
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
         
         // Generate signature for signed upload
         const crypto = require('crypto');
-        const params = `folder=nikita-kevin-wedding&timestamp=${timestamp}&upload_preset=ml_default`;
+        const params = `folder=nikita-kevin-ayie-ceremony&timestamp=${timestamp}&upload_preset=ml_default`;
         const signature = crypto
           .createHash('sha1')
           .update(params + process.env.CLOUDINARY_SECRET)

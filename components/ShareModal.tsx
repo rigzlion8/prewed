@@ -12,13 +12,13 @@ interface ShareModalProps {
 export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, websiteUrl }) => {
   const [copied, setCopied] = useState(false);
 
-  const shareMessage = `🎉 Join us in celebrating Nikita & Kevin's pre-wedding! 
+  const shareMessage = `🎉 Join us in celebrating Nikita & Kevin's Ayie Ceremony! 
 
 Check out our beautiful website with photos, our love story, and upload your own memories:
 
 ${websiteUrl}
 
-#NikitaKevinWedding #PreWeddingCelebration`;
+#NikitaKevinAyie #AyieCeremony`;
 
   const handleWhatsAppShare = () => {
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareMessage)}`;
