@@ -606,13 +606,13 @@ export default function GalleryPage() {
                     onClick={() => openModal(item)}
                   >
                     {item.type === 'photo' ? (
-                      <div className="relative">
+                      <div className="relative bg-gray-100">
                         <Image
                           src={item.url}
                           alt={item.caption || item.originalName}
                           width={250}
-                          height={200}
-                          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                          height={300}
+                          className="w-full h-64 object-contain group-hover:scale-105 transition-transform duration-300"
                         />
                         <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
                           <svg className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -621,10 +621,10 @@ export default function GalleryPage() {
                         </div>
                       </div>
                     ) : (
-                      <div className="relative">
+                      <div className="relative bg-gray-100">
                         <video
                           src={item.url}
-                          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-64 object-contain group-hover:scale-105 transition-transform duration-300"
                           muted
                         />
                         <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">

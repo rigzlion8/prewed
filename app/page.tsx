@@ -408,42 +408,42 @@ export default function HomePage() {
             onClick={() => window.location.href = '/gallery'}
           >
             {/* Gallery Items */}
-            <div className="rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105">
+            <div className="rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 bg-gray-100">
               <Image 
                 src="/images/nikita-kevin003.jpg" 
                 alt="Nike Moments" 
                 width={400}
-                height={224}
-                className="w-full h-48 md:h-56 object-cover"
+                height={300}
+                className="w-full h-48 md:h-56 object-contain"
                 priority
               />
             </div>
-            <div className="rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105">
+            <div className="rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 bg-gray-100">
               <Image 
                 src="/images/nikita-kevin004.jpg" 
                 alt="Nike Moments" 
                 width={400}
-                height={224}
-                className="w-full h-48 md:h-56 object-cover"
+                height={300}
+                className="w-full h-48 md:h-56 object-contain"
                 priority
               />
             </div>
-            <div className="rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105">
+            <div className="rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 bg-gray-100">
               <Image 
                 src="/images/nikita-kevin005.jpg" 
                 alt="Nike Moments" 
                 width={400}
-                height={224}
-                className="w-full h-48 md:h-56 object-cover"
+                height={300}
+                className="w-full h-48 md:h-56 object-contain"
               />
             </div>
-            <div className="rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105">
+            <div className="rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 bg-gray-100">
               <Image 
                 src="/images/nikita-kevin006.jpg" 
                 alt="Nike Moments" 
                 width={400}
-                height={224}
-                className="w-full h-48 md:h-56 object-cover"
+                height={300}
+                className="w-full h-48 md:h-56 object-contain"
               />
             </div>
             {/* Hover overlay */}
