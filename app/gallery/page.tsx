@@ -235,16 +235,16 @@ export default function GalleryPage() {
               {media.length > 0 && (
                 <button
                   onClick={isSlideshowActive ? stopSlideshow : startSlideshow}
-                  className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-4 py-2 rounded-lg hover:from-yellow-500 hover:to-yellow-700 transition-all font-medium text-sm shadow-lg"
+                  className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-6 py-3 rounded-xl hover:from-yellow-500 hover:to-yellow-700 transition-all font-bold text-base shadow-2xl transform hover:scale-105 duration-300 border-2 border-yellow-300"
                 >
                   {isSlideshowActive ? '⏸️ Stop Slideshow' : '▶️ Start Slideshow'}
                 </button>
               )}
               <button
                 onClick={() => setShowUploadForm(!showUploadForm)}
-                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-4 py-2 rounded-lg hover:from-yellow-500 hover:to-yellow-700 transition-all font-medium text-sm shadow-lg"
+                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-6 py-3 rounded-xl hover:from-yellow-500 hover:to-yellow-700 transition-all font-bold text-base shadow-2xl transform hover:scale-105 duration-300 border-2 border-yellow-300"
               >
-                📤 Upload
+                📤 Upload Photos
               </button>
               <Link 
                 href="/" 

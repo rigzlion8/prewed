@@ -322,36 +322,41 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-yellow-400 mb-12">#Nike Moments</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-            {/* First Image with Text */}
-            <div className="text-center md:text-left">
-              <div className="relative w-full h-[28rem] md:h-[32rem] image-container mb-6" style={{ position: 'relative', height: '448px', minHeight: '448px' }}>
-                <Image 
-                  src="/images/nikita-kevin.jpg" 
-                  alt="Nikita & Kevin" 
-                  fill
-                  className="rounded-lg shadow-lg object-cover border-2 border-yellow-400"
-                />
-              </div>
-              <p className="text-white text-lg md:text-xl leading-relaxed">
-                Drumroll, please… 🥁 The stars of the Ayie have entered the chat! 💕✨ Before we get to the dance floor fails, the epic selfies, and the unforgettable squad moments, here's a little peek at the bride and groom stealing the spotlight (as they should 😉). Once you've admired these, it's your turn — upload your photos and let's relive the magic together! 📸🎊
-              </p>
+          {/* Initial Write-up */}
+          <div className="text-center text-white mb-12">
+            <p className="text-lg md:text-xl leading-relaxed max-w-4xl mx-auto">
+              Drumroll, please… 🥁 The stars of the Ayie have entered the chat! 💕✨ Before we get to the dance floor fails, the epic selfies, and the unforgettable squad moments, here's a little peek at the bride and groom stealing the spotlight (as they should 😉). Once you've admired these, it's your turn — upload your photos and let's relive the magic together! 📸🎊
+            </p>
+          </div>
+          
+          {/* Two Photos */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-12">
+            <div className="relative w-full h-[28rem] md:h-[32rem] image-container" style={{ position: 'relative', height: '448px', minHeight: '448px' }}>
+              <Image 
+                src="/images/nikita-kevin.jpg" 
+                alt="Nikita & Kevin" 
+                fill
+                className="rounded-lg shadow-lg object-cover border-2 border-yellow-400"
+              />
             </div>
-            
-            {/* Second Image with Text */}
-            <div className="text-center md:text-left">
-              <div className="relative w-full h-[28rem] md:h-[32rem] image-container mb-6" style={{ position: 'relative', height: '448px', minHeight: '448px' }}>
-                <Image 
-                  src="/images/nikita-kevin002.jpg" 
-                  alt="Ayie Moments" 
-                  fill
-                  className="rounded-lg shadow-lg object-cover border-2 border-yellow-400"
-                />
-              </div>
-              <p className="text-white text-lg md:text-xl leading-relaxed">
-                You came, you smiled, you partied… now show us the proof! 😍🎉 Drop your photos here and let's stitch together the story of our Ayie day—through your lens. The more the merrier, so don't be shy… upload away!
-              </p>
+            <div className="relative w-full h-[28rem] md:h-[32rem] image-container" style={{ position: 'relative', height: '448px', minHeight: '448px' }}>
+              <Image 
+                src="/images/nikita-kevin002.jpg" 
+                alt="Ayie Moments" 
+                fill
+                className="rounded-lg shadow-lg object-cover border-2 border-yellow-400"
+              />
             </div>
+          </div>
+          
+          {/* Upload Button */}
+          <div className="text-center mb-12">
+            <button 
+              onClick={() => window.location.href = '/gallery'}
+              className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 py-4 rounded-xl hover:from-yellow-500 hover:to-yellow-700 transition-all font-bold text-lg shadow-2xl transform hover:scale-105 duration-300 border-2 border-yellow-300"
+            >
+              📸 Upload Your Photos
+            </button>
           </div>
         </div>
       </section>
@@ -359,7 +364,15 @@ export default function HomePage() {
       {/* Gallery Section */}
       <section id="gallery" className="py-16 px-4 bg-gradient-to-br from-black via-gray-900 to-black">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-yellow-400 mb-4">Gallery</h2>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-yellow-400 mb-8">Gallery</h2>
+          
+          {/* Gallery Description */}
+          <div className="text-center text-white mb-12">
+            <p className="text-lg md:text-xl leading-relaxed max-w-4xl mx-auto">
+              You came, you smiled, you partied… now show us the proof! 😍🎉 Drop your photos here and let's stitch together the story of our Ayie day—through your lens. The more the merrier, so don't be shy… upload away!
+            </p>
+          </div>
+          
           <p className="text-center text-yellow-200 mb-8 text-sm md:text-base">Click anywhere to view all photos</p>
           <div 
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 cursor-pointer hover:opacity-90 transition-opacity duration-300 relative group"
