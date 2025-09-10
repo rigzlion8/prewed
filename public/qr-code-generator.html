@@ -216,9 +216,12 @@
             <button class="print-button" onclick="window.print()">
                 📄 Print / Save as PDF
             </button>
-            <button class="print-button" onclick="saveAsJPG()">
+            <button class="print-button" id="jpgButton" onclick="saveAsJPG()">
                 🖼️ Save as JPG
             </button>
+        </div>
+        <div id="loadingMessage" style="display: none; text-align: center; margin-top: 10px; color: #fbbf24;">
+            Generating JPG... Please wait
         </div>
     </div>
 
@@ -262,41 +265,76 @@
         
         // Function to save as JPG
         function saveAsJPG() {
+            // Show loading message and disable button
+            const jpgButton = document.getElementById('jpgButton');
+            const loadingMessage = document.getElementById('loadingMessage');
+            jpgButton.disabled = true;
+            jpgButton.textContent = '⏳ Generating...';
+            loadingMessage.style.display = 'block';
+            
             // Get the container element
             const container = document.querySelector('.container');
             
-            // Use html2canvas to convert the container to canvas
-            if (typeof html2canvas !== 'undefined') {
-                html2canvas(container, {
-                    backgroundColor: '#ffffff',
-                    scale: 2, // Higher quality
-                    useCORS: true,
-                    allowTaint: true
-                }).then(function(canvas) {
-                    // Convert canvas to JPG
-                    const link = document.createElement('a');
-                    link.download = 'nikita-kevin-ayie-ceremony-qr-code.jpg';
-                    link.href = canvas.toDataURL('image/jpeg', 0.9);
-                    link.click();
-                });
-            } else {
-                // Fallback: Load html2canvas from CDN
-                const script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
-                script.onload = function() {
+            // Wait for QR code to load, then capture
+            const qrImg = document.getElementById('qr-code');
+            
+            // Function to capture after QR code is loaded
+            function captureImage() {
+                if (typeof html2canvas !== 'undefined') {
                     html2canvas(container, {
                         backgroundColor: '#ffffff',
-                        scale: 2,
+                        scale: 2, // Higher quality
                         useCORS: true,
-                        allowTaint: true
+                        allowTaint: true,
+                        foreignObjectRendering: true,
+                        logging: false,
+                        imageTimeout: 15000, // Wait longer for images
+                        onclone: function(clonedDoc) {
+                            // Ensure QR code is visible in cloned document
+                            const clonedQrImg = clonedDoc.getElementById('qr-code');
+                            if (clonedQrImg && qrImg.src) {
+                                clonedQrImg.src = qrImg.src;
+                            }
+                        }
                     }).then(function(canvas) {
+                        // Convert canvas to JPG
                         const link = document.createElement('a');
                         link.download = 'nikita-kevin-ayie-ceremony-qr-code.jpg';
                         link.href = canvas.toDataURL('image/jpeg', 0.9);
                         link.click();
+                        
+                        // Reset button and hide loading message
+                        jpgButton.disabled = false;
+                        jpgButton.textContent = '🖼️ Save as JPG';
+                        loadingMessage.style.display = 'none';
+                    }).catch(function(error) {
+                        console.error('Error capturing image:', error);
+                        alert('Error capturing image. Please try again.');
+                        
+                        // Reset button and hide loading message
+                        jpgButton.disabled = false;
+                        jpgButton.textContent = '🖼️ Save as JPG';
+                        loadingMessage.style.display = 'none';
                     });
+                } else {
+                    // Fallback: Load html2canvas from CDN
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+                    script.onload = function() {
+                        captureImage();
+                    };
+                    document.head.appendChild(script);
+                }
+            }
+            
+            // Check if QR code is loaded
+            if (qrImg.complete && qrImg.naturalHeight !== 0) {
+                captureImage();
+            } else {
+                // Wait for QR code to load
+                qrImg.onload = function() {
+                    setTimeout(captureImage, 500); // Small delay to ensure rendering
                 };
-                document.head.appendChild(script);
             }
         }
     </script>
