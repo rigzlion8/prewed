@@ -564,7 +564,7 @@ export default function HomePage() {
                       onChange={(e) => setCompressionQuality(e.target.value as 'high' | 'medium' | 'low')}
                       className="mr-2"
                     />
-                    <span className="text-sm">High Quality</span>
+                    <span className="text-sm text-yellow-200">High Quality</span>
                   </label>
                   <label className="flex items-center">
                     <input
@@ -575,7 +575,7 @@ export default function HomePage() {
                       onChange={(e) => setCompressionQuality(e.target.value as 'high' | 'medium' | 'low')}
                       className="mr-2"
                     />
-                    <span className="text-sm">Medium Quality</span>
+                    <span className="text-sm text-yellow-200">Medium Quality</span>
                   </label>
                   <label className="flex items-center">
                     <input
@@ -586,10 +586,10 @@ export default function HomePage() {
                       onChange={(e) => setCompressionQuality(e.target.value as 'high' | 'medium' | 'low')}
                       className="mr-2"
                     />
-                    <span className="text-sm">Low Quality</span>
+                    <span className="text-sm text-yellow-200">Low Quality</span>
                   </label>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-yellow-300 mt-1">
                   {compressionQuality === 'high' && 'Best quality, larger files (up to 5MB, 2560px)'}
                   {compressionQuality === 'medium' && 'Balanced quality and size (up to 2MB, 1920px)'}
                   {compressionQuality === 'low' && 'Smaller files, good quality (up to 1MB, 1280px)'}
