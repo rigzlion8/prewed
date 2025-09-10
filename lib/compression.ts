@@ -8,31 +8,38 @@ export interface CompressionOptions {
 }
 
 export const DEFAULT_COMPRESSION_OPTIONS: CompressionOptions = {
-  maxSizeMB: 2, // Maximum file size in MB
-  maxWidthOrHeight: 1920, // Maximum width or height in pixels
+  maxSizeMB: 8, // Increased for HD photos
+  maxWidthOrHeight: 3840, // 4K resolution support
   useWebWorker: true, // Use web worker for better performance
-  quality: 0.8, // Compression quality (0.1 to 1.0)
+  quality: 0.85, // Higher default quality
 };
 
 export const HIGH_QUALITY_OPTIONS: CompressionOptions = {
-  maxSizeMB: 5,
-  maxWidthOrHeight: 2560,
+  maxSizeMB: 15, // Allow larger files for HD photos
+  maxWidthOrHeight: 4096, // 4K+ resolution support
   useWebWorker: true,
-  quality: 0.9,
+  quality: 0.95, // Very high quality
 };
 
 export const MEDIUM_QUALITY_OPTIONS: CompressionOptions = {
-  maxSizeMB: 2,
-  maxWidthOrHeight: 1920,
+  maxSizeMB: 8,
+  maxWidthOrHeight: 2560, // 2K resolution
   useWebWorker: true,
-  quality: 0.8,
+  quality: 0.85, // Good quality
 };
 
 export const LOW_QUALITY_OPTIONS: CompressionOptions = {
-  maxSizeMB: 1,
-  maxWidthOrHeight: 1280,
+  maxSizeMB: 3,
+  maxWidthOrHeight: 1920, // Full HD
   useWebWorker: true,
-  quality: 0.6,
+  quality: 0.75, // Acceptable quality
+};
+
+export const ULTRA_HIGH_QUALITY_OPTIONS: CompressionOptions = {
+  maxSizeMB: 30, // Allow very large files for HD photos
+  maxWidthOrHeight: 6144, // 6K resolution support
+  useWebWorker: true,
+  quality: 0.98, // Near-lossless quality
 };
 
 export interface CompressionResult {
@@ -113,6 +120,7 @@ export function formatFileSize(bytes: number): string {
 }
 
 export function getCompressionQualityLabel(options: CompressionOptions): string {
+  if (options.quality >= 0.95) return 'Ultra High Quality';
   if (options.quality >= 0.9) return 'High Quality';
   if (options.quality >= 0.8) return 'Medium Quality';
   if (options.quality >= 0.6) return 'Low Quality';

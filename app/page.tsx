@@ -27,7 +27,7 @@ export default function HomePage() {
   const [showShareModal, setShowShareModal] = useState(false);
   const [compressionResults, setCompressionResults] = useState<CompressionResult[]>([]);
   const [isCompressing, setIsCompressing] = useState(false);
-  const [compressionQuality, setCompressionQuality] = useState<'high' | 'medium' | 'low'>('medium');
+  const [compressionQuality, setCompressionQuality] = useState<'ultra' | 'high' | 'medium' | 'low'>('high');
   const [wishName, setWishName] = useState('');
   const [wishMessage, setWishMessage] = useState('');
   const [wishStatus, setWishStatus] = useState('');
@@ -165,11 +165,13 @@ export default function HomePage() {
     
     try {
       // Get compression options based on quality setting
-      const compressionOptions = compressionQuality === 'high' ? 
-        { maxSizeMB: 5, maxWidthOrHeight: 2560, useWebWorker: true, quality: 0.9 } :
+      const compressionOptions = compressionQuality === 'ultra' ? 
+        { maxSizeMB: 30, maxWidthOrHeight: 6144, useWebWorker: true, quality: 0.98 } :
+        compressionQuality === 'high' ? 
+        { maxSizeMB: 15, maxWidthOrHeight: 4096, useWebWorker: true, quality: 0.95 } :
         compressionQuality === 'medium' ?
-        { maxSizeMB: 2, maxWidthOrHeight: 1920, useWebWorker: true, quality: 0.8 } :
-        { maxSizeMB: 1, maxWidthOrHeight: 1280, useWebWorker: true, quality: 0.6 };
+        { maxSizeMB: 8, maxWidthOrHeight: 2560, useWebWorker: true, quality: 0.85 } :
+        { maxSizeMB: 3, maxWidthOrHeight: 1920, useWebWorker: true, quality: 0.75 };
 
       // Compress images
       const compressionResults = await compressImages(selectedFiles, compressionOptions);
@@ -556,14 +558,25 @@ export default function HomePage() {
                 <label className="block text-sm font-medium text-yellow-200 mb-2">
                   Compression Quality
                 </label>
-                <div className="flex space-x-4 justify-center">
+                <div className="flex flex-wrap gap-4 justify-center">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="compressionQuality"
+                      value="ultra"
+                      checked={compressionQuality === 'ultra'}
+                      onChange={(e) => setCompressionQuality(e.target.value as 'ultra' | 'high' | 'medium' | 'low')}
+                      className="mr-2"
+                    />
+                    <span className="text-sm text-yellow-200">Ultra High</span>
+                  </label>
                   <label className="flex items-center">
                     <input
                       type="radio"
                       name="compressionQuality"
                       value="high"
                       checked={compressionQuality === 'high'}
-                      onChange={(e) => setCompressionQuality(e.target.value as 'high' | 'medium' | 'low')}
+                      onChange={(e) => setCompressionQuality(e.target.value as 'ultra' | 'high' | 'medium' | 'low')}
                       className="mr-2"
                     />
                     <span className="text-sm text-yellow-200">High Quality</span>
@@ -574,7 +587,7 @@ export default function HomePage() {
                       name="compressionQuality"
                       value="medium"
                       checked={compressionQuality === 'medium'}
-                      onChange={(e) => setCompressionQuality(e.target.value as 'high' | 'medium' | 'low')}
+                      onChange={(e) => setCompressionQuality(e.target.value as 'ultra' | 'high' | 'medium' | 'low')}
                       className="mr-2"
                     />
                     <span className="text-sm text-yellow-200">Medium Quality</span>
@@ -585,16 +598,17 @@ export default function HomePage() {
                       name="compressionQuality"
                       value="low"
                       checked={compressionQuality === 'low'}
-                      onChange={(e) => setCompressionQuality(e.target.value as 'high' | 'medium' | 'low')}
+                      onChange={(e) => setCompressionQuality(e.target.value as 'ultra' | 'high' | 'medium' | 'low')}
                       className="mr-2"
                     />
                     <span className="text-sm text-yellow-200">Low Quality</span>
                   </label>
                 </div>
                 <p className="text-xs text-yellow-300 mt-1">
-                  {compressionQuality === 'high' && 'Best quality, larger files (up to 5MB, 2560px)'}
-                  {compressionQuality === 'medium' && 'Balanced quality and size (up to 2MB, 1920px)'}
-                  {compressionQuality === 'low' && 'Smaller files, good quality (up to 1MB, 1280px)'}
+                  {compressionQuality === 'ultra' && 'Near-lossless quality for HD photos (up to 30MB, 6K resolution)'}
+                  {compressionQuality === 'high' && 'Excellent quality for HD photos (up to 15MB, 4K resolution)'}
+                  {compressionQuality === 'medium' && 'Good quality, balanced size (up to 8MB, 2K resolution)'}
+                  {compressionQuality === 'low' && 'Smaller files, acceptable quality (up to 3MB, Full HD)'}
                 </p>
               </div>
               
