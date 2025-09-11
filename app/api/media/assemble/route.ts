@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Media from '@/models/Media';
 import Chunk from '@/models/Chunk';
-import { writeFile, mkdir } from 'fs/promises';
+import { writeFile, mkdir, readFile } from 'fs/promises';
 import { join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -67,19 +67,44 @@ export async function POST(request: NextRequest) {
     const filePath = join(uploadsDir, uniqueFilename);
     await writeFile(filePath, assembledBuffer);
 
-    // Upload to Cloudinary
-    const cloudinary = require('cloudinary').v2;
-    cloudinary.config({
-      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-      api_key: process.env.CLOUDINARY_API_KEY,
-      api_secret: process.env.CLOUDINARY_API_SECRET,
-    });
+    // Upload to Cloudinary using signed upload (same as main media route)
+    const cloudinaryFormData = new FormData();
+    const fileBuffer = await readFile(filePath);
+    const fileBlob = new Blob([fileBuffer], { type: fileType });
+    cloudinaryFormData.append('file', fileBlob, fileName);
+    cloudinaryFormData.append('upload_preset', 'ml_default');
+    cloudinaryFormData.append('folder', 'nikita-kevin-ayie-ceremony');
+    
+    // Add API key and timestamp for signature
+    const timestamp = Math.round(new Date().getTime() / 1000);
+    cloudinaryFormData.append('timestamp', timestamp.toString());
+    cloudinaryFormData.append('api_key', process.env.CLOUDINARY_API_KEY!);
+    
+    // Generate signature for signed upload
+    const crypto = require('crypto');
+    const params = `folder=nikita-kevin-ayie-ceremony&timestamp=${timestamp}&upload_preset=ml_default`;
+    const signature = crypto
+      .createHash('sha1')
+      .update(params + process.env.CLOUDINARY_SECRET)
+      .digest('hex');
+    cloudinaryFormData.append('signature', signature);
 
-    const uploadResult = await cloudinary.uploader.upload(filePath, {
-      resource_type: fileType.startsWith('video/') ? 'video' : 'image',
-      folder: 'ayie-ceremony',
-      public_id: uniqueFilename.replace(/\.[^/.]+$/, ''),
-    });
+    const cloudinaryResponse = await fetch(
+      `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/upload`,
+      {
+        method: 'POST',
+        body: cloudinaryFormData,
+      }
+    );
+
+    if (!cloudinaryResponse.ok) {
+      const errorText = await cloudinaryResponse.text();
+      console.error('Cloudinary upload failed:', cloudinaryResponse.status, errorText);
+      throw new Error(`Cloudinary upload failed: ${cloudinaryResponse.status} - ${errorText}`);
+    }
+
+    const uploadResult = await cloudinaryResponse.json();
+    console.log('Cloudinary upload successful:', uploadResult.public_id);
 
     // Save to database
     const mediaData = {
