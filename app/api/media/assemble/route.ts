@@ -110,8 +110,10 @@ export async function POST(request: NextRequest) {
     const mediaData = {
       publicId: uploadResult.public_id,
       url: uploadResult.secure_url,
-      fileName: fileName,
-      fileType: fileType,
+      filename: uploadResult.public_id, // Use public_id as filename
+      originalName: fileName,
+      type: fileType.startsWith('video/') ? 'video' : 'photo',
+      size: assembledBuffer.length,
       uploadedBy: uploadedBy || 'guest',
       caption: caption || '',
       isPublic: true,
