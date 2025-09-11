@@ -82,7 +82,7 @@ export const useMedia = () => {
 
       // Handle specific HTTP status codes
       if (response.status === 413) {
-        const errorMessage = 'Upload too large! Try uploading fewer images at once or use a lower quality setting.';
+        const errorMessage = 'Upload too large! Try uploading fewer photos or videos at once or use a lower quality setting.';
         setError(errorMessage);
         return { success: false, error: errorMessage };
       }
