@@ -71,6 +71,8 @@ export class ChunkedUploader {
   }
 
   private async uploadChunk(chunk: Blob, chunkIndex: number, totalChunks: number): Promise<{ success: boolean; error?: string; chunkId?: string }> {
+    console.log(`Uploading chunk ${chunkIndex + 1}/${totalChunks}, size: ${(chunk.size / 1024 / 1024).toFixed(2)}MB`);
+    
     const formData = new FormData();
     formData.append('chunk', chunk);
     formData.append('chunkIndex', chunkIndex.toString());
@@ -145,7 +147,7 @@ export function createChunkedUploader(
   onProgress?: (progress: number) => void
 ): ChunkedUploader {
   const options: ChunkUploadOptions = {
-    chunkSize: 5 * 1024 * 1024, // 5MB chunks (safe for 10-second limit)
+    chunkSize: 1 * 1024 * 1024, // 1MB chunks (safe for Vercel free tier)
     maxRetries: 3,
     retryDelay: 1000 // 1 second
   };
