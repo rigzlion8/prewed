@@ -67,15 +67,21 @@ export const useMedia = () => {
     
     try {
       const fileArray = Array.from(files);
-      const largeFileThreshold = 50 * 1024 * 1024; // 50MB threshold for chunked upload
+      const largeFileThreshold = 5 * 1024 * 1024; // 5MB threshold for chunked upload
+      
+      console.log('File sizes:', fileArray.map(f => ({ name: f.name, size: f.size, sizeMB: (f.size / 1024 / 1024).toFixed(2) })));
+      console.log('Large file threshold:', largeFileThreshold, 'bytes');
       
       // Check if any file is large enough to require chunked upload
       const hasLargeFiles = fileArray.some(file => file.size > largeFileThreshold);
+      console.log('Has large files:', hasLargeFiles);
       
       if (hasLargeFiles) {
         console.log('Large files detected, using chunked upload...');
         return await uploadLargeFiles(fileArray, uploadedBy, caption, onProgress);
       }
+      
+      console.log('Using regular upload for small files...');
       
       // Regular upload for smaller files
       const formData = new FormData();

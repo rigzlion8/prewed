@@ -8,6 +8,7 @@ import { join } from 'path';
 // Set max duration for large file uploads (5 minutes - max for Vercel hobby plan)
 export const maxDuration = 300;
 
+
 // GET - Fetch all media
 export async function GET() {
   try {
