@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Media from '@/models/Media';
-import { readFile, unlink, mkdir } from 'fs/promises';
+import { readFile, writeFile, unlink, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
