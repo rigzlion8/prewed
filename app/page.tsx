@@ -183,7 +183,7 @@ export default function HomePage() {
       compressedFiles.forEach(file => compressedFileList.items.add(file));
       
       setIsCompressing(false);
-      setUploadStatus('Uploading compressed files...');
+      setUploadStatus('Uploading files... This may take a few minutes for large files.');
       setUploadProgress(10);
 
       const result = await uploadMedia(compressedFileList.files, uploadedBy, caption);
@@ -757,15 +757,16 @@ export default function HomePage() {
                 {uploadFailed && lastUploadError && (
                   <div className="mt-2 text-xs text-red-600">
                     <div className="mb-2">Error: {lastUploadError}</div>
-                    {lastUploadError.includes('too large') && (
+                    {(lastUploadError.includes('too large') || lastUploadError.includes('timeout')) && (
                       <div className="bg-yellow-50 border border-yellow-200 rounded p-2 text-yellow-800">
                         <div className="font-medium mb-1">💡 Suggestions:</div>
                         <ul className="text-left space-y-1">
                           <li>• Try uploading fewer files at once (2-3 instead of many)</li>
                           <li>• For images: Use "Medium Quality" or "Low Quality" compression</li>
                           <li>• For videos: Try smaller video files (under 100MB)</li>
-                          <li>• Check your internet connection</li>
+                          <li>• Check your internet connection speed</li>
                           <li>• Try uploading one file at a time</li>
+                          <li>• Large files may take several minutes to upload</li>
                         </ul>
                       </div>
                     )}

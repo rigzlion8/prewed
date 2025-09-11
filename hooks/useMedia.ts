@@ -75,10 +75,17 @@ export const useMedia = () => {
       formData.append('uploadedBy', uploadedBy);
       formData.append('caption', caption);
 
+      // Create AbortController for timeout handling
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 minutes timeout
+
       const response = await fetch('/api/media', {
         method: 'POST',
         body: formData,
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       // Handle specific HTTP status codes
       if (response.status === 413) {
@@ -104,7 +111,16 @@ export const useMedia = () => {
         return result;
       }
     } catch (err) {
-      const errorMessage = 'Network error during upload';
+      let errorMessage = 'Network error during upload';
+      
+      if (err instanceof Error) {
+        if (err.name === 'AbortError') {
+          errorMessage = 'Upload timeout - file may be too large or connection too slow. Please try again or use a smaller file.';
+        } else {
+          errorMessage = `Upload failed: ${err.message}`;
+        }
+      }
+      
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {

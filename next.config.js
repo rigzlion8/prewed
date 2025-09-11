@@ -16,6 +16,17 @@ const nextConfig = {
       },
     ],
   },
+  // Increase API timeout for large file uploads
+  experimental: {
+    serverComponentsExternalPackages: [],
+  },
+  // Configure API routes timeout
+  api: {
+    responseLimit: false,
+    bodyParser: {
+      sizeLimit: '200mb',
+    },
+  },
 }
 
 module.exports = nextConfig
