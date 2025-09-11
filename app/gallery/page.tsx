@@ -149,7 +149,7 @@ export default function GalleryPage() {
         dataTransfer.files,
         uploadedBy || 'Guest',
         caption,
-        (progress) => setUploadProgress(10 + (progress.percentage * 0.9))
+        (progress) => setUploadProgress(Math.round(10 + (progress.percentage * 0.9)))
       );
 
       // Clear the progress interval
