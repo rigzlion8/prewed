@@ -5,8 +5,8 @@ import { validateFiles } from '@/lib/upload';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 
-// Set max duration for large file uploads (15 minutes)
-export const maxDuration = 900;
+// Set max duration for large file uploads (5 minutes - max for Vercel hobby plan)
+export const maxDuration = 300;
 
 // GET - Fetch all media
 export async function GET() {

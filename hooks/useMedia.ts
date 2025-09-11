@@ -91,9 +91,9 @@ export const useMedia = () => {
       // Create AbortController for timeout handling
       const controller = new AbortController();
       const timeoutId = setTimeout(() => {
-        console.log('Client-side timeout triggered after 15 minutes');
+        console.log('Client-side timeout triggered after 5 minutes');
         controller.abort();
-      }, 900000); // 15 minutes timeout for large files
+      }, 300000); // 5 minutes timeout (matches Vercel hobby plan limit)
 
       console.log('Starting upload request...');
       const startTime = Date.now();

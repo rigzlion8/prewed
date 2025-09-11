@@ -132,7 +132,7 @@ export default function GalleryPage() {
       });
       
       setIsCompressing(false);
-      setUploadStatus('Uploading files... Large files may take up to 15 minutes. Please be patient.');
+      setUploadStatus('Uploading files... Large files may take up to 5 minutes. Please be patient.');
       setUploadProgress(10);
       
       // Show progress updates every 30 seconds for large files
