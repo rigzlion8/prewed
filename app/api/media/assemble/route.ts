@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Media from '@/models/Media';
-import { readFile, writeFile, unlink, mkdir } from 'fs/promises';
+import { readFile, writeFile, unlink, mkdir, readdir } from 'fs/promises';
 import { join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
+
+// Set max duration for chunk assembly
+export const maxDuration = 300; // 5 minutes for assembly
 
 // POST - Assemble chunks into final file
 export async function POST(request: NextRequest) {
@@ -19,6 +22,18 @@ export async function POST(request: NextRequest) {
     const chunksDir = join('/tmp', 'chunks');
     const uploadsDir = join('/tmp', 'uploads');
     await mkdir(uploadsDir, { recursive: true });
+
+    console.log('Server: Starting chunk assembly...');
+    console.log('Server: Looking for chunks:', chunkIds);
+    console.log('Server: Chunks directory:', chunksDir);
+
+    // List files in chunks directory for debugging
+    try {
+      const files = await readdir(chunksDir);
+      console.log('Server: Files in chunks directory:', files);
+    } catch (error) {
+      console.log('Server: Could not read chunks directory:', error);
+    }
 
     // Read and sort chunks by index
     const chunkData: { index: number; data: Buffer }[] = [];
