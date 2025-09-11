@@ -332,8 +332,66 @@ export default function GalleryPage() {
             </div>
           </div>
 
+          {/* Upload Progress Display - Always show during upload */}
+          {(isUploading || isCompressing) && (
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-lg shadow-lg border border-yellow-400 mb-8">
+              <h3 className="text-xl font-semibold text-yellow-400 mb-4">
+                {isCompressing ? 'Compressing Files...' : 'Uploading Files...'}
+              </h3>
+              
+              {/* Progress Bar */}
+              <div className="mb-4">
+                <div className="flex justify-between text-sm text-yellow-200 mb-2">
+                  <span>{uploadStatus}</span>
+                  <span>{uploadProgress}%</span>
+                </div>
+                <div className="w-full bg-gray-700 rounded-full h-3">
+                  <div 
+                    className="bg-gradient-to-r from-yellow-400 to-yellow-600 h-3 rounded-full transition-all duration-300"
+                    style={{ width: `${uploadProgress}%` }}
+                  ></div>
+                </div>
+              </div>
+
+              {/* File List */}
+              {selectedFileList.length > 0 && (
+                <div className="mb-4">
+                  <h4 className="text-sm font-medium text-yellow-200 mb-2">Files being processed:</h4>
+                  <div className="space-y-1">
+                    {selectedFileList.map((file, index) => (
+                      <div key={index} className="text-xs text-gray-300 bg-gray-700 p-2 rounded">
+                        {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Error Display */}
+              {uploadFailed && lastUploadError && (
+                <div className="mt-4 p-3 bg-red-900 bg-opacity-50 border border-red-500 rounded text-red-200">
+                  <div className="font-medium mb-1">Upload Failed</div>
+                  <div className="text-sm">{lastUploadError}</div>
+                  {(lastUploadError.includes('too large') || lastUploadError.includes('timeout')) && (
+                    <div className="mt-2 text-xs">
+                      <div className="font-medium mb-1">💡 Suggestions:</div>
+                      <ul className="text-left space-y-1">
+                        <li>• Try uploading fewer files at once (2-3 instead of many)</li>
+                        <li>• For images: Use "Medium Quality" or "Low Quality" compression</li>
+                        <li>• For videos: Try smaller video files (under 200MB)</li>
+                        <li>• Check your internet connection speed</li>
+                        <li>• Try uploading one file at a time</li>
+                        <li>• Large files may take several minutes to upload</li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Upload Form */}
-          {showUploadForm && (
+          {showUploadForm && !isUploading && !isCompressing && (
             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-lg shadow-lg border border-yellow-400 mb-8">
               <h3 className="text-xl font-semibold text-yellow-400 mb-4">Upload Photos & Videos</h3>
               
@@ -395,7 +453,7 @@ export default function GalleryPage() {
                   {compressionQuality === 'low' && 'Smaller files, acceptable quality (up to 3MB, Full HD)'}
                 </p>
                 <p className="text-xs text-yellow-200 mt-2 bg-yellow-900 bg-opacity-30 p-2 rounded">
-                  💡 <strong>Tip:</strong> For large uploads, try uploading 2-3 files at a time. Videos up to 100MB, images up to 200MB.
+                  💡 <strong>Tip:</strong> For large uploads, try uploading 2-3 files at a time. Videos up to 200MB, images up to 500MB.
                 </p>
               </div>
               
@@ -552,7 +610,7 @@ export default function GalleryPage() {
                           <ul className="text-left space-y-1">
                             <li>• Try uploading fewer files at once (2-3 instead of many)</li>
                             <li>• For images: Use "Medium Quality" or "Low Quality" compression</li>
-                            <li>• For videos: Try smaller video files (under 100MB)</li>
+                            <li>• For videos: Try smaller video files (under 200MB)</li>
                             <li>• Check your internet connection speed</li>
                             <li>• Try uploading one file at a time</li>
                             <li>• Large files may take several minutes to upload</li>

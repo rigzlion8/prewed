@@ -11,8 +11,8 @@ export function getFileSize(bytes: number): string {
 }
 
 export const UPLOAD_LIMITS = {
-  maxFileSize: 200 * 1024 * 1024, // 200MB - increased for HD photos and videos
-  maxVideoSize: 100 * 1024 * 1024, // 100MB for videos (separate limit)
+  maxFileSize: 500 * 1024 * 1024, // 500MB - significantly increased for large files
+  maxVideoSize: 200 * 1024 * 1024, // 200MB for videos (separate limit)
   maxFilesPerUpload: 10,
   allowedTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm']
 };
