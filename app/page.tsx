@@ -183,11 +183,23 @@ export default function HomePage() {
       compressedFiles.forEach(file => compressedFileList.items.add(file));
       
       setIsCompressing(false);
-      setUploadStatus('Uploading files... This may take a few minutes for large files.');
+      setUploadStatus('Uploading files... Large files may take up to 15 minutes. Please be patient.');
       setUploadProgress(10);
+      
+      // Show progress updates every 30 seconds for large files
+      const progressInterval = setInterval(() => {
+        setUploadStatus(prev => {
+          if (prev.includes('Uploading files')) {
+            return 'Still uploading... Large files take time. Please keep this page open.';
+          }
+          return prev;
+        });
+      }, 30000);
 
       const result = await uploadMedia(compressedFileList.files, uploadedBy, caption);
       
+      // Clear the progress interval
+      clearInterval(progressInterval);
       setUploadProgress(100);
       
       if (result.success) {
@@ -218,6 +230,7 @@ export default function HomePage() {
         setLastUploadError(result.error || 'Unknown error');
       }
     } catch (error) {
+      clearInterval(progressInterval);
       setUploadStatus('Upload failed. Please try again.');
       setUploadProgress(0);
       setUploadFailed(true);

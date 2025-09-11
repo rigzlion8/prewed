@@ -77,7 +77,7 @@ export const useMedia = () => {
 
       // Create AbortController for timeout handling
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 minutes timeout
+      const timeoutId = setTimeout(() => controller.abort(), 900000); // 15 minutes timeout for large files
 
       const response = await fetch('/api/media', {
         method: 'POST',

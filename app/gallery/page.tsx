@@ -130,8 +130,18 @@ export default function GalleryPage() {
       });
       
       setIsCompressing(false);
-      setUploadStatus('Uploading files... This may take a few minutes for large files.');
+      setUploadStatus('Uploading files... Large files may take up to 15 minutes. Please be patient.');
       setUploadProgress(10);
+      
+      // Show progress updates every 30 seconds for large files
+      const progressInterval = setInterval(() => {
+        setUploadStatus(prev => {
+          if (prev.includes('Uploading files')) {
+            return 'Still uploading... Large files take time. Please keep this page open.';
+          }
+          return prev;
+        });
+      }, 30000);
 
       const result = await uploadMedia(
         dataTransfer.files,
@@ -139,6 +149,9 @@ export default function GalleryPage() {
         caption,
         (progress) => setUploadProgress(10 + (progress.percentage * 0.9))
       );
+
+      // Clear the progress interval
+      clearInterval(progressInterval);
 
       if (result.success) {
         const totalOriginalSize = compressionResults.reduce((sum, r) => sum + r.originalSize, 0);
@@ -161,6 +174,7 @@ export default function GalleryPage() {
         setLastUploadError(result.error || 'Unknown error');
       }
     } catch (error) {
+      clearInterval(progressInterval);
       setUploadFailed(true);
       setUploadStatus('Upload failed');
       setLastUploadError(error instanceof Error ? error.message : 'Unknown error');
