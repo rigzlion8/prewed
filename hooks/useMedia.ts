@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createChunkedUploader } from '@/lib/chunkedUpload';
 
 export interface MediaItem {
   _id: string;
@@ -65,10 +66,22 @@ export const useMedia = () => {
     setError(null);
     
     try {
+      const fileArray = Array.from(files);
+      const largeFileThreshold = 50 * 1024 * 1024; // 50MB threshold for chunked upload
+      
+      // Check if any file is large enough to require chunked upload
+      const hasLargeFiles = fileArray.some(file => file.size > largeFileThreshold);
+      
+      if (hasLargeFiles) {
+        console.log('Large files detected, using chunked upload...');
+        return await uploadLargeFiles(fileArray, uploadedBy, caption, onProgress);
+      }
+      
+      // Regular upload for smaller files
       const formData = new FormData();
       
       // Add all files to form data
-      Array.from(files).forEach((file) => {
+      fileArray.forEach((file) => {
         formData.append('files', file);
       });
       
@@ -148,6 +161,60 @@ export const useMedia = () => {
       return { success: false, error: errorMessage };
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Upload large files using chunked upload
+  const uploadLargeFiles = async (
+    files: File[],
+    uploadedBy: string = 'guest',
+    caption: string = '',
+    onProgress?: (progress: UploadProgress) => void
+  ): Promise<UploadResponse> => {
+    try {
+      const uploadedMedia: MediaItem[] = [];
+      
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        console.log(`Uploading large file ${i + 1}/${files.length}: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`);
+        
+        const uploader = createChunkedUploader(file, (progress) => {
+          onProgress?.({
+            loaded: (progress / 100) * file.size,
+            total: file.size,
+            percentage: progress
+          });
+        });
+        
+        const result = await uploader.upload();
+        
+        if (!result.success) {
+          throw new Error(result.error || 'Chunked upload failed');
+        }
+        
+        // Fetch the uploaded media from the database
+        const response = await fetch('/api/media');
+        const mediaResult = await response.json();
+        
+        if (mediaResult.success) {
+          // Find the most recently uploaded item (should be our file)
+          const recentMedia = mediaResult.data[0];
+          if (recentMedia) {
+            uploadedMedia.push(recentMedia);
+          }
+        }
+      }
+      
+      return {
+        success: true,
+        data: uploadedMedia,
+        message: `Successfully uploaded ${uploadedMedia.length} large file(s) using chunked upload`
+      };
+      
+    } catch (error) {
+      const errorMessage = `Chunked upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`;
+      setError(errorMessage);
+      return { success: false, error: errorMessage };
     }
   };
 

@@ -1,0 +1,59 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { writeFile, mkdir } from 'fs/promises';
+import { join } from 'path';
+import { v4 as uuidv4 } from 'uuid';
+
+// POST - Upload a single chunk
+export async function POST(request: NextRequest) {
+  try {
+    const formData = await request.formData();
+    const chunk = formData.get('chunk') as File;
+    const chunkIndex = parseInt(formData.get('chunkIndex') as string);
+    const totalChunks = parseInt(formData.get('totalChunks') as string);
+    const fileName = formData.get('fileName') as string;
+    const fileType = formData.get('fileType') as string;
+
+    if (!chunk) {
+      return NextResponse.json({ success: false, error: 'No chunk provided' }, { status: 400 });
+    }
+
+    // Create chunks directory
+    const chunksDir = join(process.cwd(), 'uploads', 'chunks');
+    await mkdir(chunksDir, { recursive: true });
+
+    // Generate unique chunk ID
+    const chunkId = `${uuidv4()}_${chunkIndex}`;
+    const chunkPath = join(chunksDir, chunkId);
+
+    // Save chunk to disk
+    const chunkBuffer = await chunk.arrayBuffer();
+    await writeFile(chunkPath, Buffer.from(chunkBuffer));
+
+    // Store chunk metadata
+    const metadata = {
+      chunkId,
+      chunkIndex,
+      totalChunks,
+      fileName,
+      fileType,
+      size: chunk.size,
+      timestamp: Date.now()
+    };
+
+    const metadataPath = join(chunksDir, `${chunkId}.meta`);
+    await writeFile(metadataPath, JSON.stringify(metadata));
+
+    return NextResponse.json({ 
+      success: true, 
+      chunkId,
+      message: `Chunk ${chunkIndex + 1}/${totalChunks} uploaded successfully`
+    });
+
+  } catch (error) {
+    console.error('Error uploading chunk:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to upload chunk' },
+      { status: 500 }
+    );
+  }
+}
