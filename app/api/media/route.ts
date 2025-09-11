@@ -5,8 +5,8 @@ import { validateFiles } from '@/lib/upload';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 
-// Set max duration for large file uploads (5 minutes)
-export const maxDuration = 300;
+// Set max duration for large file uploads (15 minutes)
+export const maxDuration = 900;
 
 // GET - Fetch all media
 export async function GET() {
@@ -25,8 +25,12 @@ export async function GET() {
 
 // POST - Upload new media
 export async function POST(request: NextRequest) {
+  const startTime = Date.now();
+  console.log('Server: Starting media upload request');
+  
   try {
     await connectDB();
+    console.log('Server: Database connected, processing files...');
     
     const formData = await request.formData();
     const files = formData.getAll('files') as File[];
@@ -141,13 +145,17 @@ export async function POST(request: NextRequest) {
       uploadedMedia.push(media);
     }
 
+    const endTime = Date.now();
+    console.log(`Server: Upload completed successfully in ${(endTime - startTime) / 1000} seconds`);
+    
     return NextResponse.json({
       success: true,
       data: uploadedMedia,
       message: `Successfully uploaded ${uploadedMedia.length} file(s)`,
     });
   } catch (error) {
-    console.error('Error uploading media:', error);
+    const endTime = Date.now();
+    console.error(`Server: Upload failed after ${(endTime - startTime) / 1000} seconds:`, error);
     return NextResponse.json(
       { success: false, error: 'Failed to upload media' },
       { status: 500 }

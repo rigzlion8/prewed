@@ -77,38 +77,61 @@ export const useMedia = () => {
 
       // Create AbortController for timeout handling
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 900000); // 15 minutes timeout for large files
+      const timeoutId = setTimeout(() => {
+        console.log('Client-side timeout triggered after 15 minutes');
+        controller.abort();
+      }, 900000); // 15 minutes timeout for large files
 
-      const response = await fetch('/api/media', {
-        method: 'POST',
-        body: formData,
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-
-      // Handle specific HTTP status codes
-      if (response.status === 413) {
-        const errorMessage = 'Upload too large! Try uploading fewer photos or videos at once or use a lower quality setting.';
-        setError(errorMessage);
-        return { success: false, error: errorMessage };
-      }
-
-      if (!response.ok) {
-        const errorMessage = `Upload failed with status ${response.status}. Please try again.`;
-        setError(errorMessage);
-        return { success: false, error: errorMessage };
-      }
-
-      const result = await response.json();
+      console.log('Starting upload request...');
+      const startTime = Date.now();
       
-      if (result.success) {
-        // Refresh media list
-        await fetchMedia();
-        return result;
-      } else {
-        setError(result.error || 'Upload failed');
-        return result;
+      try {
+        const response = await fetch('/api/media', {
+          method: 'POST',
+          body: formData,
+          signal: controller.signal,
+        });
+
+        const endTime = Date.now();
+        console.log(`Upload request completed in ${(endTime - startTime) / 1000} seconds`);
+        
+        clearTimeout(timeoutId);
+        
+        // Handle specific HTTP status codes
+        if (response.status === 413) {
+          const errorMessage = 'Upload too large! Try uploading fewer photos or videos at once or use a lower quality setting.';
+          setError(errorMessage);
+          return { success: false, error: errorMessage };
+        }
+
+        if (!response.ok) {
+          const errorMessage = `Upload failed with status ${response.status}. Please try again.`;
+          setError(errorMessage);
+          return { success: false, error: errorMessage };
+        }
+
+        const result = await response.json();
+        
+        if (result.success) {
+          // Refresh media list
+          await fetchMedia();
+          return result;
+        } else {
+          setError(result.error || 'Upload failed');
+          return result;
+        }
+      } catch (fetchError) {
+        clearTimeout(timeoutId);
+        
+        if (fetchError instanceof Error && fetchError.name === 'AbortError') {
+          const errorMessage = 'Upload timeout - file may be too large or connection too slow. Please try again or use a smaller file.';
+          setError(errorMessage);
+          return { success: false, error: errorMessage };
+        }
+        
+        const errorMessage = `Upload failed: ${fetchError instanceof Error ? fetchError.message : 'Unknown error'}`;
+        setError(errorMessage);
+        return { success: false, error: errorMessage };
       }
     } catch (err) {
       let errorMessage = 'Network error during upload';
