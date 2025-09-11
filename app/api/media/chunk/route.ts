@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
+import connectDB from '@/lib/mongodb';
+import Chunk from '@/models/Chunk';
 import { v4 as uuidv4 } from 'uuid';
 
 // Set max duration for chunk uploads
@@ -10,6 +10,8 @@ export const maxDuration = 60; // 1 minute should be enough for 1MB chunks
 export async function POST(request: NextRequest) {
   try {
     console.log('Server: Starting chunk upload...');
+    await connectDB();
+    
     const formData = await request.formData();
     const chunk = formData.get('chunk') as File;
     const chunkIndex = parseInt(formData.get('chunkIndex') as string);
@@ -23,31 +25,26 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'No chunk provided' }, { status: 400 });
     }
 
-    // Create chunks directory in /tmp (Vercel serverless environment)
-    const chunksDir = join('/tmp', 'chunks');
-    await mkdir(chunksDir, { recursive: true });
-
     // Generate unique chunk ID
     const chunkId = `${uuidv4()}_${chunkIndex}`;
-    const chunkPath = join(chunksDir, chunkId);
 
-    // Save chunk to disk
+    // Convert chunk to buffer
     const chunkBuffer = await chunk.arrayBuffer();
-    await writeFile(chunkPath, Buffer.from(chunkBuffer));
 
-    // Store chunk metadata
-    const metadata = {
+    // Store chunk in MongoDB
+    const chunkDoc = new Chunk({
       chunkId,
       chunkIndex,
       totalChunks,
       fileName,
       fileType,
-      size: chunk.size,
-      timestamp: Date.now()
-    };
+      data: Buffer.from(chunkBuffer),
+      size: chunk.size
+    });
 
-    const metadataPath = join(chunksDir, `${chunkId}.meta`);
-    await writeFile(metadataPath, JSON.stringify(metadata));
+    await chunkDoc.save();
+
+    console.log(`Server: Chunk ${chunkIndex + 1}/${totalChunks} saved to database`);
 
     return NextResponse.json({ 
       success: true, 
