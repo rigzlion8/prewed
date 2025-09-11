@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     // Upload to Cloudinary using signed upload (same as main media route)
     const cloudinaryFormData = new FormData();
     const fileBuffer = await readFile(filePath);
-    const fileBlob = new Blob([fileBuffer], { type: fileType });
+    const fileBlob = new Blob([fileBuffer.buffer], { type: fileType });
     cloudinaryFormData.append('file', fileBlob, fileName);
     cloudinaryFormData.append('upload_preset', 'ml_default');
     cloudinaryFormData.append('folder', 'nikita-kevin-ayie-ceremony');
