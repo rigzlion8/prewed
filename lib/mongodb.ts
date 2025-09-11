@@ -7,20 +7,38 @@ if (!MONGODB_URI) {
 }
 
 let isConnected = false;
+let connectionPromise: Promise<typeof mongoose> | null = null;
 
 async function connectDB() {
-  if (isConnected) {
+  if (isConnected && mongoose.connection.readyState === 1) {
+    return;
+  }
+
+  if (connectionPromise) {
+    await connectionPromise;
     return;
   }
 
   try {
-    await mongoose.connect(MONGODB_URI, {
+    connectionPromise = mongoose.connect(MONGODB_URI, {
       bufferCommands: false,
     });
+    
+    await connectionPromise;
+    
+    // Wait for connection to be fully ready
+    if (mongoose.connection.readyState !== 1) {
+      await new Promise((resolve) => {
+        mongoose.connection.once('open', resolve);
+      });
+    }
+    
     isConnected = true;
     console.log('MongoDB connected successfully');
   } catch (error) {
     console.error('MongoDB connection error:', error);
+    connectionPromise = null;
+    isConnected = false;
     throw error;
   }
 }
