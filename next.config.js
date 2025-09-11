@@ -20,13 +20,6 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: [],
   },
-  // Configure API routes timeout
-  api: {
-    responseLimit: false,
-    bodyParser: {
-      sizeLimit: '200mb',
-    },
-  },
 }
 
 module.exports = nextConfig

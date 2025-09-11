@@ -99,6 +99,8 @@ export default function GalleryPage() {
     setUploadFailed(false);
     setUploadStatus('Compressing images...');
 
+    let progressInterval: NodeJS.Timeout | null = null;
+
     try {
       // Get compression options based on quality setting
       const compressionOptions = compressionQuality === 'ultra' ? 
@@ -134,7 +136,7 @@ export default function GalleryPage() {
       setUploadProgress(10);
       
       // Show progress updates every 30 seconds for large files
-      const progressInterval = setInterval(() => {
+      progressInterval = setInterval(() => {
         setUploadStatus(prev => {
           if (prev.includes('Uploading files')) {
             return 'Still uploading... Large files take time. Please keep this page open.';
@@ -151,7 +153,9 @@ export default function GalleryPage() {
       );
 
       // Clear the progress interval
-      clearInterval(progressInterval);
+      if (progressInterval) {
+        clearInterval(progressInterval);
+      }
 
       if (result.success) {
         const totalOriginalSize = compressionResults.reduce((sum, r) => sum + r.originalSize, 0);
@@ -174,7 +178,9 @@ export default function GalleryPage() {
         setLastUploadError(result.error || 'Unknown error');
       }
     } catch (error) {
-      clearInterval(progressInterval);
+      if (progressInterval) {
+        clearInterval(progressInterval);
+      }
       setUploadFailed(true);
       setUploadStatus('Upload failed');
       setLastUploadError(error instanceof Error ? error.message : 'Unknown error');

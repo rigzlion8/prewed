@@ -163,6 +163,8 @@ export default function HomePage() {
     setUploadFailed(false);
     setLastUploadError('');
     
+    let progressInterval: NodeJS.Timeout | null = null;
+    
     try {
       // Get compression options based on quality setting
       const compressionOptions = compressionQuality === 'ultra' ? 
@@ -187,7 +189,7 @@ export default function HomePage() {
       setUploadProgress(10);
       
       // Show progress updates every 30 seconds for large files
-      const progressInterval = setInterval(() => {
+      progressInterval = setInterval(() => {
         setUploadStatus(prev => {
           if (prev.includes('Uploading files')) {
             return 'Still uploading... Large files take time. Please keep this page open.';
@@ -199,7 +201,9 @@ export default function HomePage() {
       const result = await uploadMedia(compressedFileList.files, uploadedBy, caption);
       
       // Clear the progress interval
-      clearInterval(progressInterval);
+      if (progressInterval) {
+        clearInterval(progressInterval);
+      }
       setUploadProgress(100);
       
       if (result.success) {
@@ -230,7 +234,9 @@ export default function HomePage() {
         setLastUploadError(result.error || 'Unknown error');
       }
     } catch (error) {
-      clearInterval(progressInterval);
+      if (progressInterval) {
+        clearInterval(progressInterval);
+      }
       setUploadStatus('Upload failed. Please try again.');
       setUploadProgress(0);
       setUploadFailed(true);
