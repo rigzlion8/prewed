@@ -611,7 +611,7 @@ export default function HomePage() {
                   {compressionQuality === 'low' && 'Smaller files, acceptable quality (up to 3MB, Full HD)'}
                 </p>
                 <p className="text-xs text-yellow-200 mt-2 bg-yellow-900 bg-opacity-30 p-2 rounded">
-                  💡 <strong>Tip:</strong> For large uploads, try uploading 2-3 images at a time to avoid size limits.
+                  💡 <strong>Tip:</strong> For large uploads, try uploading 2-3 files at a time. Videos up to 50MB, images up to 100MB.
                 </p>
               </div>
               
@@ -761,10 +761,11 @@ export default function HomePage() {
                       <div className="bg-yellow-50 border border-yellow-200 rounded p-2 text-yellow-800">
                         <div className="font-medium mb-1">💡 Suggestions:</div>
                         <ul className="text-left space-y-1">
-                          <li>• Try uploading fewer images at once (2-3 instead of many)</li>
-                          <li>• Use "Medium Quality" or "Low Quality" compression</li>
+                          <li>• Try uploading fewer files at once (2-3 instead of many)</li>
+                          <li>• For images: Use "Medium Quality" or "Low Quality" compression</li>
+                          <li>• For videos: Try smaller video files (under 50MB)</li>
                           <li>• Check your internet connection</li>
-                          <li>• Try uploading one image at a time</li>
+                          <li>• Try uploading one file at a time</li>
                         </ul>
                       </div>
                     )}

@@ -11,14 +11,20 @@ export function getFileSize(bytes: number): string {
 }
 
 export const UPLOAD_LIMITS = {
-  maxFileSize: 50 * 1024 * 1024, // 50MB - increased for HD photos
+  maxFileSize: 100 * 1024 * 1024, // 100MB - increased for HD photos and videos
+  maxVideoSize: 50 * 1024 * 1024, // 50MB for videos (separate limit)
   maxFilesPerUpload: 10,
   allowedTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm']
 };
 
 export function validateFile(file: File): { valid: boolean; error?: string } {
-  if (file.size > UPLOAD_LIMITS.maxFileSize) {
-    return { valid: false, error: `File size must be less than ${getFileSize(UPLOAD_LIMITS.maxFileSize)}` };
+  // Check if it's a video file
+  const isVideo = file.type.startsWith('video/');
+  const maxSize = isVideo ? UPLOAD_LIMITS.maxVideoSize : UPLOAD_LIMITS.maxFileSize;
+  
+  if (file.size > maxSize) {
+    const fileType = isVideo ? 'video' : 'file';
+    return { valid: false, error: `${fileType} size must be less than ${getFileSize(maxSize)}` };
   }
   
   if (!UPLOAD_LIMITS.allowedTypes.includes(file.type)) {

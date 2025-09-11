@@ -56,8 +56,9 @@ export async function compressImage(
   options: CompressionOptions = DEFAULT_COMPRESSION_OPTIONS
 ): Promise<CompressionResult> {
   try {
-    // Only compress image files
+    // Only compress image files - videos are passed through unchanged
     if (!file.type.startsWith('image/')) {
+      console.log(`Skipping compression for ${file.type} file: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`);
       return {
         originalFile: file,
         compressedFile: file,
