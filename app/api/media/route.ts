@@ -5,6 +5,9 @@ import { validateFiles } from '@/lib/upload';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 
+// Set max duration for large file uploads (5 minutes)
+export const maxDuration = 300;
+
 // GET - Fetch all media
 export async function GET() {
   try {
