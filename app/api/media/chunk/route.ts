@@ -23,8 +23,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'No chunk provided' }, { status: 400 });
     }
 
-    // Create chunks directory
-    const chunksDir = join(process.cwd(), 'uploads', 'chunks');
+    // Create chunks directory in /tmp (Vercel serverless environment)
+    const chunksDir = join('/tmp', 'chunks');
     await mkdir(chunksDir, { recursive: true });
 
     // Generate unique chunk ID

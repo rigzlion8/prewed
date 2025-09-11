@@ -16,8 +16,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'No chunk IDs provided' }, { status: 400 });
     }
 
-    const chunksDir = join(process.cwd(), 'uploads', 'chunks');
-    const uploadsDir = join(process.cwd(), 'uploads');
+    const chunksDir = join('/tmp', 'chunks');
+    const uploadsDir = join('/tmp', 'uploads');
     await mkdir(uploadsDir, { recursive: true });
 
     // Read and sort chunks by index
