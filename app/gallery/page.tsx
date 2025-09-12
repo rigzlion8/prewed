@@ -808,12 +808,6 @@ export default function GalleryPage() {
               </h3>
               <div className="flex items-center space-x-2">
                 <button
-                  onClick={() => handleDeleteMedia(selectedMedia._id)}
-                  className="text-red-600 hover:text-red-800 text-sm"
-                >
-                  Delete
-                </button>
-                <button
                   onClick={closeModal}
                   className="text-gray-600 hover:text-gray-800"
                 >
