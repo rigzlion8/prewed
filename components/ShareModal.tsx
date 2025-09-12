@@ -123,27 +123,6 @@ ${websiteUrl}
           </div>
 
 
-          {/* Nike Moments Images */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-lg overflow-hidden shadow-md bg-gray-100">
-              <Image 
-                src="/images/nikita-kevin003.jpg" 
-                alt="Nike Moments" 
-                width={200}
-                height={150}
-                className="w-full h-24 md:h-32 object-cover"
-              />
-            </div>
-            <div className="rounded-lg overflow-hidden shadow-md bg-gray-100">
-              <Image 
-                src="/images/nikita-kevin004.jpg" 
-                alt="Nike Moments" 
-                width={200}
-                height={150}
-                className="w-full h-24 md:h-32 object-cover"
-              />
-            </div>
-          </div>
           {/* QR Code */}
           <div className="text-center">
             <h4 className="text-lg font-medium text-yellow-400 mb-4">Share Our Website</h4>
