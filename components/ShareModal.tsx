@@ -143,24 +143,6 @@ ${websiteUrl}
                 className="w-full h-24 md:h-32 object-cover"
               />
             </div>
-            <div className="rounded-lg overflow-hidden shadow-md bg-gray-100">
-              <Image 
-                src="/images/nikita-kevin005.jpg" 
-                alt="Nike Moments" 
-                width={200}
-                height={150}
-                className="w-full h-24 md:h-32 object-cover"
-              />
-            </div>
-            <div className="rounded-lg overflow-hidden shadow-md bg-gray-100">
-              <Image 
-                src="/images/nikita-kevin006.jpg" 
-                alt="Nike Moments" 
-                width={200}
-                height={150}
-                className="w-full h-24 md:h-32 object-cover"
-              />
-            </div>
           </div>
           {/* QR Code */}
           <div className="text-center">
