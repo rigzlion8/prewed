@@ -80,7 +80,7 @@ ${websiteUrl}
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-gradient-to-br from-black via-gray-900 to-black rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center p-6 border-b border-yellow-400">
-          <h3 className="text-xl font-semibold text-yellow-400">#Nike Moments - Share Our Website the vibes</h3>
+          <h3 className="text-xl font-semibold text-yellow-400">#Nike Moments - Share the vibes</h3>
           <button
             onClick={onClose}
             className="text-yellow-400 hover:text-yellow-300"
