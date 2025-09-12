@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { QRCode } from './QRCode';
 
 interface ShareModalProps {
@@ -11,6 +12,34 @@ interface ShareModalProps {
 
 export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, websiteUrl }) => {
   const [copied, setCopied] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
+  // Countdown timer logic
+  useEffect(() => {
+    const updateCountdown = () => {
+      const ayieDate = new Date('September 13, 2025 14:00:00').getTime();
+      const now = new Date().getTime();
+      const distance = ayieDate - now;
+
+      if (distance > 0) {
+        setTimeLeft({
+          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((distance % (1000 * 60)) / 1000)
+        });
+      }
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const shareMessage = `🎉 Join us in celebrating Nikita & Kevin's Ayie Ceremony! 
 
@@ -49,12 +78,12 @@ ${websiteUrl}
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-6 border-b">
-          <h3 className="text-xl font-semibold text-gray-800">Share Our Website</h3>
+      <div className="bg-gradient-to-br from-black via-gray-900 to-black rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center p-6 border-b border-yellow-400">
+          <h3 className="text-xl font-semibold text-yellow-400">#Nike Moments - Share Our Website</h3>
           <button
             onClick={onClose}
-            className="text-gray-600 hover:text-gray-800"
+            className="text-yellow-400 hover:text-yellow-300"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -62,16 +91,95 @@ ${websiteUrl}
           </button>
         </div>
         
-        <div className="p-6 space-y-6">
+        <div className="p-6 space-y-8">
+          {/* Nike Moments Header */}
+          <div className="text-center text-white">
+            <h1 className="text-3xl md:text-4xl font-serif font-bold mb-2 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">#Nike Moments</h1>
+            <p className="text-lg md:text-xl mb-2 text-yellow-300">He Asked, They said Ayie!</p>
+            <p className="text-base md:text-lg text-yellow-200">13.09.2025</p>
+          </div>
+
+          {/* Countdown Timer */}
+          <div className="text-center">
+            <h4 className="text-lg font-medium text-yellow-400 mb-4">Countdown to Ayie Ceremony</h4>
+            <div className="flex justify-center space-x-2 md:space-x-3 flex-wrap">
+              <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-2 md:p-3 text-center text-black shadow-lg">
+                <span className="block text-xl md:text-2xl font-bold">{timeLeft.days.toString().padStart(2, '0')}</span>
+                <span className="text-xs md:text-sm font-semibold">Days</span>
+              </div>
+              <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-2 md:p-3 text-center text-black shadow-lg">
+                <span className="block text-xl md:text-2xl font-bold">{timeLeft.hours.toString().padStart(2, '0')}</span>
+                <span className="text-xs md:text-sm font-semibold">Hours</span>
+              </div>
+              <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-2 md:p-3 text-center text-black shadow-lg">
+                <span className="block text-xl md:text-2xl font-bold">{timeLeft.minutes.toString().padStart(2, '0')}</span>
+                <span className="text-xs md:text-sm font-semibold">Minutes</span>
+              </div>
+              <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-2 md:p-3 text-center text-black shadow-lg">
+                <span className="block text-xl md:text-2xl font-bold">{timeLeft.seconds.toString().padStart(2, '0')}</span>
+                <span className="text-xs md:text-sm font-semibold">Seconds</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Nike Moments Story */}
+          <div className="text-center text-white">
+            <h4 className="text-lg font-medium text-yellow-400 mb-4">Our Love Story</h4>
+            <div className="text-sm text-yellow-200 space-y-2">
+              <p>In the quiet moments between laughter and shared dreams, Nikita and Kevin found something extraordinary - a love that speaks in whispers and shouts in joy.</p>
+              <p>Their journey together has been filled with countless "Nike moments" - those perfect instances where everything just clicked, where they knew they were meant to be together.</p>
+              <p>Now, as they prepare to say "Ayie" and begin their forever, they invite you to be part of their beautiful story.</p>
+            </div>
+          </div>
+
+          {/* Nike Moments Images */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="rounded-lg overflow-hidden shadow-md bg-gray-100">
+              <Image 
+                src="/images/nikita-kevin003.jpg" 
+                alt="Nike Moments" 
+                width={200}
+                height={150}
+                className="w-full h-24 md:h-32 object-cover"
+              />
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-md bg-gray-100">
+              <Image 
+                src="/images/nikita-kevin004.jpg" 
+                alt="Nike Moments" 
+                width={200}
+                height={150}
+                className="w-full h-24 md:h-32 object-cover"
+              />
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-md bg-gray-100">
+              <Image 
+                src="/images/nikita-kevin005.jpg" 
+                alt="Nike Moments" 
+                width={200}
+                height={150}
+                className="w-full h-24 md:h-32 object-cover"
+              />
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-md bg-gray-100">
+              <Image 
+                src="/images/nikita-kevin006.jpg" 
+                alt="Nike Moments" 
+                width={200}
+                height={150}
+                className="w-full h-24 md:h-32 object-cover"
+              />
+            </div>
+          </div>
           {/* QR Code */}
           <div className="text-center">
-            <h4 className="text-lg font-medium text-gray-800 mb-4">QR Code</h4>
+            <h4 className="text-lg font-medium text-yellow-400 mb-4">Share Our Website</h4>
             <QRCode url={websiteUrl} size={180} />
           </div>
 
           {/* WhatsApp Share */}
           <div className="text-center">
-            <h4 className="text-lg font-medium text-gray-800 mb-4">Share on WhatsApp</h4>
+            <h4 className="text-lg font-medium text-yellow-400 mb-4">Share on WhatsApp</h4>
             <button
               onClick={handleWhatsAppShare}
               className="w-full bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors font-semibold flex items-center justify-center space-x-2"
@@ -85,30 +193,30 @@ ${websiteUrl}
 
           {/* Copy Options */}
           <div className="space-y-3">
-            <h4 className="text-lg font-medium text-gray-800">Copy to Clipboard</h4>
+            <h4 className="text-lg font-medium text-yellow-400">Copy to Clipboard</h4>
             
             <div className="space-y-2">
               <button
                 onClick={handleCopyLink}
-                className="w-full bg-gray-100 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors text-sm flex items-center justify-between"
+                className="w-full bg-gray-800 text-yellow-200 py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors text-sm flex items-center justify-between border border-yellow-400"
               >
                 <span>Copy Website Link</span>
-                {copied && <span className="text-green-600 text-xs">Copied!</span>}
+                {copied && <span className="text-green-400 text-xs">Copied!</span>}
               </button>
               
               <button
                 onClick={handleCopyMessage}
-                className="w-full bg-gray-100 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors text-sm flex items-center justify-between"
+                className="w-full bg-gray-800 text-yellow-200 py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors text-sm flex items-center justify-between border border-yellow-400"
               >
                 <span>Copy Full Message</span>
-                {copied && <span className="text-green-600 text-xs">Copied!</span>}
+                {copied && <span className="text-green-400 text-xs">Copied!</span>}
               </button>
             </div>
           </div>
 
           {/* Social Media Links */}
           <div className="space-y-3">
-            <h4 className="text-lg font-medium text-gray-800">Share on Social Media</h4>
+            <h4 className="text-lg font-medium text-yellow-400">Share on Social Media</h4>
             <div className="grid grid-cols-2 gap-3">
               <a
                 href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(websiteUrl)}`}
