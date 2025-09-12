@@ -122,15 +122,6 @@ ${websiteUrl}
             </div>
           </div>
 
-          {/* Nike Moments Story */}
-          <div className="text-center text-white">
-            <h4 className="text-lg font-medium text-yellow-400 mb-4">Our Love Story</h4>
-            <div className="text-sm text-yellow-200 space-y-2">
-              <p>In the quiet moments between laughter and shared dreams, Nikita and Kevin found something extraordinary - a love that speaks in whispers and shouts in joy.</p>
-              <p>Their journey together has been filled with countless "Nike moments" - those perfect instances where everything just clicked, where they knew they were meant to be together.</p>
-              <p>Now, as they prepare to say "Ayie" and begin their forever, they invite you to be part of their beautiful story.</p>
-            </div>
-          </div>
 
           {/* Nike Moments Images */}
           <div className="grid grid-cols-2 gap-3">
