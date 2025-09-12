@@ -566,72 +566,8 @@ export default function HomePage() {
               </svg>
               <p className="text-yellow-200 mb-2 text-sm md:text-base">Upload photos and videos from our Ayie celebration</p>
               <div className="text-xs text-yellow-300 mb-4">
-                <p>• Maximum {UPLOAD_LIMITS.maxFilesPerUpload} files per upload</p>
-                <p>• Maximum {getFileSize(UPLOAD_LIMITS.maxFileSize)} per file</p>
                 <p>• Supported: JPEG, PNG, GIF, WebP, MP4, WebM</p>
                 <p>• Photos will be automatically compressed for faster upload</p>
-              </div>
-              
-              {/* Compression Quality Selector */}
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-yellow-200 mb-2">
-                  Compression Quality
-                </label>
-                <div className="flex flex-wrap gap-4 justify-center">
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="compressionQuality"
-                      value="ultra"
-                      checked={compressionQuality === 'ultra'}
-                      onChange={(e) => setCompressionQuality(e.target.value as 'ultra' | 'high' | 'medium' | 'low')}
-                      className="mr-2"
-                    />
-                    <span className="text-sm text-yellow-200">Ultra High</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="compressionQuality"
-                      value="high"
-                      checked={compressionQuality === 'high'}
-                      onChange={(e) => setCompressionQuality(e.target.value as 'ultra' | 'high' | 'medium' | 'low')}
-                      className="mr-2"
-                    />
-                    <span className="text-sm text-yellow-200">High Quality</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="compressionQuality"
-                      value="medium"
-                      checked={compressionQuality === 'medium'}
-                      onChange={(e) => setCompressionQuality(e.target.value as 'ultra' | 'high' | 'medium' | 'low')}
-                      className="mr-2"
-                    />
-                    <span className="text-sm text-yellow-200">Medium Quality</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="compressionQuality"
-                      value="low"
-                      checked={compressionQuality === 'low'}
-                      onChange={(e) => setCompressionQuality(e.target.value as 'ultra' | 'high' | 'medium' | 'low')}
-                      className="mr-2"
-                    />
-                    <span className="text-sm text-yellow-200">Low Quality</span>
-                  </label>
-                </div>
-                <p className="text-xs text-yellow-300 mt-1">
-                  {compressionQuality === 'ultra' && 'Near-lossless quality for HD photos (up to 30MB, 6K resolution)'}
-                  {compressionQuality === 'high' && 'Excellent quality for HD photos (up to 15MB, 4K resolution)'}
-                  {compressionQuality === 'medium' && 'Good quality, balanced size (up to 8MB, 2K resolution)'}
-                  {compressionQuality === 'low' && 'Smaller files, acceptable quality (up to 3MB, Full HD)'}
-                </p>
-                <p className="text-xs text-yellow-200 mt-2 bg-yellow-900 bg-opacity-30 p-2 rounded">
-                  💡 <strong>Tip:</strong> For large uploads, try uploading 2-3 files at a time. Videos up to 200MB, images up to 500MB.
-                </p>
               </div>
               
               {/* Selected Files List */}
