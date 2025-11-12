@@ -171,6 +171,16 @@ export default function IntroductionPage() {
               />
             </div>
           </div>
+          
+          {/* Gallery Button */}
+          <div className="text-center mt-4 md:mt-6">
+            <a
+              href="/gallery"
+              className="inline-block bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition-colors"
+            >
+              View Gallery
+            </a>
+          </div>
         </div>
       </section>
 
