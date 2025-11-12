@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nikita & Kevin's Ayie Ceremony - QR Code</title>
+    <title>Nikita & Kevin's Ruracio - QR Code</title>
     <link rel="icon" type="image/svg+xml" href="/icon.svg">
     <!-- Using QR Server API instead of external JS library -->
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -195,9 +195,9 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="title">#Nike Moments</h1>
-        <p class="subtitle">Nikita & Kevin's Ayie Ceremony</p>
-        <p class="date">13.09.2025</p>
+        <h1 class="title">#Ruracio</h1>
+        <p class="subtitle">Nikita & Kevin's Traditional Ceremony</p>
+        <p class="date">15.11.2025</p>
         
         <div class="qr-container">
             <img id="qr-code" class="qr-code" alt="QR Code" style="width: 300px; height: 300px; max-width: 100%;">
@@ -208,7 +208,7 @@
         </div>
         
         <div class="instructions">
-            <p><strong>Scan this QR code to visit our Ayie Ceremony website!</strong></p>
+            <p><strong>Scan this QR code to visit our Ruracio website!</strong></p>
             <p>Share your photos, leave well wishes, and join us in celebrating our special day.</p>
         </div>
         
@@ -299,7 +299,7 @@
                     }).then(function(canvas) {
                         // Convert canvas to JPG
                         const link = document.createElement('a');
-                        link.download = 'nikita-kevin-ayie-ceremony-qr-code.jpg';
+                        link.download = 'nikita-kevin-ruracio-qr-code.jpg';
                         link.href = canvas.toDataURL('image/jpeg', 0.9);
                         link.click();
                         

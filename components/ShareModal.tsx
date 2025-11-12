@@ -22,7 +22,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, website
   // Countdown timer logic
   useEffect(() => {
     const updateCountdown = () => {
-      const ayieDate = new Date('September 13, 2025 14:00:00').getTime();
+      const ayieDate = new Date('November 15, 2025 14:00:00').getTime();
       const now = new Date().getTime();
       const distance = ayieDate - now;
 
@@ -41,13 +41,13 @@ export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, website
     return () => clearInterval(interval);
   }, []);
 
-  const shareMessage = `🎉 Join us in celebrating Nikita & Kevin's Ayie Ceremony! 
+  const shareMessage = `🎉 Join us in celebrating Nikita & Kevin's Ruracio! 
 
 Check out our beautiful website with photos, our love story, and upload your own memories:
 
 ${websiteUrl}
 
-#NikitaKevinAyie #AyieCeremony`;
+#Ruracio #NikitaKevinRuracio`;
 
   const handleWhatsAppShare = () => {
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareMessage)}`;
@@ -79,11 +79,11 @@ ${websiteUrl}
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-gradient-to-br from-black via-gray-900 to-black rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-6 border-b border-yellow-400">
-          <h3 className="text-xl font-semibold text-yellow-400">#Nike Moments - Share the vibes</h3>
+        <div className="flex justify-between items-center p-6 border-b border-amber-400">
+          <h3 className="text-xl font-semibold text-amber-400">#Ruracio - Share the vibes</h3>
           <button
             onClick={onClose}
-            className="text-yellow-400 hover:text-yellow-300"
+            className="text-amber-400 hover:text-amber-300"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -92,30 +92,30 @@ ${websiteUrl}
         </div>
         
         <div className="p-6 space-y-8">
-          {/* Nike Moments Header */}
+          {/* Ruracio Header */}
           <div className="text-center text-white">
-            <h1 className="text-3xl md:text-4xl font-serif font-bold mb-2 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">#Nike Moments</h1>
-            <p className="text-lg md:text-xl mb-2 text-yellow-300">He Asked, They said Ayie!</p>
-            <p className="text-base md:text-lg text-yellow-200">13.09.2025</p>
+            <h1 className="text-3xl md:text-4xl font-serif font-bold mb-2 bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">#Ruracio</h1>
+            <p className="text-lg md:text-xl mb-2 text-amber-300">Traditional Ceremony</p>
+            <p className="text-base md:text-lg text-amber-200">15.11.2025</p>
           </div>
 
           {/* Countdown Timer */}
           <div className="text-center">
-            <h4 className="text-lg font-medium text-yellow-400 mb-4">Countdown to Ayie Ceremony</h4>
+            <h4 className="text-lg font-medium text-amber-400 mb-4">Countdown to Ruracio</h4>
             <div className="flex justify-center space-x-2 md:space-x-3 flex-wrap">
-              <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-2 md:p-3 text-center text-black shadow-lg">
+              <div className="bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg p-2 md:p-3 text-center text-black shadow-lg">
                 <span className="block text-xl md:text-2xl font-bold">{timeLeft.days.toString().padStart(2, '0')}</span>
                 <span className="text-xs md:text-sm font-semibold">Days</span>
               </div>
-              <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-2 md:p-3 text-center text-black shadow-lg">
+              <div className="bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg p-2 md:p-3 text-center text-black shadow-lg">
                 <span className="block text-xl md:text-2xl font-bold">{timeLeft.hours.toString().padStart(2, '0')}</span>
                 <span className="text-xs md:text-sm font-semibold">Hours</span>
               </div>
-              <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-2 md:p-3 text-center text-black shadow-lg">
+              <div className="bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg p-2 md:p-3 text-center text-black shadow-lg">
                 <span className="block text-xl md:text-2xl font-bold">{timeLeft.minutes.toString().padStart(2, '0')}</span>
                 <span className="text-xs md:text-sm font-semibold">Minutes</span>
               </div>
-              <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-2 md:p-3 text-center text-black shadow-lg">
+              <div className="bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg p-2 md:p-3 text-center text-black shadow-lg">
                 <span className="block text-xl md:text-2xl font-bold">{timeLeft.seconds.toString().padStart(2, '0')}</span>
                 <span className="text-xs md:text-sm font-semibold">Seconds</span>
               </div>
@@ -125,13 +125,13 @@ ${websiteUrl}
 
           {/* QR Code */}
           <div className="text-center">
-            <h4 className="text-lg font-medium text-yellow-400 mb-4">Share Our Website</h4>
+            <h4 className="text-lg font-medium text-amber-400 mb-4">Share Our Website</h4>
             <QRCode url={websiteUrl} size={180} />
           </div>
 
           {/* WhatsApp Share */}
           <div className="text-center">
-            <h4 className="text-lg font-medium text-yellow-400 mb-4">Share on WhatsApp</h4>
+            <h4 className="text-lg font-medium text-amber-400 mb-4">Share on WhatsApp</h4>
             <button
               onClick={handleWhatsAppShare}
               className="w-full bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors font-semibold flex items-center justify-center space-x-2"
@@ -145,12 +145,12 @@ ${websiteUrl}
 
           {/* Copy Options */}
           <div className="space-y-3">
-            <h4 className="text-lg font-medium text-yellow-400">Copy to Clipboard</h4>
+            <h4 className="text-lg font-medium text-amber-400">Copy to Clipboard</h4>
             
             <div className="space-y-2">
               <button
                 onClick={handleCopyLink}
-                className="w-full bg-gray-800 text-yellow-200 py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors text-sm flex items-center justify-between border border-yellow-400"
+                className="w-full bg-gray-800 text-amber-200 py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors text-sm flex items-center justify-between border border-amber-400"
               >
                 <span>Copy Website Link</span>
                 {copied && <span className="text-green-400 text-xs">Copied!</span>}
@@ -158,7 +158,7 @@ ${websiteUrl}
               
               <button
                 onClick={handleCopyMessage}
-                className="w-full bg-gray-800 text-yellow-200 py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors text-sm flex items-center justify-between border border-yellow-400"
+                className="w-full bg-gray-800 text-amber-200 py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors text-sm flex items-center justify-between border border-amber-400"
               >
                 <span>Copy Full Message</span>
                 {copied && <span className="text-green-400 text-xs">Copied!</span>}
@@ -168,7 +168,7 @@ ${websiteUrl}
 
           {/* Social Media Links */}
           <div className="space-y-3">
-            <h4 className="text-lg font-medium text-yellow-400">Share on Social Media</h4>
+            <h4 className="text-lg font-medium text-amber-400">Share on Social Media</h4>
             <div className="grid grid-cols-2 gap-3">
               <a
                 href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(websiteUrl)}`}

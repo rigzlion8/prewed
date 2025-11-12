@@ -64,7 +64,7 @@ export default function HomePage() {
 
   useEffect(() => {
     const updateCountdown = () => {
-      const ayieDate = new Date('September 13, 2025 14:00:00').getTime();
+      const ayieDate = new Date('November 15, 2025 14:00:00').getTime();
       const now = new Date().getTime();
       const distance = ayieDate - now;
 
@@ -263,30 +263,30 @@ export default function HomePage() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-pink-50 to-purple-50 font-sans">
+    <div className="bg-gradient-to-br from-amber-50 to-emerald-50 font-sans">
       {/* Navigation */}
       <nav className="bg-white shadow-lg fixed w-full z-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <span className="text-2xl font-serif text-pink-600">#Nike Moments</span>
+              <span className="text-2xl font-serif text-amber-700">#Ruracio</span>
             </div>
             <div className="hidden md:flex space-x-8">
-              <a href="#home" className="text-gray-700 hover:text-pink-600 transition">Home</a>
-              <a href="/gallery" className="text-gray-700 hover:text-pink-600 transition">Gallery</a>
-              <a href="#about" className="text-gray-700 hover:text-pink-600 transition">#Nike Moments</a>
-              <a href="/wishes" className="text-gray-700 hover:text-pink-600 transition">Read Wishes</a>
-              <a href="#upload" className="text-gray-700 hover:text-pink-600 transition">Share Memories</a>
+              <a href="#home" className="text-gray-700 hover:text-amber-700 transition">Home</a>
+              <a href="/gallery" className="text-gray-700 hover:text-amber-700 transition">Gallery</a>
+              <a href="/introduction" className="text-gray-700 hover:text-amber-700 transition">Introduction</a>
+              <a href="/wishes" className="text-gray-700 hover:text-amber-700 transition">Read Wishes</a>
+              <a href="#upload" className="text-gray-700 hover:text-amber-700 transition">Share Memories</a>
               <button 
                 onClick={() => setShowShareModal(true)}
-                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2"
+                className="bg-emerald-700 text-white px-4 py-2 rounded-lg hover:bg-emerald-800 transition-colors flex items-center space-x-2"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
                 </svg>
                 <span>Share</span>
               </button>
-              <a href="/gallery" className="bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors">View All Photos</a>
+              <a href="/gallery" className="bg-amber-700 text-white px-4 py-2 rounded-lg hover:bg-amber-800 transition-colors">View All Photos</a>
             </div>
             <div className="md:hidden">
               <button 
@@ -302,11 +302,11 @@ export default function HomePage() {
         </div>
         {/* Mobile Menu */}
         <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden bg-white pb-4 px-4`}>
-          <a href="#home" className="block py-2 text-gray-700 hover:text-pink-600">Home</a>
-          <a href="/gallery" className="block py-2 text-gray-700 hover:text-pink-600">Gallery</a>
-          <a href="#about" className="block py-2 text-gray-700 hover:text-pink-600">#Nike Moments</a>
-          <a href="/wishes" className="block py-2 text-gray-700 hover:text-pink-600">Read Wishes</a>
-          <a href="#upload" className="block py-2 text-gray-700 hover:text-pink-600">Share Memories</a>
+          <a href="#home" className="block py-2 text-gray-700 hover:text-amber-700">Home</a>
+          <a href="/gallery" className="block py-2 text-gray-700 hover:text-amber-700">Gallery</a>
+          <a href="/introduction" className="block py-2 text-gray-700 hover:text-amber-700">Introduction</a>
+          <a href="/wishes" className="block py-2 text-gray-700 hover:text-amber-700">Read Wishes</a>
+          <a href="#upload" className="block py-2 text-gray-700 hover:text-amber-700">Share Memories</a>
           <button 
             onClick={() => {
               setShowShareModal(true);
@@ -316,33 +316,32 @@ export default function HomePage() {
           >
             Share Website
           </button>
-          <a href="/gallery" className="block py-2 bg-pink-600 text-white rounded-lg mx-2 text-center hover:bg-pink-700 transition-colors mt-2">View All Photos</a>
+          <a href="/gallery" className="block py-2 bg-amber-700 text-white rounded-lg mx-2 text-center hover:bg-amber-800 transition-colors mt-2">View All Photos</a>
         </div>
       </nav>
 
       {/* Hero Section */}
       <section 
         id="home" 
-        className="pt-20 pb-32 px-4 bg-gradient-to-br from-black via-gray-900 to-black relative"
+        className="pt-20 pb-32 px-4 bg-gradient-to-br from-black via-red-900 to-green-900 relative"
       >
         <div className="max-w-4xl mx-auto text-center text-white pt-24">
-          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">#Nike Moments</h1>
-          <p className="text-xl md:text-2xl mb-4 text-yellow-300">He Asked, They said Ayie!</p>
-          <p className="text-lg md:text-xl mb-8 text-yellow-200">13.09.2025</p>
+          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">#Ruracio</h1>
+          <p className="text-lg md:text-xl mb-8 text-amber-200">15.11.2025</p>
           <div className="flex justify-center space-x-2 md:space-x-4 flex-wrap">
-            <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-3 md:p-4 text-center text-black shadow-lg mb-2">
+            <div className="bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg p-3 md:p-4 text-center text-black shadow-lg mb-2">
               <span className="block text-2xl md:text-3xl font-bold">{timeLeft.days.toString().padStart(2, '0')}</span>
               <span className="text-sm md:text-base font-semibold">Days</span>
             </div>
-            <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-3 md:p-4 text-center text-black shadow-lg mb-2">
+            <div className="bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg p-3 md:p-4 text-center text-black shadow-lg mb-2">
               <span className="block text-2xl md:text-3xl font-bold">{timeLeft.hours.toString().padStart(2, '0')}</span>
               <span className="text-sm md:text-base font-semibold">Hours</span>
             </div>
-            <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-3 md:p-4 text-center text-black shadow-lg mb-2">
+            <div className="bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg p-3 md:p-4 text-center text-black shadow-lg mb-2">
               <span className="block text-2xl md:text-3xl font-bold">{timeLeft.minutes.toString().padStart(2, '0')}</span>
               <span className="text-sm md:text-base font-semibold">Minutes</span>
             </div>
-            <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg p-3 md:p-4 text-center text-black shadow-lg mb-2">
+            <div className="bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg p-3 md:p-4 text-center text-black shadow-lg mb-2">
               <span className="block text-2xl md:text-3xl font-bold">{timeLeft.seconds.toString().padStart(2, '0')}</span>
               <span className="text-sm md:text-base font-semibold">Seconds</span>
             </div>
@@ -352,7 +351,7 @@ export default function HomePage() {
           <div className="mt-8">
               <button 
                 onClick={() => setShowShareModal(true)}
-                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-6 py-3 rounded-lg hover:from-yellow-500 hover:to-yellow-700 transition-all font-semibold flex items-center space-x-2 mx-auto shadow-lg"
+                className="bg-gradient-to-r from-amber-400 to-amber-600 text-black px-6 py-3 rounded-lg hover:from-amber-500 hover:to-amber-700 transition-all font-semibold flex items-center space-x-2 mx-auto shadow-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M3 11h8V3H3v8zm2-6h4v4H5V5zm6 12h8v-8h-8v8zm2-6h4v4h-4v-4zM3 21h8v-8H3v8zm2-6h4v4H5v-4zm8-6V3h8v8h-8zm6-6h-4v4h4V3z"/>
@@ -363,56 +362,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Ayie Moments Section */}
-      <section id="about" className="py-16 px-4 bg-gradient-to-br from-gray-900 via-black to-gray-800">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-yellow-400 mb-12">#Nike Moments</h2>
-          
-          {/* Initial Write-up */}
-          <div className="text-center text-white mb-12">
-            <p className="text-lg md:text-xl leading-relaxed max-w-4xl mx-auto">
-              Drumroll, please… 🥁 The stars of the Ayie have entered the chat! 💕✨ Before we get to the dance floor fails, the epic selfies, and the unforgettable squad moments, here's a little peek at the bride and groom stealing the spotlight (as they should 😉). Once you've admired these, it's your turn — upload your photos and let's relive the magic together! 📸🎊
-            </p>
-          </div>
-          
-          {/* Two Photos */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-12">
-            <div className="relative w-full h-[32rem] md:h-[40rem] lg:h-[44rem] image-container bg-gray-100 rounded-2xl overflow-hidden" style={{ position: 'relative', height: '512px', minHeight: '512px' }}>
-              <Image 
-                src="/images/nikita-kevin.jpg" 
-                alt="Nikita & Kevin" 
-                fill
-                className="rounded-2xl shadow-lg object-contain border-2 border-yellow-400"
-                style={{ objectPosition: 'center center' }}
-              />
-            </div>
-            <div className="relative w-full h-[32rem] md:h-[40rem] lg:h-[44rem] image-container bg-gray-100 rounded-2xl overflow-hidden" style={{ position: 'relative', height: '512px', minHeight: '512px' }}>
-              <Image 
-                src="/images/nikita-kevin002.jpg" 
-                alt="Ayie Moments" 
-                fill
-                className="rounded-2xl shadow-lg object-contain border-2 border-yellow-400"
-                style={{ objectPosition: 'center center' }}
-              />
-            </div>
-          </div>
-          
-          {/* Upload Button */}
-          <div className="text-center mb-12">
-            <button 
-              onClick={() => window.location.href = '/gallery'}
-              className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 py-4 rounded-xl hover:from-yellow-500 hover:to-yellow-700 transition-all font-bold text-lg shadow-2xl transform hover:scale-105 duration-300 border-2 border-yellow-300"
-            >
-              📸 Upload Your Photos
-            </button>
-          </div>
-        </div>
-      </section>
+      {/* Ayie Moments Section moved to Introduction page */}
 
       {/* Gallery Section */}
       <section id="gallery" className="py-16 px-4 bg-gradient-to-br from-black via-gray-900 to-black">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-yellow-400 mb-8">Gallery</h2>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-amber-400 mb-8">Gallery</h2>
           
           {/* Gallery Description */}
           <div className="text-center text-white mb-12">
@@ -421,7 +376,7 @@ export default function HomePage() {
             </p>
           </div>
           
-          <p className="text-center text-yellow-200 mb-8 text-sm md:text-base">Click anywhere to view all photos</p>
+          <p className="text-center text-amber-200 mb-8 text-sm md:text-base">Click anywhere to view all photos</p>
           <div 
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 cursor-pointer hover:opacity-90 transition-opacity duration-300 relative group"
             onClick={() => window.location.href = '/gallery'}
@@ -477,7 +432,8 @@ export default function HomePage() {
 
       {/* Feedback Section */}
       <section id="feedback" className="py-16 px-4 bg-gradient-to-br from-yellow-400 to-yellow-600">
-        <div className="max-w-4xl mx-auto">
+        {/* Updated colors for theme */}
+        <div className="max-w-4xl mx-auto bg-gradient-to-br from-amber-400 to-amber-600 bg-clip-padding">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-black mb-12">Well Wishes</h2>
           <div className="bg-black bg-opacity-20 p-4 md:p-6 rounded-lg shadow-lg mb-12 backdrop-blur-sm">
             <h3 className="text-xl font-semibold text-white mb-4">Leave a message for the couple</h3>
@@ -499,7 +455,7 @@ export default function HomePage() {
                   rows={4} 
                   value={wishMessage}
                   onChange={(e) => setWishMessage(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 text-base resize-none bg-white"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-base resize-none bg-white"
                   required
                   disabled={isSubmittingWish}
                 />
@@ -555,17 +511,17 @@ export default function HomePage() {
       {/* Upload Section */}
       <section id="upload" className="py-16 px-4 bg-gradient-to-br from-gray-900 via-black to-gray-800">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-yellow-400 mb-8">Share Your Ayie Moments</h2>
-          <p className="text-center text-yellow-200 mb-8 text-lg leading-relaxed">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-amber-400 mb-8">Share Your Ruracio Moments</h2>
+          <p className="text-center text-amber-200 mb-8 text-lg leading-relaxed">
             And that's a wrap on our Ayie story (for now 😉). Thank you for the laughter, the love, and the memories that made 13.09.2025 unforgettable! 💍✨ Whether you danced till your feet gave up 💃🏾, ate like it was your last buffet 🍽, or snapped selfies worthy of a magazine cover 📸—you made this day magical. Keep the love flowing, keep the photos coming, and remember: forever has only just begun for us ❤🔥.
           </p>
-          <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 md:p-8 rounded-lg shadow-lg border border-yellow-400">
-            <div className="border-2 border-dashed border-yellow-400 rounded-lg p-6 md:p-8 text-center mb-8">
-              <svg className="w-12 h-12 text-yellow-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 md:p-8 rounded-lg shadow-lg border border-amber-400">
+            <div className="border-2 border-dashed border-amber-400 rounded-lg p-6 md:p-8 text-center mb-8">
+              <svg className="w-12 h-12 text-amber-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
-              <p className="text-yellow-200 mb-2 text-sm md:text-base">Upload photos and videos from our Ayie celebration</p>
-              <div className="text-xs text-yellow-300 mb-4">
+              <p className="text-amber-200 mb-2 text-sm md:text-base">Upload photos and videos from our Ayie celebration</p>
+              <div className="text-xs text-amber-300 mb-4">
                 <p>• Supported: JPEG, PNG, GIF, WebP, MP4, WebM</p>
                 <p>• Photos will be automatically compressed for faster upload</p>
               </div>
@@ -588,7 +544,7 @@ export default function HomePage() {
                     {selectedFileList.map((file, index) => (
                       <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-lg">
                         <div className="flex items-center space-x-2 flex-1 min-w-0">
-                          <div className="text-pink-600">
+                          <div className="text-amber-700">
                             {file.type.startsWith('image/') ? (
                               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
@@ -630,7 +586,7 @@ export default function HomePage() {
               />
               <label 
                 htmlFor="file-upload" 
-                className="inline-block bg-pink-600 text-white px-6 py-3 rounded-lg cursor-pointer hover:bg-pink-700 transition font-semibold"
+                className="inline-block bg-amber-700 text-white px-6 py-3 rounded-lg cursor-pointer hover:bg-amber-800 transition font-semibold"
               >
                 Select Files
               </label>
@@ -647,7 +603,7 @@ export default function HomePage() {
                   id="uploadedBy"
                   value={uploadedBy}
                   onChange={(e) => setUploadedBy(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm"
                   placeholder="Enter your name"
                 />
               </div>
@@ -660,7 +616,7 @@ export default function HomePage() {
                   id="caption"
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm"
                   placeholder="Add a caption..."
                 />
               </div>
@@ -669,7 +625,7 @@ export default function HomePage() {
             <button
               onClick={handleUpload}
               disabled={!selectedFiles || isUploading}
-              className="w-full bg-pink-600 text-white py-2 px-4 rounded-lg hover:bg-pink-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-sm font-semibold mb-4"
+              className="w-full bg-amber-700 text-white py-2 px-4 rounded-lg hover:bg-amber-800 disabled:bg-gray-400 disabled:cursor-not-allowed text-sm font-semibold mb-4"
             >
               {isCompressing ? 'Compressing...' : isUploading ? 'Uploading...' : 'Upload Files'}
             </button>
@@ -683,7 +639,7 @@ export default function HomePage() {
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
-                    className="bg-pink-600 h-2 rounded-full transition-all duration-300 ease-out"
+                    className="bg-amber-600 h-2 rounded-full transition-all duration-300 ease-out"
                     style={{ width: `${uploadProgress}%` }}
                   ></div>
                 </div>
@@ -738,13 +694,13 @@ export default function HomePage() {
       <footer className="bg-gradient-to-br from-black via-gray-900 to-black text-white py-12 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <div className="mb-8">
-            <h3 className="text-2xl font-serif font-bold mb-6 text-yellow-400">#Nike Moments</h3>
-            <p className="text-lg text-yellow-200 mb-4">Ayie Ceremony</p>
-            <p className="text-yellow-300 mb-6">13.09.2025</p>
+            <h3 className="text-2xl font-serif font-bold mb-6 text-amber-400">#Ruracio</h3>
+            <p className="text-lg text-amber-200 mb-4">Traditional Ceremony</p>
+            <p className="text-amber-300 mb-6">15.11.2025</p>
           </div>
           
           {/* Bible Verse */}
-          <div className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black p-6 rounded-lg shadow-lg mb-8">
+          <div className="bg-gradient-to-r from-amber-400 to-amber-600 text-black p-6 rounded-lg shadow-lg mb-8">
             <blockquote className="text-lg md:text-xl font-serif italic leading-relaxed">
               "Two are better than one… If either of them falls down, one can help the other up."
             </blockquote>
@@ -753,23 +709,23 @@ export default function HomePage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             <div className="text-center md:text-left">
-              <h3 className="text-xl font-bold mb-4 text-yellow-400">Quick Links</h3>
+              <h3 className="text-xl font-bold mb-4 text-amber-400">Quick Links</h3>
               <ul className="space-y-2">
-                <li><a href="#home" className="text-yellow-200 hover:text-yellow-400 transition">Home</a></li>
-                <li><a href="/gallery" className="text-yellow-200 hover:text-yellow-400 transition">Gallery</a></li>
-                <li><a href="#about" className="text-yellow-200 hover:text-yellow-400 transition">#Nike Moments</a></li>
-                <li><a href="/wishes" className="text-yellow-200 hover:text-yellow-400 transition">Read Wishes</a></li>
-                <li><a href="#upload" className="text-yellow-200 hover:text-yellow-400 transition">Share Memories</a></li>
+                <li><a href="#home" className="text-amber-200 hover:text-amber-400 transition">Home</a></li>
+                <li><a href="/gallery" className="text-amber-200 hover:text-amber-400 transition">Gallery</a></li>
+                <li><a href="/introduction" className="text-amber-200 hover:text-amber-400 transition">Introduction</a></li>
+                <li><a href="/wishes" className="text-amber-200 hover:text-amber-400 transition">Read Wishes</a></li>
+                <li><a href="#upload" className="text-amber-200 hover:text-amber-400 transition">Share Memories</a></li>
               </ul>
             </div>
             <div className="text-center md:text-left">
-              <h3 className="text-xl font-bold mb-4 text-yellow-400">Contact Us</h3>
-              <p className="text-yellow-200 mb-2">Have questions about the Ayie?</p>
-              <p className="text-yellow-200">Email: nikitaaymanz@gmail.com</p>
+              <h3 className="text-xl font-bold mb-4 text-amber-400">Contact Us</h3>
+              <p className="text-amber-200 mb-2">Have questions about the Ayie?</p>
+              <p className="text-amber-200">Email: nikitaaymanz@gmail.com</p>
             </div>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-yellow-400 text-center text-yellow-200">
+        <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-amber-400 text-center text-amber-200">
           <p>© 2025 #Nike Moments - Ayie Ceremony. All rights reserved.</p>
         </div>
       </footer>
