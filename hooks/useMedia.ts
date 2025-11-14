@@ -190,7 +190,7 @@ export const useMedia = () => {
             total: file.size,
             percentage: progress
           });
-        });
+        }, uploadedBy, caption);
         
         const result = await uploader.upload();
         

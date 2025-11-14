@@ -16,11 +16,21 @@ export class ChunkedUploader {
   private file: File;
   private options: ChunkUploadOptions;
   private onProgress?: (progress: number) => void;
+  private uploadedBy?: string;
+  private caption?: string;
 
-  constructor(file: File, options: ChunkUploadOptions, onProgress?: (progress: number) => void) {
+  constructor(
+    file: File,
+    options: ChunkUploadOptions,
+    onProgress?: (progress: number) => void,
+    uploadedBy?: string,
+    caption?: string
+  ) {
     this.file = file;
     this.options = options;
     this.onProgress = onProgress;
+    this.uploadedBy = uploadedBy;
+    this.caption = caption;
   }
 
   async upload(): Promise<ChunkUploadResult> {
@@ -122,7 +132,9 @@ export class ChunkedUploader {
         body: JSON.stringify({
           chunkIds,
           fileName,
-          fileType: this.file.type
+          fileType: this.file.type,
+          uploadedBy: this.uploadedBy,
+          caption: this.caption,
         }),
       });
 
@@ -144,7 +156,9 @@ export class ChunkedUploader {
 // Helper function to create chunked uploader
 export function createChunkedUploader(
   file: File, 
-  onProgress?: (progress: number) => void
+  onProgress?: (progress: number) => void,
+  uploadedBy?: string,
+  caption?: string
 ): ChunkedUploader {
   const options: ChunkUploadOptions = {
     chunkSize: 1 * 1024 * 1024, // 1MB chunks (safe for Vercel free tier)
@@ -152,5 +166,5 @@ export function createChunkedUploader(
     retryDelay: 1000 // 1 second
   };
 
-  return new ChunkedUploader(file, options, onProgress);
+  return new ChunkedUploader(file, options, onProgress, uploadedBy, caption);
 }
