@@ -269,12 +269,15 @@ export default function HomePage() {
       const tags = (m.tags || []).map(t => t.toLowerCase());
       const caption = (m.caption || '').toLowerCase();
       const name = (m.originalName || '').toLowerCase();
+      const uploadedByText = (m.uploadedBy || '').toLowerCase();
       const tagHit = tags.some(t =>
         ['dance', 'dance practice', 'dance-practice', 'ruracio', 'ruracio-squad', 'squad', 'practice'].includes(t)
       );
       const textHit = /dance practice|dance|practice/.test(caption) || /dance|practice/.test(name);
-      return tagHit || textHit;
-    });
+      const uploadedByHit = /dance practice|dance/.test(uploadedByText);
+      return tagHit || textHit || uploadedByHit;
+    })
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
   return (
     <div className="bg-gradient-to-br from-amber-50 to-emerald-50 font-sans">
@@ -569,7 +572,7 @@ export default function HomePage() {
       {/* Upload Section */}
       <section id="upload" className="py-16 px-4 bg-gradient-to-br from-gray-900 via-black to-gray-800">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-amber-400 mb-8">Share Your Ruracio Moments</h2>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-amber-400 mb-8">Share Your Nyombo Moments</h2>
           <p className="text-center text-amber-200 mb-8 text-lg leading-relaxed">
             And that's a wrap on our Nyombo story (for now 😉). Thank you for the laughter, the love, and the memories that made 13.09.2025 unforgettable! 💍✨ Whether you danced till your feet gave up 💃🏾, ate like it was your last buffet 🍽, or snapped selfies worthy of a magazine cover 📸—you made this day magical. Keep the love flowing, keep the photos coming, and remember: forever has only just begun for us ❤🔥.
           </p>

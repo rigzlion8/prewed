@@ -206,13 +206,13 @@ export default function IntroductionPage() {
             </div>
             <div className="text-center md:text-left">
               <h3 className="text-xl font-bold mb-4 text-yellow-400">Contact Us</h3>
-              <p className="text-yellow-200 mb-2">Have questions about the Ayie?</p>
+              <p className="text-yellow-200 mb-2">Have questions about the Nyombo?</p>
               <p className="text-yellow-200">Email: nikitaaymanz@gmail.com</p>
             </div>
           </div>
         </div>
         <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-yellow-400 text-center text-yellow-200">
-          <p>© 2025 #Nike Moments - Ayie Ceremony. All rights reserved.</p>
+          <p>© 2025 #Nike Moments - Nyombo Ceremony. All rights reserved.</p>
         </div>
       </footer>
 
