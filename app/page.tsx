@@ -262,6 +262,20 @@ export default function HomePage() {
     }
   };
 
+  // Derive dance/practice videos once for homepage section
+  const danceVideos = media
+    .filter((m) => m.type === 'video')
+    .filter((m) => {
+      const tags = (m.tags || []).map(t => t.toLowerCase());
+      const caption = (m.caption || '').toLowerCase();
+      const name = (m.originalName || '').toLowerCase();
+      const tagHit = tags.some(t =>
+        ['dance', 'dance practice', 'dance-practice', 'ruracio', 'ruracio-squad', 'squad', 'practice'].includes(t)
+      );
+      const textHit = /dance practice|dance|practice/.test(caption) || /dance|practice/.test(name);
+      return tagHit || textHit;
+    });
+
   return (
     <div className="bg-gradient-to-br from-amber-50 to-emerald-50 font-sans">
       {/* Navigation */}
@@ -326,7 +340,9 @@ export default function HomePage() {
         className="pt-20 pb-32 px-4 bg-gradient-to-br from-black via-red-900 to-green-900 relative"
       >
         <div className="max-w-4xl mx-auto text-center text-white pt-24">
-          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">#Ruracio</h1>
+          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">
+            Where Mugithi 🎸 meets Ohangla 🥁 — and love finally found its beat!
+          </h1>
           <p className="text-lg md:text-xl mb-8 text-amber-200">15.11.2025</p>
           <div className="flex justify-center space-x-2 md:space-x-4 flex-wrap">
             <div className="bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg p-3 md:p-4 text-center text-black shadow-lg mb-2">
@@ -347,6 +363,14 @@ export default function HomePage() {
             </div>
           </div>
           
+          {/* Welcome Message */}
+          <div className="mt-8 bg-white bg-opacity-10 border border-amber-400 rounded-xl p-6 text-left max-w-3xl mx-auto">
+            <p className="text-amber-100 italic text-center mb-4">“It’s All Happening Now!”</p>
+            <p className="text-amber-100 leading-relaxed">
+              You’re stepping into the NiKe Nyombo vibes right this moment. The Kikuyu highlands are already tuning their Mugithi guitars, and the Lakeside squad is adjusting their fly whisks. Laughter is rising, aunties are settling into strategic gossip positions, and uncles are warming up for negotiations. We’re live, we’re loud, and we’re loving it. 😎🔥
+            </p>
+          </div>
+          
           {/* Share Button */}
           <div className="mt-8">
               <button 
@@ -362,7 +386,117 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Ayie Moments Section moved to Introduction page */}
+      {/* Nyombo Photos Section */}
+      <section className="py-16 px-4 bg-gradient-to-br from-gray-900 via-black to-gray-800">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-amber-400 mb-12">Nyombo Moments</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <div className="relative w-full h-80 bg-gray-100 rounded-2xl overflow-hidden border border-amber-400">
+              <Image 
+                src="/images/nyombo1.jpeg" 
+                alt="Nyombo moment 1" 
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                priority
+              />
+            </div>
+            <div className="relative w-full h-80 bg-gray-100 rounded-2xl overflow-hidden border border-amber-400">
+              <Image 
+                src="/images/nyombo2.jpeg" 
+                alt="Nyombo moment 2" 
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
+            </div>
+            <div className="relative w-full h-80 bg-gray-100 rounded-2xl overflow-hidden border border-amber-400">
+              <Image 
+                src="/images/nyombo3.jpeg" 
+                alt="Nyombo moment 3" 
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Proposal Section */}
+      <section className="py-16 px-4 bg-gradient-to-br from-black via-gray-900 to-black">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-amber-400 mb-6">💍😂 By the Way… A Small Announcement</h2>
+          <div className="text-center text-white mb-10">
+            <p className="text-lg md:text-xl leading-relaxed max-w-4xl mx-auto">
+              Oh, by the way — in case you missed the memo while focusing on the goats, the outfits, and the dance moves… the groom proposed. Yes, proposed. Shocked us all. The man knelt, the ring sparkled, and before anyone could even shout “ayie!”, the bride said a very confident YES. So please, clap for the groom’s bravery, clap for the ring’s brightness, and clap for the bride’s speed in accepting. We are officially in the “she said yes, he said finally” era. 😄🔥💙
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {[
+              '/images/pic001.jpeg',
+              '/images/pic002.jpeg',
+              '/images/pic003.jpeg',
+              '/images/pic004.jpeg',
+              '/images/pic005.jpeg',
+              '/images/pic006.jpeg',
+              '/images/pic007.jpeg',
+              '/images/pic008.jpeg',
+              '/images/pic009.jpeg',
+            ].map((src, idx) => (
+              <div key={src} className="relative w-full h-64 bg-gray-100 rounded-xl overflow-hidden border border-amber-400">
+                <Image
+                  src={src}
+                  alt={`Proposal moment ${idx + 1}`}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Dance Videos Section */}
+      <section className="py-16 px-4 bg-gradient-to-br from-black via-gray-900 to-black">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-amber-400 mb-6">😂💃🔥 Ruracio Squad Practice — Pure Comedy, Zero Regret</h2>
+          <div className="text-center text-white mb-10">
+            <p className="text-lg md:text-xl leading-relaxed max-w-4xl mx-auto">
+              Before you watch the videos below, please understand one thing: this Ruracio Squad did not come to play — they came to embarrass their ancestors with confidence. We practiced like a group that had no business dancing, but somehow decided “wacha tujaribu.” People were counting beats loudly, hips were going one direction, legs another, and at some point someone shouted “STOP! START AGAIN!” like a frustrated choir master. But listen… the energy was unmatched, the laughter was uncontrollable, and the chaos was beautiful. If discipline had a cousin named vibes — that was us. Now enjoy the footage. Viewer discretion: Expect vibes, struggle, and unnecessary enthusiasm. 🤣💃🕺🔥
+            </p>
+          </div>
+          {/* Video Cards (tagged in Gallery) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {danceVideos.slice(0, 2)
+              .map((video) => (
+                <div key={video._id} className="bg-white rounded-xl overflow-hidden shadow-md border border-amber-400">
+                  <div className="relative bg-black">
+                    <video
+                      src={video.url}
+                      controls
+                      className="w-full h-56 object-contain bg-black"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <p className="text-sm text-gray-700 mb-1 truncate">
+                      By: {video.uploadedBy || 'Guest'}
+                    </p>
+                    {video.caption && (
+                      <p className="text-sm text-gray-900 line-clamp-2">{video.caption}</p>
+                    )}
+                    <p className="text-xs text-gray-500 mt-2">{new Date(video.createdAt).toLocaleDateString()}</p>
+                  </div>
+                </div>
+              ))}
+          </div>
+          {/* If no videos match yet */}
+          {danceVideos.length === 0 && (
+            <p className="text-center text-amber-200 mt-6">Tagged dance videos will appear here once uploaded to the gallery.</p>
+          )}
+        </div>
+      </section>
 
       {/* Gallery Section */}
       <section id="gallery" className="py-16 px-4 bg-gradient-to-br from-black via-gray-900 to-black">
@@ -372,7 +506,7 @@ export default function HomePage() {
           {/* Gallery Description */}
           <div className="text-center text-white mb-12">
             <p className="text-lg md:text-xl leading-relaxed max-w-4xl mx-auto">
-              You came, you smiled, you partied… now show us the proof! 😍🎉 Drop your photos here and let's stitch together the story of our Ayie day—through your lens. The more the merrier, so don't be shy… upload away!
+              You came, you smiled, you partied… now show us the proof! 😍🎉 Drop your photos here and let's stitch together the story of our Nyombo day—through your lens. The more the merrier, so don't be shy… upload away!
             </p>
           </div>
           
@@ -430,97 +564,21 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Feedback Section */}
-      <section id="feedback" className="py-16 px-4 bg-gradient-to-br from-yellow-400 to-yellow-600">
-        {/* Updated colors for theme */}
-        <div className="max-w-4xl mx-auto bg-gradient-to-br from-amber-400 to-amber-600 bg-clip-padding">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-black mb-12">Well Wishes</h2>
-          <div className="bg-black bg-opacity-20 p-4 md:p-6 rounded-lg shadow-lg mb-12 backdrop-blur-sm">
-            <h3 className="text-xl font-semibold text-white mb-4">Leave a message for the couple</h3>
-            <form onSubmit={handleWishSubmit}>
-              <div className="mb-4">
-                <input 
-                  type="text" 
-                  placeholder="Your Name" 
-                  value={wishName}
-                  onChange={(e) => setWishName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 text-base bg-white"
-                  required
-                  disabled={isSubmittingWish}
-                />
-              </div>
-              <div className="mb-6">
-                <textarea 
-                  placeholder="Your Message" 
-                  rows={4} 
-                  value={wishMessage}
-                  onChange={(e) => setWishMessage(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-base resize-none bg-white"
-                  required
-                  disabled={isSubmittingWish}
-                />
-              </div>
-              
-              {/* Status Message */}
-              {wishStatus && (
-                <div className={`mb-4 p-3 rounded-lg text-sm ${
-                  wishStatus.includes('Thank you') || wishStatus.includes('appreciate')
-                    ? 'bg-green-100 text-green-700 border border-green-200'
-                    : 'bg-red-100 text-red-700 border border-red-200'
-                }`}>
-                  {wishStatus}
-                </div>
-              )}
-              
-              <button 
-                type="submit" 
-                disabled={isSubmittingWish}
-                className="w-full md:w-auto bg-black text-yellow-400 px-8 py-3 rounded-lg hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition font-semibold border border-yellow-400"
-              >
-                {isSubmittingWish ? 'Sending...' : 'Submit Wish'}
-              </button>
-            </form>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Recent Wishes */}
-            {recentWishes.length > 0 ? (
-              recentWishes.map((wish, index) => (
-                <div key={index} className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-opacity-50 hover:shadow-2xl hover:scale-105 hover:border hover:border-yellow-400 cursor-pointer">
-                  <p className="text-white mb-4 leading-relaxed">"{wish.message}"</p>
-                  <p className="text-yellow-300 font-semibold">- {wish.name}</p>
-                </div>
-              ))
-            ) : (
-              <>
-                {/* Fallback sample wishes when no real wishes exist */}
-                <div className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-opacity-50 hover:shadow-2xl hover:scale-105 hover:border hover:border-yellow-400 cursor-pointer">
-                  <p className="text-white mb-4 leading-relaxed">"So happy for both of you! Can't wait to celebrate your special day with you."</p>
-                  <p className="text-yellow-300 font-semibold">- Jessica & David</p>
-                </div>
-                <div className="bg-black bg-opacity-30 p-4 md:p-6 rounded-lg shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-opacity-50 hover:shadow-2xl hover:scale-105 hover:border hover:border-yellow-400 cursor-pointer">
-                  <p className="text-white mb-4 leading-relaxed">"Wishing you a lifetime of love and happiness together."</p>
-                  <p className="text-yellow-300 font-semibold">- The Miller Family</p>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </section>
+      {/* Feedback Section removed per request */}
 
       {/* Upload Section */}
       <section id="upload" className="py-16 px-4 bg-gradient-to-br from-gray-900 via-black to-gray-800">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-amber-400 mb-8">Share Your Ruracio Moments</h2>
           <p className="text-center text-amber-200 mb-8 text-lg leading-relaxed">
-            And that's a wrap on our Ayie story (for now 😉). Thank you for the laughter, the love, and the memories that made 13.09.2025 unforgettable! 💍✨ Whether you danced till your feet gave up 💃🏾, ate like it was your last buffet 🍽, or snapped selfies worthy of a magazine cover 📸—you made this day magical. Keep the love flowing, keep the photos coming, and remember: forever has only just begun for us ❤🔥.
+            And that's a wrap on our Nyombo story (for now 😉). Thank you for the laughter, the love, and the memories that made 13.09.2025 unforgettable! 💍✨ Whether you danced till your feet gave up 💃🏾, ate like it was your last buffet 🍽, or snapped selfies worthy of a magazine cover 📸—you made this day magical. Keep the love flowing, keep the photos coming, and remember: forever has only just begun for us ❤🔥.
           </p>
           <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 md:p-8 rounded-lg shadow-lg border border-amber-400">
             <div className="border-2 border-dashed border-amber-400 rounded-lg p-6 md:p-8 text-center mb-8">
               <svg className="w-12 h-12 text-amber-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
-              <p className="text-amber-200 mb-2 text-sm md:text-base">Upload photos and videos from our Ayie celebration</p>
+              <p className="text-amber-200 mb-2 text-sm md:text-base">Upload photos and videos from our Nyombo celebration</p>
               <div className="text-xs text-amber-300 mb-4">
                 <p>• Supported: JPEG, PNG, GIF, WebP, MP4, WebM</p>
                 <p>• Photos will be automatically compressed for faster upload</p>
@@ -694,17 +752,12 @@ export default function HomePage() {
       <footer className="bg-gradient-to-br from-black via-gray-900 to-black text-white py-12 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <div className="mb-8">
-            <h3 className="text-2xl font-serif font-bold mb-6 text-amber-400">#Ruracio</h3>
-            <p className="text-lg text-amber-200 mb-4">Traditional Ceremony</p>
-            <p className="text-amber-300 mb-6">15.11.2025</p>
-          </div>
-          
-          {/* Bible Verse */}
-          <div className="bg-gradient-to-r from-amber-400 to-amber-600 text-black p-6 rounded-lg shadow-lg mb-8">
-            <blockquote className="text-lg md:text-xl font-serif italic leading-relaxed">
-              "Two are better than one… If either of them falls down, one can help the other up."
-            </blockquote>
-            <cite className="block mt-4 text-sm font-semibold">— Ecclesiastes 4:9–10</cite>
+            <h3 className="text-2xl font-serif font-bold mb-6 text-amber-400">Final Words — Live From the Dala x Gĩcagi Headquarters</h3>
+            <div className="bg-black bg-opacity-30 p-6 md:p-8 rounded-xl border border-amber-400 shadow-lg max-w-4xl mx-auto text-left">
+              <p className="text-amber-100 text-lg leading-relaxed">
+                If you’re still scrolling right now, just know you have officially passed the endurance test of this Nyombo website. As we speak, the vibe on the ground is louder than the drums, aunties are already positioning themselves for photos, dancers are shaking off their nerves, and the whole compound is operating on pure excitement and vibes. The Lakeside swagger is mixing with Highland energy like a cultural smoothie, and honestly — it’s beautiful chaos. So before you close this page and join the real event, we leave you with one final prayer request: May Kevin choose the correct bride. 😄🔥💍
+              </p>
+            </div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
@@ -720,13 +773,13 @@ export default function HomePage() {
             </div>
             <div className="text-center md:text-left">
               <h3 className="text-xl font-bold mb-4 text-amber-400">Contact Us</h3>
-              <p className="text-amber-200 mb-2">Have questions about the Ayie?</p>
+              <p className="text-amber-200 mb-2">Have questions about the Nyombo?</p>
               <p className="text-amber-200">Email: nikitaaymanz@gmail.com</p>
             </div>
           </div>
         </div>
         <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-amber-400 text-center text-amber-200">
-          <p>© 2025 #Nike Moments - Ayie Ceremony. All rights reserved.</p>
+          <p>© 2025 #Nike Moments - Nyombo Ceremony. All rights reserved.</p>
         </div>
       </footer>
 
