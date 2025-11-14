@@ -426,41 +426,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Proposal Section */}
-      <section className="py-16 px-4 bg-gradient-to-br from-black via-gray-900 to-black">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-amber-400 mb-6">💍😂 By the Way… A Small Announcement</h2>
-          <div className="text-center text-white mb-10">
-            <p className="text-lg md:text-xl leading-relaxed max-w-4xl mx-auto">
-              Oh, by the way — in case you missed the memo while focusing on the goats, the outfits, and the dance moves… the groom proposed. Yes, proposed. Shocked us all. The man knelt, the ring sparkled, and before anyone could even shout “ayie!”, the bride said a very confident YES. So please, clap for the groom’s bravery, clap for the ring’s brightness, and clap for the bride’s speed in accepting. We are officially in the “she said yes, he said finally” era. 😄🔥💙
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {[
-              '/images/pic001.jpeg',
-              '/images/pic002.jpeg',
-              '/images/pic003.jpeg',
-              '/images/pic004.jpeg',
-              '/images/pic005.jpeg',
-              '/images/pic006.jpeg',
-              '/images/pic007.jpeg',
-              '/images/pic008.jpeg',
-              '/images/pic009.jpeg',
-            ].map((src, idx) => (
-              <div key={src} className="relative w-full h-64 bg-gray-100 rounded-xl overflow-hidden border border-amber-400">
-                <Image
-                  src={src}
-                  alt={`Proposal moment ${idx + 1}`}
-                  fill
-                  className="object-contain"
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Dance Videos Section */}
       <section className="py-16 px-4 bg-gradient-to-br from-black via-gray-900 to-black">
         <div className="max-w-7xl mx-auto">
@@ -500,6 +465,43 @@ export default function HomePage() {
           )}
         </div>
       </section>
+
+      {/* Proposal Section */}
+      <section className="py-16 px-4 bg-gradient-to-br from-black via-gray-900 to-black">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-center text-amber-400 mb-6">💍😂 By the Way… A Small Announcement</h2>
+          <div className="text-center text-white mb-10">
+            <p className="text-lg md:text-xl leading-relaxed max-w-4xl mx-auto">
+              Oh, by the way — in case you missed the memo while focusing on the goats, the outfits, and the dance moves… the groom proposed. Yes, proposed. Shocked us all. The man knelt, the ring sparkled, and before anyone could even shout “ayie!”, the bride said a very confident YES. So please, clap for the groom’s bravery, clap for the ring’s brightness, and clap for the bride’s speed in accepting. We are officially in the “she said yes, he said finally” era. 😄🔥💙
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {[
+              '/images/pic001.jpeg',
+              '/images/pic002.jpeg',
+              '/images/pic003.jpeg',
+              '/images/pic004.jpeg',
+              '/images/pic005.jpeg',
+              '/images/pic006.jpeg',
+              '/images/pic007.jpeg',
+              '/images/pic008.jpeg',
+              '/images/pic009.jpeg',
+            ].map((src, idx) => (
+              <div key={src} className="relative w-full h-64 bg-gray-100 rounded-xl overflow-hidden border border-amber-400">
+                <Image
+                  src={src}
+                  alt={`Proposal moment ${idx + 1}`}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      
 
       {/* Gallery Section */}
       <section id="gallery" className="py-16 px-4 bg-gradient-to-br from-black via-gray-900 to-black">
