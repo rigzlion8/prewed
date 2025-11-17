@@ -67,17 +67,27 @@ export const useMedia = () => {
     
     try {
       const fileArray = Array.from(files);
-      const largeFileThreshold = 10 * 1024 * 1024; // 10MB threshold for chunked upload (handles up to 150MB files)
+      const largeFileThreshold = 10 * 1024 * 1024; // 10MB threshold for individual files
+      const totalSizeThreshold = 4 * 1024 * 1024; // 4MB total size threshold (stays under Vercel's 4.5MB limit)
+      
+      const totalSize = fileArray.reduce((sum, file) => sum + file.size, 0);
       
       console.log('File sizes:', fileArray.map(f => ({ name: f.name, size: f.size, sizeMB: (f.size / 1024 / 1024).toFixed(2) })));
+      console.log('Total size:', (totalSize / 1024 / 1024).toFixed(2), 'MB');
       console.log('Large file threshold:', largeFileThreshold, 'bytes');
+      console.log('Total size threshold:', totalSizeThreshold, 'bytes');
       
-      // Check if any file is large enough to require chunked upload
+      // Use chunked upload if:
+      // 1. Any individual file is > 10MB, OR
+      // 2. Total size of all files > 4MB (to stay under Vercel's 4.5MB request body limit)
       const hasLargeFiles = fileArray.some(file => file.size > largeFileThreshold);
-      console.log('Has large files:', hasLargeFiles);
+      const exceedsTotalThreshold = totalSize > totalSizeThreshold;
       
-      if (hasLargeFiles) {
-        console.log('Large files detected, using chunked upload...');
+      console.log('Has large files:', hasLargeFiles);
+      console.log('Exceeds total threshold:', exceedsTotalThreshold);
+      
+      if (hasLargeFiles || exceedsTotalThreshold) {
+        console.log('Using chunked upload (large file or total size exceeds threshold)...');
         return await uploadLargeFiles(fileArray, uploadedBy, caption, onProgress);
       }
       
