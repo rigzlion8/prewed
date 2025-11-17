@@ -4,7 +4,7 @@ import Chunk from '@/models/Chunk';
 import { v4 as uuidv4 } from 'uuid';
 
 // Set max duration for chunk uploads
-export const maxDuration = 60; // 1 minute should be enough for 1MB chunks
+export const maxDuration = 60; // 1 minute should be enough for 4MB chunks
 
 // POST - Upload a single chunk
 export async function POST(request: NextRequest) {

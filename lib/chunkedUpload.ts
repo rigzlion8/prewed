@@ -38,7 +38,7 @@ export class ChunkedUploader {
     const uploadedChunks: string[] = [];
 
     try {
-      // Upload each chunk
+      // Upload each chunk with delays to avoid overwhelming the server
       for (let i = 0; i < totalChunks; i++) {
         const start = i * this.options.chunkSize;
         const end = Math.min(start + this.options.chunkSize, this.file.size);
@@ -55,6 +55,11 @@ export class ChunkedUploader {
         // Update progress
         const progress = ((i + 1) / totalChunks) * 100;
         this.onProgress?.(progress);
+        
+        // Add small delay between chunks to avoid rate limiting (except for last chunk)
+        if (i < totalChunks - 1) {
+          await new Promise(resolve => setTimeout(resolve, 200)); // 200ms delay
+        }
       }
 
       // Assemble chunks on server
@@ -92,10 +97,17 @@ export class ChunkedUploader {
 
     for (let attempt = 0; attempt < this.options.maxRetries; attempt++) {
       try {
+        // Add timeout to fetch request (30 seconds per chunk)
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
+        
         const response = await fetch('/api/media/chunk', {
           method: 'POST',
           body: formData,
+          signal: controller.signal,
         });
+        
+        clearTimeout(timeoutId);
 
         if (response.ok) {
           const result = await response.json();
@@ -108,15 +120,24 @@ export class ChunkedUploader {
         }
       } catch (error) {
         if (attempt === this.options.maxRetries - 1) {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          // Check if it's a timeout/abort error
+          if (errorMessage.includes('aborted') || errorMessage.includes('timeout')) {
+            return { 
+              success: false, 
+              error: `Chunk ${chunkIndex} upload timed out. Please try again with a smaller file or check your connection.` 
+            };
+          }
           return { 
             success: false, 
-            error: `Chunk ${chunkIndex} upload failed: ${error instanceof Error ? error.message : 'Unknown error'}` 
+            error: `Chunk ${chunkIndex} upload failed: ${errorMessage}` 
           };
         }
       }
 
-      // Wait before retry
-      await new Promise(resolve => setTimeout(resolve, this.options.retryDelay));
+      // Exponential backoff: wait longer with each retry
+      const backoffDelay = this.options.retryDelay * Math.pow(2, attempt);
+      await new Promise(resolve => setTimeout(resolve, backoffDelay));
     }
 
     return { success: false, error: 'Max retries exceeded' };
@@ -124,6 +145,10 @@ export class ChunkedUploader {
 
   private async assembleChunks(chunkIds: string[], fileName: string): Promise<{ success: boolean; error?: string }> {
     try {
+      // Add timeout for assembly (5 minutes for large files)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 minutes
+      
       const response = await fetch('/api/media/assemble', {
         method: 'POST',
         headers: {
@@ -136,7 +161,10 @@ export class ChunkedUploader {
           uploadedBy: this.uploadedBy,
           caption: this.caption,
         }),
+        signal: controller.signal,
       });
+      
+      clearTimeout(timeoutId);
 
       if (response.ok) {
         return { success: true };
@@ -145,9 +173,16 @@ export class ChunkedUploader {
         return { success: false, error: `Assembly failed: ${error}` };
       }
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      if (errorMessage.includes('aborted') || errorMessage.includes('timeout')) {
+        return { 
+          success: false, 
+          error: 'Assembly timed out. The file may be too large. Please try again or contact support.' 
+        };
+      }
       return { 
         success: false, 
-        error: `Assembly failed: ${error instanceof Error ? error.message : 'Unknown error'}` 
+        error: `Assembly failed: ${errorMessage}` 
       };
     }
   }
@@ -160,10 +195,14 @@ export function createChunkedUploader(
   uploadedBy?: string,
   caption?: string
 ): ChunkedUploader {
+  // Use 4MB chunks for better performance with large files (stays under 4.5MB Vercel limit)
+  // This reduces number of chunks: 150MB file = ~38 chunks instead of 150 chunks
+  const chunkSize = 4 * 1024 * 1024; // 4MB chunks
+  
   const options: ChunkUploadOptions = {
-    chunkSize: 1 * 1024 * 1024, // 1MB chunks (safe for Vercel free tier)
-    maxRetries: 3,
-    retryDelay: 1000 // 1 second
+    chunkSize,
+    maxRetries: 5, // Increased retries for better reliability
+    retryDelay: 2000 // 2 seconds between retries
   };
 
   return new ChunkedUploader(file, options, onProgress, uploadedBy, caption);

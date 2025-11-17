@@ -67,7 +67,7 @@ export const useMedia = () => {
     
     try {
       const fileArray = Array.from(files);
-      const largeFileThreshold = 5 * 1024 * 1024; // 5MB threshold for chunked upload
+      const largeFileThreshold = 10 * 1024 * 1024; // 10MB threshold for chunked upload (handles up to 150MB files)
       
       console.log('File sizes:', fileArray.map(f => ({ name: f.name, size: f.size, sizeMB: (f.size / 1024 / 1024).toFixed(2) })));
       console.log('Large file threshold:', largeFileThreshold, 'bytes');

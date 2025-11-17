@@ -7,6 +7,7 @@
     <link rel="icon" type="image/svg+xml" href="/icon.svg">
     <!-- Using QR Server API instead of external JS library -->
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -216,12 +217,15 @@
             <button class="print-button" onclick="window.print()">
                 📄 Print / Save as PDF
             </button>
+            <button class="print-button" id="pdfButton" onclick="saveAsPDF()">
+                📄 Save as PDF
+            </button>
             <button class="print-button" id="jpgButton" onclick="saveAsJPG()">
                 🖼️ Save as JPG
             </button>
         </div>
         <div id="loadingMessage" style="display: none; text-align: center; margin-top: 10px; color: #fbbf24;">
-            Generating JPG... Please wait
+            Generating file... Please wait
         </div>
     </div>
 
@@ -269,7 +273,7 @@
             const jpgButton = document.getElementById('jpgButton');
             const loadingMessage = document.getElementById('loadingMessage');
             jpgButton.disabled = true;
-            jpgButton.textContent = '⏳ Generating...';
+            jpgButton.textContent = '⏳ Generating JPG...';
             loadingMessage.style.display = 'block';
             
             // Get the container element
@@ -334,6 +338,100 @@
                 // Wait for QR code to load
                 qrImg.onload = function() {
                     setTimeout(captureImage, 500); // Small delay to ensure rendering
+                };
+            }
+        }
+
+        // Function to save as PDF
+        function saveAsPDF() {
+            const pdfButton = document.getElementById('pdfButton');
+            const loadingMessage = document.getElementById('loadingMessage');
+            pdfButton.disabled = true;
+            pdfButton.textContent = '⏳ Generating PDF...';
+            loadingMessage.style.display = 'block';
+
+            const container = document.querySelector('.container');
+            const qrImg = document.getElementById('qr-code');
+
+            function captureAndCreatePDF() {
+                if (typeof html2canvas !== 'undefined' && window.jspdf) {
+                    html2canvas(container, {
+                        backgroundColor: '#ffffff',
+                        scale: 2,
+                        useCORS: true,
+                        allowTaint: true,
+                        foreignObjectRendering: true,
+                        logging: false,
+                        imageTimeout: 15000,
+                        onclone: function(clonedDoc) {
+                            const clonedQrImg = clonedDoc.getElementById('qr-code');
+                            if (clonedQrImg && qrImg.src) {
+                                clonedQrImg.src = qrImg.src;
+                            }
+                        }
+                    }).then(function(canvas) {
+                        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                        const { jsPDF } = window.jspdf;
+                        const pdf = new jsPDF('p', 'mm', 'a4');
+
+                        const pageWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+                        const margin = 10; // mm
+
+                        // Convert canvas pixels to mm at ~96 DPI: 1 inch = 25.4 mm, 96 px = 25.4 mm
+                        const pxToMm = 25.4 / 96;
+                        const imgWidthMm = canvas.width * pxToMm / 2;  // divide by 2 due to scale: 2
+                        const imgHeightMm = canvas.height * pxToMm / 2;
+
+                        // Fit within page while preserving aspect ratio
+                        const maxWidth = pageWidth - margin * 2;
+                        const maxHeight = pageHeight - margin * 2;
+                        let renderWidth = imgWidthMm;
+                        let renderHeight = imgHeightMm;
+                        const widthRatio = maxWidth / imgWidthMm;
+                        const heightRatio = maxHeight / imgHeightMm;
+                        const ratio = Math.min(widthRatio, heightRatio, 1);
+                        renderWidth = imgWidthMm * ratio;
+                        renderHeight = imgHeightMm * ratio;
+
+                        const x = (pageWidth - renderWidth) / 2;
+                        const y = (pageHeight - renderHeight) / 2;
+
+                        pdf.addImage(imgData, 'JPEG', x, y, renderWidth, renderHeight);
+                        pdf.save('nikita-kevin-nyombo-qr-code.pdf');
+
+                        pdfButton.disabled = false;
+                        pdfButton.textContent = '📄 Save as PDF';
+                        loadingMessage.style.display = 'none';
+                    }).catch(function(error) {
+                        console.error('Error generating PDF:', error);
+                        alert('Error generating PDF. Please try again.');
+                        pdfButton.disabled = false;
+                        pdfButton.textContent = '📄 Save as PDF';
+                        loadingMessage.style.display = 'none';
+                    });
+                } else {
+                    // Load dependencies if missing
+                    const scripts = [];
+                    if (typeof html2canvas === 'undefined') {
+                        const s1 = document.createElement('script');
+                        s1.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+                        scripts.push(new Promise(res => { s1.onload = res; document.head.appendChild(s1); }));
+                    }
+                    if (!window.jspdf) {
+                        const s2 = document.createElement('script');
+                        s2.src = 'https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js';
+                        scripts.push(new Promise(res => { s2.onload = res; document.head.appendChild(s2); }));
+                    }
+                    Promise.all(scripts).then(captureAndCreatePDF);
+                }
+            }
+
+            if (qrImg.complete && qrImg.naturalHeight !== 0) {
+                captureAndCreatePDF();
+            } else {
+                qrImg.onload = function() {
+                    setTimeout(captureAndCreatePDF, 500);
                 };
             }
         }
