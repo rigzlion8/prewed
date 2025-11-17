@@ -262,7 +262,7 @@ export default function GalleryPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center space-x-2 flex-shrink-0">
-              <span className="text-xl md:text-2xl font-serif font-bold text-yellow-400">#Nike Moments</span>
+              <span className="text-xl md:text-2xl font-serif font-bold text-yellow-400">#Gallery</span>
             </Link>
             
             {/* Desktop Navigation */}
@@ -322,7 +322,7 @@ export default function GalleryPage() {
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-serif font-bold text-yellow-400 mb-4">
-              #Nike Moments Gallery
+              Gallery
             </h1>
             <p className="text-lg text-yellow-200 max-w-2xl mx-auto">
               All the beautiful Ayie memories shared by our family and friends
