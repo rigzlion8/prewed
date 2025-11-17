@@ -26,8 +26,9 @@ export async function POST(request: NextRequest) {
     console.log('Server: Starting chunk assembly...');
     console.log('Server: Looking for chunks:', chunkIds);
 
-    // Fetch chunks from MongoDB
-    const chunkDocs = await Chunk.find({ chunkId: { $in: chunkIds } }).sort({ chunkIndex: 1 });
+    // Fetch chunks from MongoDB without sorting (avoids memory limit issues)
+    // We'll sort in JavaScript instead, which is more efficient for this use case
+    const chunkDocs = await Chunk.find({ chunkId: { $in: chunkIds } });
     
     console.log(`Server: Found ${chunkDocs.length} chunks in database`);
 
