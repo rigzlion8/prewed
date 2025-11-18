@@ -24,20 +24,82 @@ export default function GalleryPage() {
   const [isCompressing, setIsCompressing] = useState(false);
   const [compressionQuality, setCompressionQuality] = useState<'ultra' | 'high' | 'medium' | 'low'>('high');
   const [selectedFileList, setSelectedFileList] = useState<File[]>([]);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const slideshowTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
   
   const itemsPerPage = 12;
   
   const { media, loading, error, deleteMedia, uploadMedia, fetchMedia } = useMedia();
 
-  // Slideshow functionality
+  // Slideshow functionality - handles videos and photos differently
   useEffect(() => {
-    if (isSlideshowActive && media.length > 0) {
-      const interval = setInterval(() => {
-        setSlideshowIndex((prev) => (prev + 1) % media.length);
-      }, 3000); // Change slide every 3 seconds
-      return () => clearInterval(interval);
+    if (!isSlideshowActive || media.length === 0) {
+      // Clear any existing timeout when slideshow stops
+      if (slideshowTimeoutRef.current) {
+        clearTimeout(slideshowTimeoutRef.current);
+        slideshowTimeoutRef.current = null;
+      }
+      return;
     }
-  }, [isSlideshowActive, media.length]);
+
+    const currentMedia = media[slideshowIndex];
+    if (!currentMedia) return;
+
+    // Clear any existing timeout
+    if (slideshowTimeoutRef.current) {
+      clearTimeout(slideshowTimeoutRef.current);
+      slideshowTimeoutRef.current = null;
+    }
+
+    // If it's a video, wait for it to end
+    if (currentMedia.type === 'video') {
+      const videoElement = videoRef.current;
+      if (videoElement) {
+        const handleVideoEnd = () => {
+          // Advance to next slide when video ends
+          setSlideshowIndex((prev) => (prev + 1) % media.length);
+        };
+
+        const handleVideoError = () => {
+          // If video fails to load, advance after 3 seconds
+          slideshowTimeoutRef.current = setTimeout(() => {
+            setSlideshowIndex((prev) => (prev + 1) % media.length);
+          }, 3000);
+        };
+
+        videoElement.addEventListener('ended', handleVideoEnd);
+        videoElement.addEventListener('error', handleVideoError);
+
+        // Auto-play the video
+        videoElement.play().catch(() => {
+          // If autoplay fails, advance after 3 seconds
+          handleVideoError();
+        });
+
+        return () => {
+          videoElement.removeEventListener('ended', handleVideoEnd);
+          videoElement.removeEventListener('error', handleVideoError);
+        };
+      } else {
+        // Video element not ready yet, wait a bit
+        slideshowTimeoutRef.current = setTimeout(() => {
+          setSlideshowIndex((prev) => (prev + 1) % media.length);
+        }, 100);
+      }
+    } else {
+      // For photos, advance after 3 seconds
+      slideshowTimeoutRef.current = setTimeout(() => {
+        setSlideshowIndex((prev) => (prev + 1) % media.length);
+      }, 3000);
+    }
+
+    return () => {
+      if (slideshowTimeoutRef.current) {
+        clearTimeout(slideshowTimeoutRef.current);
+        slideshowTimeoutRef.current = null;
+      }
+    };
+  }, [isSlideshowActive, slideshowIndex, media]);
 
   const startSlideshow = () => {
     setSlideshowIndex(0);
@@ -652,9 +714,13 @@ export default function GalleryPage() {
                       />
                     ) : (
                       <video
+                        ref={videoRef}
                         src={media[slideshowIndex].url}
                         controls
                         className="w-full h-96 object-contain"
+                        onLoadedMetadata={() => {
+                          // Video loaded, will auto-play and wait for 'ended' event
+                        }}
                       />
                     )}
                     
